@@ -1,0 +1,263 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.lcsk42</groupId>
+    <artifactId>omega-dependencies</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+
+    <name>${project.artifactId}</name>
+    <description>Omega SpringBoot Starter 依赖版本模块</description>
+
+    <properties>
+        <!-- 项目版本 -->
+        <revision>1.0.0</revision>
+
+        <!-- Core Framework Versions -->
+        <spring-boot.version>3.3.13</spring-boot.version>
+        <spring-cloud.version>2023.0.6</spring-cloud.version>
+        <spring-cloud-alibaba.version>2023.0.3.2</spring-cloud-alibaba.version>
+
+        <!-- 工具类 -->
+        <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
+        <commons-collections4.version>4.5.0</commons-collections4.version>
+        <commons-io.version>2.19.0</commons-io.version>
+        <guava.version>33.4.8-jre</guava.version>
+
+        <!-- 数据库和 ORM 框架 -->
+        <mybatis-spring-boot-starter.version>3.0.4</mybatis-spring-boot-starter.version>
+        <mybatis-plus.version>3.5.12</mybatis-plus.version>
+        <shardingsphere.version>5.4.1</shardingsphere.version>
+        <p6spy.version>3.9.1</p6spy.version>
+
+        <!-- 缓存 -->
+        <redisson.version>3.50.0</redisson.version>
+
+        <!-- 消息队列 -->
+        <rocketmq-spring-boot-starter.version>2.3.1</rocketmq-spring-boot-starter.version>
+
+        <!-- 文件存储 -->
+        <jsch.version>2.27.2</jsch.version>
+        <s3.version>2.32.24</s3.version>
+        <aliyun-sdk-oss.version>3.18.3</aliyun-sdk-oss.version>
+
+        <!-- API 文档 -->
+        <knife4j-openapi3.version>4.5.0</knife4j-openapi3.version>
+        <knife4j-gateway.version>4.5.0</knife4j-gateway.version>
+        <springdoc-openapi.version>2.3.0</springdoc-openapi.version>
+        <swagger-annotations-jakarta.version>2.2.19</swagger-annotations-jakarta.version>
+
+        <!-- Excel -->
+        <fastexcel.version>1.3.0</fastexcel.version>
+
+        <!-- Maven Plugin 版本 -->
+        <flatten.version>1.7.0</flatten.version>
+        <maven-compiler.version>3.11.0</maven-compiler.version>
+        <maven-common-plugin.version>3.3.1</maven-common-plugin.version>
+        <git-commit-id-maven-plugin.version>9.0.2</git-commit-id-maven-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot: 简化 Spring 应用初始搭建和开发的框架，通过自动配置和起步依赖快速创建独立、生产级的应用 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Spring Cloud: 基于 Spring Boot 的微服务架构工具集，提供服务发现、配置中心、熔断器等分布式系统解决方案 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Spring Cloud Alibaba: 阿里开源的 Spring Cloud 生态扩展，集成 Nacos、Sentinel 等组件，支持阿里云微服务场景 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Omega Starter 版本 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-bom-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- TTL: 增强版的线程本地变量（ThreadLocal），支持在线程池或异步任务间安全传递上下文数据，解决传统 ThreadLocal 在跨线程复用时的值丢失问题  -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable-thread-local.version}</version>
+            </dependency>
+
+            <!-- Commons Collections4: Apache 提供的 Java 集合框架扩展库，增强了标准集合功能，如双向 Map、惰性集合等 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
+            </dependency>
+
+            <!-- Commons IO: Apache 的 I/O 工具库，简化文件操作、流处理等常见 IO 任务，提供高效便捷的 API -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
+            <!-- Guava: Google 的 Java 核心库，提供集合、缓存、并发、字符串处理等工具类，增强 JDK 功能并优化开发效率 -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <!-- MyBatis Plus: MyBatis 的增强工具，在 MyBatis 的基础上只做增强不做改变，简化开发、提高效率 -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-bom</artifactId>
+                <version>${mybatis-plus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- ShardingSphere：一款开源的分布式数据库中间件生态，提供数据分片、读写分离、分布式事务和数据库治理能力，支持透明化水平扩展与多租户场景 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-jdbc-core</artifactId>
+                <version>${shardingsphere.version}</version>
+            </dependency>
+
+            <!-- P6Spy: SQL 性能分析组件 -->
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
+
+            <!-- Redisson: 基于 Redis 的分布式 Java 对象和服务框架，提供分布式锁、集合、缓存、队列等高级功能，简化分布式系统开发 -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+
+            <!-- RocketMQ: 是一款高性能、高可靠、分布式的消息中间件，支持海量消息堆积、顺序消息、事务消息和实时订阅功能，适用于大规模分布式系统与实时数据处理场景  -->
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <version>${rocketmq-spring-boot-starter.version}</version>
+            </dependency>
+
+            <!-- JSch: 是一个纯 Java 实现的 SSH2 客户端库，支持 SFTP、SCP 和端口转发等功能，适用于安全的远程命令执行和文件传输 -->
+            <dependency>
+                <groupId>com.github.mwiede</groupId>
+                <artifactId>jsch</artifactId>
+                <version>${jsch.version}</version>
+            </dependency>
+
+            <!-- AWS S3: 是亚马逊提供的可扩展对象存储服务，支持海量数据存储与全球访问 -->
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>s3</artifactId>
+                <version>${s3.version}</version>
+            </dependency>
+
+            <!-- OSS: 是阿里云的高可靠、高并发对象存储服务，适用于本地化大规模数据存储与处理 -->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-sdk-oss.version}</version>
+            </dependency>
+
+            <!-- Knife4j: 是基于 Swagger 的增强 API 文档工具，提供更美观的 UI 和调试功能 -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j-openapi3.version}</version>
+            </dependency>
+
+            <!-- Knife4j Gateway: 是专为 Spring Cloud Gateway 设计的聚合组件，支持多服务 API 文档统一展示与测试 -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
+                <version>${knife4j-gateway.version}</version>
+            </dependency>
+
+            <!-- SpringDoc: 是基于 OpenAPI 3 规范的 Spring Boot 库 -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+                <version>${springdoc-openapi.version}</version>
+            </dependency>
+
+            <!-- Swagger Annotations: 是 Jakarta EE 兼容的 Swagger 注解库，用于 API 描述的元数据标注 -->
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations-jakarta</artifactId>
+                <version>${swagger-annotations-jakarta.version}</version>
+            </dependency>
+
+            <!-- Fast Excel: 快速、简洁、解决大文件内存溢出的 Java 处理 Excel 工具 -->
+            <dependency>
+                <groupId>cn.idev.excel</groupId>
+                <artifactId>fastexcel</artifactId>
+                <version>${fastexcel.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- 统一版本号插件 -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${flatten.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${maven-common-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-common-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven-common-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>io.github.git-commit-id</groupId>
+                    <artifactId>git-commit-id-maven-plugin</artifactId>
+                    <version>${git-commit-id-maven-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
