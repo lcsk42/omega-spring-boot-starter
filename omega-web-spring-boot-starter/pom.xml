@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.lcsk42</groupId>
+        <artifactId>omega-spring-boot-starter</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>omega-web-spring-boot-starter</artifactId>
+    <packaging>jar</packaging>
+
+    <name>${project.artifactId}</name>
+    <description>
+        Omega Web 模块
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.lcsk42</groupId>
+            <artifactId>omega-json-jackson-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lcsk42</groupId>
+            <artifactId>omega-api-doc-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Spring Boot OpenFeign： 一个声明式的 HTTP 客户端，用于简化 REST API 的调用，支持负载均衡和 Spring 集成 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Actuator: 用于监控和管理 Spring Boot 应用的扩展模块，提供生产级端点（如健康检查、指标收集、线程信息等），帮助开发者实时运维和诊断应用状态 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Spring Cloud Nacos: 配置、注册中心 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+    </dependencies>
+</project>

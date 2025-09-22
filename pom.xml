@@ -27,6 +27,8 @@
         <module>omega-json-spring-boot-starter</module>
         <module>omega-common-spring-boot-starter</module>
         <module>omega-cache-spring-boot-starter</module>
+        <module>omega-web-spring-boot-starter</module>
+        <module>omega-api-doc-spring-boot-starter</module>
     </modules>
 
     <properties>
