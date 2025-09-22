@@ -26,6 +26,7 @@
         <module>omega-design-pattern-spring-boot-starter</module>
         <module>omega-json-spring-boot-starter</module>
         <module>omega-common-spring-boot-starter</module>
+        <module>omega-cache-spring-boot-starter</module>
     </modules>
 
     <properties>
@@ -154,6 +155,11 @@
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                            <version>${spring-boot.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

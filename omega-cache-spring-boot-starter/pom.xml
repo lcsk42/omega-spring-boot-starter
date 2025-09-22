@@ -7,23 +7,16 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>omega-core-spring-boot-starter</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>omega-cache-spring-boot-starter</artifactId>
+    <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
     <description>
-        Omega 核心模块
+        Omega 缓存模块
     </description>
+    <modules>
+        <module>omega-cache-core-spring-boot-starter</module>
+        <module>omega-cache-redisson-spring-boot-starter</module>
+    </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-    </dependencies>
 </project>

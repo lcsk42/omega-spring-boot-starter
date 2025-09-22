@@ -33,11 +33,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.lcsk42</groupId>
             <artifactId>omega-json-core-spring-boot-starter</artifactId>
         </dependency>
