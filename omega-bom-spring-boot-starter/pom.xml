@@ -80,6 +80,13 @@
                 <artifactId>omega-api-doc-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
+
+            <!-- 文档模块 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-web-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
