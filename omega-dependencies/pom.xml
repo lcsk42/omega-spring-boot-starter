@@ -23,6 +23,7 @@
         <commons-collections4.version>4.5.0</commons-collections4.version>
         <commons-io.version>2.19.0</commons-io.version>
         <guava.version>33.4.8-jre</guava.version>
+        <jjwt.version>0.12.6</jjwt.version>
 
         <!-- 数据库和 ORM 框架 -->
         <mybatis-spring-boot-starter.version>3.0.4</mybatis-spring-boot-starter.version>
@@ -121,6 +122,13 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <!-- JJWT: Java JWT 库，简化 JSON Web Token 的创建、解析和验证，支持多种签名算法和加密方式 -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
             </dependency>
 
             <!-- MyBatis Plus: MyBatis 的增强工具，在 MyBatis 的基础上只做增强不做改变，简化开发、提高效率 -->

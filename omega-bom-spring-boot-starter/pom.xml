@@ -18,6 +18,47 @@
     <dependencyManagement>
         <dependencies>
 
+            <!-- 基础模块 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-core-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 规约 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-convention-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 设计模式 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-design-pattern-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- JSON 模块 - 核心模块 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-json-core-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- JSON 模块 - Jackson 实现 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-json-jackson-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 通用模块 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-common-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

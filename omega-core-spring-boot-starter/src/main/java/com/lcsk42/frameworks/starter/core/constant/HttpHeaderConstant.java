@@ -10,34 +10,34 @@ import java.util.UUID;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class HttpHeaderConstant {
-    /**
-     * 用户 ID
-     */
-    public static final String USER_ID = "User-Id";
+  /**
+   * 用户 ID
+   */
+  public static final String USER_ID = "User-Id";
 
-    /**
-     * 请求 ID
-     */
-    public static final String REQUEST_ID = "Request-Id";
+  /**
+   * 请求 ID
+   */
+  public static final String REQUEST_ID = "Request-Id";
 
-    public static String getClientRequestId(String requestId) {
-        return "C-" + requestId;
-    }
+  public static String getClientRequestId(String requestId) {
+    return "C-" + requestId;
+  }
 
-    public static String getGatewayRequestId() {
-        return "G-" + UUID.randomUUID();
-    }
+  public static String getGatewayRequestId() {
+    return "G-" + UUID.randomUUID();
+  }
 
-    public static String getReturnRequestId() {
-        return "R-" + UUID.randomUUID();
-    }
+  public static String getReturnRequestId() {
+    return "R-" + UUID.randomUUID();
+  }
 
-    public static String getExceptionRequestId() {
-        return "GE-" + UUID.randomUUID();
-    }
+  public static String getExceptionRequestId() {
+    return "GE-" + UUID.randomUUID();
+  }
 
-    /**
-     * 令牌
-     */
-    public static final String TOKEN = "Token";
+  /**
+   * 令牌
+   */
+  public static final String TOKEN = "Token";
 }

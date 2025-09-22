@@ -22,6 +22,10 @@
         <module>omega-dependencies</module>
         <module>omega-bom-spring-boot-starter</module>
         <module>omega-core-spring-boot-starter</module>
+        <module>omega-convention-spring-boot-starter</module>
+        <module>omega-design-pattern-spring-boot-starter</module>
+        <module>omega-json-spring-boot-starter</module>
+        <module>omega-common-spring-boot-starter</module>
     </modules>
 
     <properties>
