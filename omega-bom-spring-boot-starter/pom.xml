@@ -122,6 +122,20 @@
                 <artifactId>omega-file-sftp-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
+
+            <!-- 数据库模块 - 核心 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-database-core-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 数据库模块 - MyBatis Plus 实现 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-database-mybatis-plus-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
