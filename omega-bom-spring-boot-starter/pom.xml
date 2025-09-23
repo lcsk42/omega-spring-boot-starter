@@ -136,6 +136,13 @@
                 <artifactId>omega-database-mybatis-plus-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
+
+            <!-- 消息队列模块 - Rocket MQ 实现 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-mq-rocket-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
