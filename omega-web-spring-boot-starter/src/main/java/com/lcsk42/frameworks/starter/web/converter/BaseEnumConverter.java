@@ -12,17 +12,17 @@ import java.util.Map;
  */
 public class BaseEnumConverter<T extends BaseEnum<T>> implements Converter<String, T> {
 
-    private final Map<String, T> enumMap = new HashMap<>();
+  private final Map<String, T> enumMap = new HashMap<>();
 
-    public BaseEnumConverter(Class<T> enumType) {
-        T[] enums = enumType.getEnumConstants();
-        for (T e : enums) {
-            enumMap.put(String.valueOf(e.getValue()), e);
-        }
+  public BaseEnumConverter(Class<T> enumType) {
+    T[] enums = enumType.getEnumConstants();
+    for (T e : enums) {
+      enumMap.put(String.valueOf(e.getValue()), e);
     }
+  }
 
-    @Override
-    public T convert(@Nonnull String source) {
-        return enumMap.get(source);
-    }
+  @Override
+  public T convert(@Nonnull String source) {
+    return enumMap.get(source);
+  }
 }

@@ -9,14 +9,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class PortHolder implements ApplicationListener<WebServerInitializedEvent> {
 
-    /**
-     * Web 服务器运行的端口号。
-     * 该值在应用上下文初始化时被设置。
-     */
-    private int port;
+  /**
+   * Web 服务器运行的端口号。 该值在应用上下文初始化时被设置。
+   */
+  private int port;
 
-    @Override
-    public void onApplicationEvent(WebServerInitializedEvent event) {
-        this.port = event.getWebServer().getPort();
-    }
+  @Override
+  public void onApplicationEvent(WebServerInitializedEvent event) {
+    this.port = event.getWebServer().getPort();
+  }
 }

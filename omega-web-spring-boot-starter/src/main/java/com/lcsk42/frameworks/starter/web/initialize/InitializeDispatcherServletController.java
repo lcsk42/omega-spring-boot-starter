@@ -13,14 +13,15 @@ import static com.lcsk42.frameworks.starter.web.config.WebAutoConfiguration.INIT
 @RestController
 public final class InitializeDispatcherServletController {
 
-    /**
-     * 初始化 DispatcherServlet 的端点。
-     * 通过提前初始化该Servlet来优化首次响应时间。
-     */
-    @GetMapping(INITIALIZE_PATH)
-    @Operation(summary = "Initialize DispatcherServlet", description = "该端点用于初始化 DispatcherServlet，以提升接口的首次响应速度")
-    public void initializeDispatcherServlet() {
-        // Logs the initialization of the DispatcherServlet.
-        log.info("[Omega] -Initialized the dispatcherServlet to improve the first response time of the interface...");
-    }
+  /**
+   * 初始化 DispatcherServlet 的端点。 通过提前初始化该Servlet来优化首次响应时间。
+   */
+  @GetMapping(INITIALIZE_PATH)
+  @Operation(summary = "Initialize DispatcherServlet",
+      description = "该端点用于初始化 DispatcherServlet，以提升接口的首次响应速度")
+  public void initializeDispatcherServlet() {
+    // Logs the initialization of the DispatcherServlet.
+    log.info(
+        "[Omega] -Initialized the dispatcherServlet to improve the first response time of the interface...");
+  }
 }

@@ -81,10 +81,45 @@
                 <version>${revision}</version>
             </dependency>
 
-            <!-- 文档模块 -->
+            <!-- Web 模块 -->
             <dependency>
                 <groupId>com.lcsk42</groupId>
                 <artifactId>omega-web-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 文件核心模块 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-file-core-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 文件 aws 实现 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-file-aws-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 文件 oss 实现 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-file-aliyun-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 文件 local 实现 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-file-local-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 文件 sftp 实现 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-file-sftp-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>
