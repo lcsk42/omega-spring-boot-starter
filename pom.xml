@@ -32,6 +32,7 @@
         <module>omega-file-spring-boot-starter</module>
         <module>omega-database-spring-boot-starter</module>
         <module>omega-mq-spring-boot-starter</module>
+        <module>omega-excel-spring-boot-starter</module>
     </modules>
 
     <properties>

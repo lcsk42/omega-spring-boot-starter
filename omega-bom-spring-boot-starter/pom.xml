@@ -143,6 +143,20 @@
                 <artifactId>omega-mq-rocket-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
+
+            <!-- Excel 核心模块 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-excel-core-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- Excel FastExcel -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-excel-fastexcel-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
