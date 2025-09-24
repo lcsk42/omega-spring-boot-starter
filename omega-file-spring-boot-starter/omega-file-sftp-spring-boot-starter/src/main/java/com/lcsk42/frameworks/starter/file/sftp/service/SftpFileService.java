@@ -8,6 +8,7 @@ import com.jcraft.jsch.SftpException;
 import com.lcsk42.frameworks.starter.convention.exception.ServiceException;
 import com.lcsk42.frameworks.starter.core.constant.StringConstant;
 import com.lcsk42.frameworks.starter.file.core.config.FileUploadProperties;
+import com.lcsk42.frameworks.starter.file.core.enums.FileUploadType;
 import com.lcsk42.frameworks.starter.file.core.service.FileService;
 import lombok.NoArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
@@ -31,6 +32,11 @@ public class SftpFileService implements FileService {
     @Override
     public FileService of(FileUploadProperties properties) {
         return new SftpFileService(properties);
+    }
+
+    @Override
+    public FileUploadType getFileUploadType() {
+        return FileUploadType.SFTP;
     }
 
     @Override

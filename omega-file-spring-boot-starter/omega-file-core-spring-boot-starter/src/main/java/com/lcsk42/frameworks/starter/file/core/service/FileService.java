@@ -3,6 +3,7 @@ package com.lcsk42.frameworks.starter.file.core.service;
 import com.lcsk42.frameworks.starter.common.util.LocalDateTimeUtil;
 import com.lcsk42.frameworks.starter.core.constant.StringConstant;
 import com.lcsk42.frameworks.starter.file.core.config.FileUploadProperties;
+import com.lcsk42.frameworks.starter.file.core.enums.FileUploadType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.InputStream;
@@ -26,6 +27,13 @@ public interface FileService {
      * @return 配置好的 FileService 实现
      */
     FileService of(FileUploadProperties properties);
+
+    /**
+     * 获取当前文件服务使用的存储类型。
+     *
+     * @return 文件存储类型（定义在 FileUploadType 枚举中）
+     */
+    FileUploadType getFileUploadType();
 
     /**
      * 获取当前文件上传配置。

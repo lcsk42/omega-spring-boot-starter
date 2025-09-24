@@ -1,5 +1,6 @@
 package com.lcsk42.frameworks.starter.file.core.config;
 
+import com.lcsk42.frameworks.starter.file.core.enums.FileUploadType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +18,13 @@ public class FileUploadProperties {
      * 文件上传属性的配置前缀 在属性文件中的使用示例： framework.file.upload.fileUploadType=LOCAL
      */
     public static final String PREFIX = "framework.file.upload";
+
+    /**
+     * 用于文件上传的存储类型, 如果只有一个实现，就不需要填写(配置了也不生效)
+     * 这里是用来区分多个实现的
+     * 支持的值包括 LOCAL、S3 等
+     */
+    private FileUploadType fileUploadType;
 
     /**
      * 云存储服务的终端 URL（例如 S3 终端 URL） 使用云存储服务时必须配置

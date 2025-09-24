@@ -2,6 +2,7 @@ package com.lcsk42.frameworks.starter.file.aws.service;
 
 import com.lcsk42.frameworks.starter.convention.exception.ServiceException;
 import com.lcsk42.frameworks.starter.file.core.config.FileUploadProperties;
+import com.lcsk42.frameworks.starter.file.core.enums.FileUploadType;
 import com.lcsk42.frameworks.starter.file.core.service.FileService;
 import lombok.NoArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -67,6 +68,11 @@ public class AwsS3FileService implements FileService {
     @Override
     public FileService of(FileUploadProperties properties) {
         return new AwsS3FileService(properties);
+    }
+
+    @Override
+    public FileUploadType getFileUploadType() {
+        return FileUploadType.AWS_S3;
     }
 
     @Override

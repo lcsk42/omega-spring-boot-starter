@@ -3,6 +3,7 @@ package com.lcsk42.frameworks.starter.file.local.service;
 import com.lcsk42.frameworks.starter.convention.exception.ServiceException;
 import com.lcsk42.frameworks.starter.core.constant.StringConstant;
 import com.lcsk42.frameworks.starter.file.core.config.FileUploadProperties;
+import com.lcsk42.frameworks.starter.file.core.enums.FileUploadType;
 import com.lcsk42.frameworks.starter.file.core.service.FileService;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,11 @@ public class LocalFileService implements FileService {
     @Override
     public FileService of(FileUploadProperties properties) {
         return new LocalFileService(properties);
+    }
+
+    @Override
+    public FileUploadType getFileUploadType() {
+        return FileUploadType.LOCAL;
     }
 
     @Override

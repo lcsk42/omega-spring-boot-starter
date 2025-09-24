@@ -9,6 +9,7 @@ import com.aliyun.oss.common.comm.SignVersion;
 import com.aliyun.oss.model.DeleteObjectsRequest;
 import com.aliyun.oss.model.GeneratePresignedUrlRequest;
 import com.lcsk42.frameworks.starter.file.core.config.FileUploadProperties;
+import com.lcsk42.frameworks.starter.file.core.enums.FileUploadType;
 import com.lcsk42.frameworks.starter.file.core.service.FileService;
 import lombok.NoArgsConstructor;
 
@@ -42,6 +43,11 @@ public class AliyunOssFileService implements FileService {
     @Override
     public FileService of(FileUploadProperties properties) {
         return new AliyunOssFileService(properties);
+    }
+
+    @Override
+    public FileUploadType getFileUploadType() {
+        return FileUploadType.ALIYUN_OSS;
     }
 
     @Override
