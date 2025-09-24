@@ -23,83 +23,86 @@ import java.util.List;
 @NoArgsConstructor
 public class AliyunOssFileService implements FileService {
 
-  private FileUploadProperties properties;
+    private FileUploadProperties properties;
 
-  private OSS ossClient;
+    private OSS ossClient;
 
-  public AliyunOssFileService(FileUploadProperties properties) {
-    this.properties = properties;
+    public AliyunOssFileService(FileUploadProperties properties) {
+        this.properties = properties;
 
-    ClientBuilderConfiguration clientBuilderConfiguration = new ClientBuilderConfiguration();
-    clientBuilderConfiguration.setSignatureVersion(SignVersion.V4);
-    this.ossClient = OSSClientBuilder.create().endpoint(properties.getEndpoint())
-        .credentialsProvider(CredentialsProviderFactory.newDefaultCredentialProvider(
-            properties.getAccessKeyId(), properties.getAccessKeySecret()))
-        .clientConfiguration(clientBuilderConfiguration).build();
-  }
+        ClientBuilderConfiguration clientBuilderConfiguration = new ClientBuilderConfiguration();
+        clientBuilderConfiguration.setSignatureVersion(SignVersion.V4);
+        this.ossClient = OSSClientBuilder.create().endpoint(properties.getEndpoint())
+                .credentialsProvider(CredentialsProviderFactory
+                        .newDefaultCredentialProvider(properties.getAccessKeyId(),
+                                properties.getAccessKeySecret()))
+                .clientConfiguration(clientBuilderConfiguration).build();
+    }
 
-  @Override
-  public FileService of(FileUploadProperties properties) {
-    return new AliyunOssFileService(properties);
-  }
+    @Override
+    public FileService of(FileUploadProperties properties) {
+        return new AliyunOssFileService(properties);
+    }
 
-  @Override
-  public FileUploadProperties getUploadProperties() {
-    return properties;
-  }
+    @Override
+    public FileUploadProperties getUploadProperties() {
+        return properties;
+    }
 
-  @Override
-  public String uploadFile(InputStream inputStream, String fileName, String bucketName,
-      boolean temporary) {
-    String key = buildKey(fileName, temporary);
-    ossClient.putObject(bucketName, key, inputStream);
-    return key;
-  }
+    @Override
+    public String uploadFile(InputStream inputStream, String fileName, String bucketName,
+            boolean temporary) {
+        String key = buildKey(fileName, temporary);
+        ossClient.putObject(bucketName, key, inputStream);
+        return key;
+    }
 
-  @Override
-  public String copyFile(String oldKey, String fileName, String bucketName) {
-    String key = buildKey(fileName, false);
-    ossClient.copyObject(bucketName, oldKey, bucketName, key);
-    return key;
-  }
+    @Override
+    public String copyFile(String oldKey, String fileName, String bucketName) {
+        String key = buildKey(fileName, false);
+        ossClient.copyObject(bucketName, oldKey, bucketName, key);
+        return key;
+    }
 
-  @Override
-  public void deleteFile(String key, String bucketName) {
-    ossClient.deleteObject(bucketName, key);
-  }
+    @Override
+    public void deleteFile(String key, String bucketName) {
+        ossClient.deleteObject(bucketName, key);
+    }
 
-  @Override
-  public void deleteFiles(List<String> keys, String bucketName) {
-    DeleteObjectsRequest request = new DeleteObjectsRequest(bucketName).withKeys(keys);
-    ossClient.deleteObjects(request);
-  }
+    @Override
+    public void deleteFiles(List<String> keys, String bucketName) {
+        DeleteObjectsRequest request = new DeleteObjectsRequest(bucketName).withKeys(keys);
+        ossClient.deleteObjects(request);
+    }
 
-  @Override
-  public void renameFile(String oldKey, String newFileName, String bucketName) {
-    String key = buildKey(newFileName, false);
-    ossClient.copyObject(bucketName, oldKey, bucketName, key);
-    deleteFile(oldKey);
-  }
+    @Override
+    public void renameFile(String oldKey, String newFileName, String bucketName) {
+        String key = buildKey(newFileName, false);
+        ossClient.copyObject(bucketName, oldKey, bucketName, key);
+        deleteFile(oldKey);
+    }
 
-  @Override
-  public InputStream downloadFile(String key, String bucketName) {
-    return ossClient.getObject(bucketName, key).getObjectContent();
-  }
+    @Override
+    public InputStream downloadFile(String key, String bucketName) {
+        return ossClient.getObject(bucketName, key).getObjectContent();
+    }
 
+    @Override
+    public URL generatePreSignedDownloadUrl(String key, String bucketName,
+            Duration signatureDuration) {
+        return ossClient.generatePresignedUrl(bucketName, key,
+                Date.from(LocalDateTime.now().plus(signatureDuration).atZone(ZoneId.systemDefault())
+                        .toInstant()));
+    }
 
-  @Override
-  public URL generatePreSignedDownloadUrl(String key, String bucketName,
-      Duration signatureDuration) {
-    return ossClient.generatePresignedUrl(bucketName, key, Date.from(
-        LocalDateTime.now().plus(signatureDuration).atZone(ZoneId.systemDefault()).toInstant()));
-  }
-
-  @Override
-  public URL generatePreSignedUploadUrl(String key, String bucketName, Duration signatureDuration) {
-    GeneratePresignedUrlRequest request =
-        new GeneratePresignedUrlRequest(bucketName, key, HttpMethod.PUT);
-    request.setExpiration(Date.from(
-        LocalDateTime.now().plus(signatureDuration).atZone(ZoneId.systemDefault()).toInstant()));
-    return ossClient.generatePresignedUrl(request);
-  }
+    @Override
+    public URL generatePreSignedUploadUrl(String key, String bucketName,
+            Duration signatureDuration) {
+        GeneratePresignedUrlRequest request =
+                new GeneratePresignedUrlRequest(bucketName, key, HttpMethod.PUT);
+        request.setExpiration(
+                Date.from(LocalDateTime.now().plus(signatureDuration).atZone(ZoneId.systemDefault())
+                        .toInstant()));
+        return ossClient.generatePresignedUrl(request);
+    }
 }

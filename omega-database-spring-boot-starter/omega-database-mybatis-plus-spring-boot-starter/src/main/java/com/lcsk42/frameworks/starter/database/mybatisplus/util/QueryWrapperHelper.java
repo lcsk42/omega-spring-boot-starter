@@ -32,12 +32,11 @@ import java.util.function.Consumer;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class QueryWrapperHelper {
 
-
     /**
      * 设置排序
      *
      * @param queryWrapper 查询条件封装对象
-     * @param sort         排序条件
+     * @param sort 排序条件
      * @since 2.9.0
      */
     public static <T> void sort(QueryWrapper<T> queryWrapper, Sort sort) {
@@ -54,8 +53,8 @@ public final class QueryWrapperHelper {
      * 构建 QueryWrapper
      *
      * @param query 查询条件
-     * @param <Q>   查询条件数据类型
-     * @param <R>   查询数据类型
+     * @param <Q> 查询条件数据类型
+     * @param <R> 查询数据类型
      * @return QueryWrapper
      */
     public static <Q, R> QueryWrapper<R> build(Q query) {
@@ -66,9 +65,9 @@ public final class QueryWrapperHelper {
      * 构建 QueryWrapper
      *
      * @param query 查询条件
-     * @param sort  排序条件
-     * @param <Q>   查询条件数据类型
-     * @param <R>   查询数据类型
+     * @param sort 排序条件
+     * @param <Q> 查询条件数据类型
+     * @param <R> 查询数据类型
      * @return QueryWrapper
      * @since 2.5.2
      */
@@ -94,14 +93,15 @@ public final class QueryWrapperHelper {
     /**
      * 构建 QueryWrapper
      *
-     * @param query        查询条件
-     * @param fields       查询条件字段列表
+     * @param query 查询条件
+     * @param fields 查询条件字段列表
      * @param queryWrapper QueryWrapper
-     * @param <Q>          查询条件数据类型
-     * @param <R>          查询数据类型
+     * @param <Q> 查询条件数据类型
+     * @param <R> 查询数据类型
      * @return QueryWrapper
      */
-    public static <Q, R> QueryWrapper<R> build(Q query, List<Field> fields, QueryWrapper<R> queryWrapper) {
+    public static <Q, R> QueryWrapper<R> build(Q query, List<Field> fields,
+            QueryWrapper<R> queryWrapper) {
         // 没有查询条件，直接返回
         if (query == null) {
             return queryWrapper;
@@ -119,11 +119,12 @@ public final class QueryWrapperHelper {
      *
      * @param query 查询条件
      * @param field 查询条件字段
-     * @param <Q>   查询条件数据类型
-     * @param <R>   查询数据类型
+     * @param <Q> 查询条件数据类型
+     * @param <R> 查询数据类型
      * @return QueryWrapper Consumer
      */
-    private static <Q, R> List<Consumer<QueryWrapper<R>>> buildWrapperConsumer(Q query, Field field) {
+    private static <Q, R> List<Consumer<QueryWrapper<R>>> buildWrapperConsumer(Q query,
+            Field field) {
         try {
             // 如果字段值为空，直接返回
             Object fieldValue = FieldUtils.readField(field, query);
@@ -131,7 +132,8 @@ public final class QueryWrapperHelper {
                 return List.of();
             }
             // 设置了 @QueryIgnore 注解，直接忽略
-            QueryIgnore queryIgnoreAnnotation = AnnotationUtils.getAnnotation(field, QueryIgnore.class);
+            QueryIgnore queryIgnoreAnnotation =
+                    AnnotationUtils.getAnnotation(field, QueryIgnore.class);
             if (queryIgnoreAnnotation != null) {
                 return List.of();
             }
@@ -171,8 +173,9 @@ public final class QueryWrapperHelper {
             }
             return consumers;
         } catch (Exception e) {
-            log.error("Build query wrapper occurred an error: {}. Query: {}, Field: {}.", e
-                    .getMessage(), query, field, e);
+            log.error("Build query wrapper occurred an error: {}. Query: {}, Field: {}.",
+                    e.getMessage(), query, field,
+                    e);
         }
         return List.of();
     }
@@ -200,8 +203,8 @@ public final class QueryWrapperHelper {
             case BETWEEN -> {
                 // 数组转集合
                 List<Object> between = new ArrayList<>(isArray(fieldValue)
-                        ? List.of((Object[]) fieldValue)
-                        : (List<Object>) fieldValue);
+                    ? List.of((Object[])fieldValue)
+                    : (List<Object>)fieldValue);
                 Validate.isTrue(between.size() == 2, "[{}] 必须是一个范围", columnName);
                 consumers.add(q -> q.between(columnName, between.getFirst(), between.get(1)));
             }
@@ -211,14 +214,14 @@ public final class QueryWrapperHelper {
             case IN -> {
                 Validate.isTrue(!ObjectUtils.isEmpty(fieldValue), "[{}] 不能为空", columnName);
                 consumers.add(q -> q.in(columnName, isArray(fieldValue)
-                        ? List.of((Object[]) fieldValue)
-                        : (Collection<Object>) fieldValue));
+                    ? List.of((Object[])fieldValue)
+                    : (Collection<Object>)fieldValue));
             }
             case NOT_IN -> {
                 Validate.isTrue(!ObjectUtils.isEmpty(fieldValue), "[{}] 不能为空", columnName);
                 consumers.add(q -> q.notIn(columnName, isArray(fieldValue)
-                        ? List.of((Object[]) fieldValue)
-                        : (Collection<Object>) fieldValue));
+                    ? List.of((Object[])fieldValue)
+                    : (Collection<Object>)fieldValue));
             }
             case IS_NULL -> consumers.add(q -> q.isNull(columnName));
             case IS_NOT_NULL -> consumers.add(q -> q.isNotNull(columnName));

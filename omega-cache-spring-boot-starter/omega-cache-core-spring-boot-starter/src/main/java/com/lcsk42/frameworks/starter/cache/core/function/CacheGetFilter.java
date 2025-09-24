@@ -12,12 +12,11 @@ package com.lcsk42.frameworks.starter.cache.core.function;
 @FunctionalInterface
 public interface CacheGetFilter<T> {
 
-  /**
-   * 判断给定值是否应被过滤（即视为无效）。
-   *
-   * @param param 待验证的对象
-   * @return {@code true} 如果该值应被过滤（拒绝），{@code false} 如果有效且可使用
-   */
-  boolean filter(T param);
+    /**
+     * 判断给定值是否应被过滤（即视为无效）。
+     *
+     * @param param 待验证的对象
+     * @return {@code true} 如果该值应被过滤（拒绝），{@code false} 如果有效且可使用
+     */
+    boolean filter(T param);
 }
-

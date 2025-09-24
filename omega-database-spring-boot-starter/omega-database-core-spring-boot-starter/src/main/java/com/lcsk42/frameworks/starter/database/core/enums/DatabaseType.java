@@ -36,7 +36,6 @@ public enum DatabaseType implements ISqlFunction {
 
     private final String database;
 
-
     /**
      * 获取数据库类型
      *

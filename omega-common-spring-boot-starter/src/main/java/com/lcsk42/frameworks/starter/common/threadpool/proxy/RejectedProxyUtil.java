@@ -13,22 +13,23 @@ import java.util.concurrent.atomic.AtomicLong;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RejectedProxyUtil {
 
-  /**
-   * 创建拒绝策略处理器的代理包装器。 增强处理器的能力，例如拒绝计数等功能。
-   *
-   * @param rejectedExecutionHandler 实际的拒绝策略实现
-   * @param rejectedNum 用于跟踪拒绝次数的计数器
-   * @return 代理包装后的拒绝策略处理器
-   */
-  public static RejectedExecutionHandler createProxy(
-      RejectedExecutionHandler rejectedExecutionHandler, AtomicLong rejectedNum) {
-    // 使用动态代理模式实现：
-    // 1. 增强线程池拒绝策略行为
-    // 2. 添加拒绝告警等能力
-    // 3. 通过延迟队列启用重试机制
-    return (RejectedExecutionHandler) Proxy.newProxyInstance(
-        rejectedExecutionHandler.getClass().getClassLoader(),
-        new Class[] {RejectedExecutionHandler.class},
-        new RejectedProxyInvocationHandler(rejectedExecutionHandler, rejectedNum));
-  }
+    /**
+     * 创建拒绝策略处理器的代理包装器。 增强处理器的能力，例如拒绝计数等功能。
+     *
+     * @param rejectedExecutionHandler 实际的拒绝策略实现
+     * @param rejectedNum 用于跟踪拒绝次数的计数器
+     * @return 代理包装后的拒绝策略处理器
+     */
+    public static RejectedExecutionHandler createProxy(
+            RejectedExecutionHandler rejectedExecutionHandler,
+            AtomicLong rejectedNum) {
+        // 使用动态代理模式实现：
+        // 1. 增强线程池拒绝策略行为
+        // 2. 添加拒绝告警等能力
+        // 3. 通过延迟队列启用重试机制
+        return (RejectedExecutionHandler) Proxy.newProxyInstance(
+                rejectedExecutionHandler.getClass().getClassLoader(),
+                new Class[] {RejectedExecutionHandler.class},
+                new RejectedProxyInvocationHandler(rejectedExecutionHandler, rejectedNum));
+    }
 }

@@ -22,10 +22,12 @@ public class MyBatisPlusIdGeneratorConfiguration {
      * 自定义 ID 生成器-默认（雪花算法，使用网卡信息绑定雪花生成器，防止集群雪花 ID 重复）
      */
     @ConditionalOnMissingBean(IdentifierGenerator.class)
-    @ConditionalOnProperty(name = MybatisPlusProperties.ID_GENERATOR_TYPE, havingValue = "default", matchIfMissing = true)
+    @ConditionalOnProperty(name = MybatisPlusProperties.ID_GENERATOR_TYPE, havingValue = "default",
+            matchIfMissing = true)
     public static class Default {
         static {
-            log.debug("[Omega] - Auto Configuration 'MyBatis Plus-IdGenerator-Default' completed initialization.");
+            log.debug(
+                    "[Omega] - Auto Configuration 'MyBatis Plus-IdGenerator-Default' completed initialization.");
         }
 
         @Bean
@@ -44,8 +46,7 @@ public class MyBatisPlusIdGeneratorConfiguration {
         public IdentifierGenerator identifierGenerator() {
             if (log.isErrorEnabled()) {
                 log.error("Consider defining a bean of type '{}' in your configuration.",
-                        ResolvableType.forClass(IdentifierGenerator.class)
-                );
+                        ResolvableType.forClass(IdentifierGenerator.class));
             }
             throw new NoSuchBeanDefinitionException(IdentifierGenerator.class);
         }

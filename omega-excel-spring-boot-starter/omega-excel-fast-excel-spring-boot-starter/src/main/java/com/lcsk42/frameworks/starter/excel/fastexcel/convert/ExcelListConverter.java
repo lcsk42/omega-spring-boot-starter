@@ -21,29 +21,30 @@ import java.util.List;
 @SuppressWarnings("rawtypes")
 public class ExcelListConverter implements Converter<List> {
 
-  @Override
-  public Class supportJavaTypeKey() {
-    return List.class;
-  }
+    @Override
+    public Class supportJavaTypeKey() {
+        return List.class;
+    }
 
-  @Override
-  public CellDataTypeEnum supportExcelTypeKey() {
-    return CellDataTypeEnum.STRING;
-  }
+    @Override
+    public CellDataTypeEnum supportExcelTypeKey() {
+        return CellDataTypeEnum.STRING;
+    }
 
-  @Override
-  public List convertToJavaData(ReadCellData<?> cellData, ExcelContentProperty contentProperty,
-      GlobalConfiguration globalConfiguration) {
-    String stringValue = cellData.getStringValue();
-    return List.of(StringUtils.split(stringValue, StringConstant.COMMA));
-  }
+    @Override
+    public List convertToJavaData(ReadCellData<?> cellData, ExcelContentProperty contentProperty,
+            GlobalConfiguration globalConfiguration) {
+        String stringValue = cellData.getStringValue();
+        return List.of(StringUtils.split(stringValue, StringConstant.COMMA));
+    }
 
-  @Override
-  public WriteCellData<Object> convertToExcelData(List value, ExcelContentProperty contentProperty,
-      GlobalConfiguration globalConfiguration) {
-    WriteCellData<Object> writeCellData =
-        new WriteCellData<>(StringUtils.join(value, StringConstant.COMMA));
-    writeCellData.setType(CellDataTypeEnum.STRING);
-    return writeCellData;
-  }
+    @Override
+    public WriteCellData<Object> convertToExcelData(List value,
+            ExcelContentProperty contentProperty,
+            GlobalConfiguration globalConfiguration) {
+        WriteCellData<Object> writeCellData =
+                new WriteCellData<>(StringUtils.join(value, StringConstant.COMMA));
+        writeCellData.setType(CellDataTypeEnum.STRING);
+        return writeCellData;
+    }
 }

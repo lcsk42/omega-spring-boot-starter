@@ -14,20 +14,20 @@ import java.util.List;
  */
 public class YamlPropertySourceFactory implements PropertySourceFactory {
 
-  @SuppressWarnings("NullableProblems")
-  @Override
-  public PropertySource<?> createPropertySource(@Nullable String name, EncodedResource resource)
-      throws IOException {
-    YamlPropertySourceLoader loader = new YamlPropertySourceLoader();
-    List<PropertySource<?>> propertySources =
-        loader.load(resource.getResource().getFilename(), resource.getResource());
+    @SuppressWarnings("NullableProblems")
+    @Override
+    public PropertySource<?> createPropertySource(@Nullable String name, EncodedResource resource)
+            throws IOException {
+        YamlPropertySourceLoader loader = new YamlPropertySourceLoader();
+        List<PropertySource<?>> propertySources =
+                loader.load(resource.getResource().getFilename(), resource.getResource());
 
-    if (!propertySources.isEmpty()) {
-      // 如果有多个文档块，只返回第一个
-      return propertySources.getFirst();
+        if (!propertySources.isEmpty()) {
+            // 如果有多个文档块，只返回第一个
+            return propertySources.getFirst();
+        }
+
+        throw new IllegalStateException(
+                "No YAML property sources loaded from " + resource.getResource().getFilename());
     }
-
-    throw new IllegalStateException(
-        "No YAML property sources loaded from " + resource.getResource().getFilename());
-  }
 }

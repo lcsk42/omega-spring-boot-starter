@@ -10,21 +10,21 @@ import org.springframework.context.annotation.Bean;
 
 @Slf4j
 public class CoreAutoConfiguration {
-  @Bean
-  @ConditionalOnMissingBean
-  public ApplicationContextHolder applicationContextHolder() {
-    return new ApplicationContextHolder();
-  }
+    @Bean
+    @ConditionalOnMissingBean
+    public ApplicationContextHolder applicationContextHolder() {
+        return new ApplicationContextHolder();
+    }
 
-  @Bean
-  @ConditionalOnMissingBean
-  public ApplicationContentPostProcessor applicationContentPostProcessor(
-      ApplicationContext applicationContext) {
-    return new ApplicationContentPostProcessor(applicationContext);
-  }
+    @Bean
+    @ConditionalOnMissingBean
+    public ApplicationContentPostProcessor applicationContentPostProcessor(
+            ApplicationContext applicationContext) {
+        return new ApplicationContentPostProcessor(applicationContext);
+    }
 
-  @PostConstruct
-  public void postConstruct() {
-    log.debug("[Omega] - Auto Configuration 'Core' completed initialization.");
-  }
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[Omega] - Auto Configuration 'Core' completed initialization.");
+    }
 }

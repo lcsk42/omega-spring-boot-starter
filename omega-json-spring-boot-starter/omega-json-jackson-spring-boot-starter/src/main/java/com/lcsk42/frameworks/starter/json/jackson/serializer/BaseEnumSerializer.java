@@ -15,14 +15,14 @@ import java.io.IOException;
 @JacksonStdImpl
 public class BaseEnumSerializer extends JsonSerializer<BaseEnum> {
 
-  /**
-   * 静态实例
-   */
-  public static final BaseEnumSerializer INSTANCE = new BaseEnumSerializer();
+    /**
+     * 静态实例
+     */
+    public static final BaseEnumSerializer INSTANCE = new BaseEnumSerializer();
 
-  @Override
-  public void serialize(BaseEnum value, JsonGenerator generator, SerializerProvider serializers)
-      throws IOException {
-    generator.writeObject(value.getValue());
-  }
+    @Override
+    public void serialize(BaseEnum value, JsonGenerator generator, SerializerProvider serializers)
+            throws IOException {
+        generator.writeObject(value.getValue());
+    }
 }

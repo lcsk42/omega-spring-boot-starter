@@ -12,11 +12,10 @@ package com.lcsk42.frameworks.starter.cache.core.function;
 @FunctionalInterface
 public interface CacheGetIfAbsent<T> {
 
-  /**
-   * 当缓存缺失或值无效时执行自定义逻辑。
-   *
-   * @param param 可选参数，可用于辅助后备逻辑
-   */
-  void accept(T param);
+    /**
+     * 当缓存缺失或值无效时执行自定义逻辑。
+     *
+     * @param param 可选参数，可用于辅助后备逻辑
+     */
+    void accept(T param);
 }
-

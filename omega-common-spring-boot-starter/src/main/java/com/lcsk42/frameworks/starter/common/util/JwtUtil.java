@@ -23,133 +23,137 @@ import java.util.concurrent.ConcurrentHashMap;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class JwtUtil {
 
-  // 默认过期时间: 24 小时 (单位:秒)
-  private static final long DEFAULT_EXPIRE_SECONDS = 60 * 60 * 24L;
+    // 默认过期时间: 24 小时 (单位:秒)
+    private static final long DEFAULT_EXPIRE_SECONDS = 60 * 60 * 24L;
 
-  // Token 头
-  public static final String TOKEN_PREFIX = "Bearer ";
+    // Token 头
+    public static final String TOKEN_PREFIX = "Bearer ";
 
-  // 发行人
-  private static final String ISSUER = "Omega";
+    // 发行人
+    private static final String ISSUER = "Omega";
 
-  // 密钥缓存
-  private static final Map<String, SecretKey> SECRET_KEY_CACHE = new ConcurrentHashMap<>();
+    // 密钥缓存
+    private static final Map<String, SecretKey> SECRET_KEY_CACHE = new ConcurrentHashMap<>();
 
-  /**
-   * 获取或创建 SecretKey
-   */
-  private static SecretKey getSecretKey(String secret) {
-    return SECRET_KEY_CACHE.computeIfAbsent(secret,
-        s -> Keys.hmacShaKeyFor(s.getBytes(StandardCharsets.UTF_8)));
-  }
-
-  /**
-   * 生成JWT Token (使用默认过期时间)
-   */
-  public static String generateToken(@Nonnull Map<String, Object> claims, @Nonnull String secret) {
-    return generateToken(claims, secret, DEFAULT_EXPIRE_SECONDS);
-  }
-
-  /**
-   * 生成JWT Token
-   *
-   * @param claims 自定义claims
-   * @param secret 密钥
-   * @param expireSeconds 过期时间(秒)
-   * @return token字符串
-   */
-  public static String generateToken(@Nonnull Map<String, Object> claims, @Nonnull String secret,
-      long expireSeconds) {
-    if (secret.isEmpty()) {
-      throw new IllegalArgumentException("Secret must not be empty");
+    /**
+     * 获取或创建 SecretKey
+     */
+    private static SecretKey getSecretKey(String secret) {
+        return SECRET_KEY_CACHE.computeIfAbsent(secret,
+                s -> Keys.hmacShaKeyFor(s.getBytes(StandardCharsets.UTF_8)));
     }
 
-    SecretKey secretKey = getSecretKey(secret);
-    String jwtToken =
-        Jwts.builder().claims(claims).signWith(secretKey).issuer(ISSUER).issuedAt(new Date())
-            .expiration(new Date(System.currentTimeMillis() + expireSeconds * 1_000)).compact();
-    return TOKEN_PREFIX + jwtToken;
-  }
-
-  /**
-   * 解析JWT Token
-   *
-   * @param token Token 字符串
-   * @param secret 密钥
-   * @return Optional 包含 Claims 对象
-   */
-  public static Optional<Claims> parseToken(@Nonnull String token, @Nonnull String secret) {
-    if (!StringUtils.hasText(token) || !token.startsWith(TOKEN_PREFIX)) {
-      return Optional.empty();
+    /**
+     * 生成JWT Token (使用默认过期时间)
+     */
+    public static String generateToken(@Nonnull Map<String, Object> claims,
+            @Nonnull String secret) {
+        return generateToken(claims, secret, DEFAULT_EXPIRE_SECONDS);
     }
 
-    try {
-      String actualJwtToken = token.replace(TOKEN_PREFIX, "");
-      Claims claims = Jwts.parser().verifyWith(getSecretKey(secret)).build()
-          .parseSignedClaims(actualJwtToken).getPayload();
+    /**
+     * 生成JWT Token
+     *
+     * @param claims 自定义claims
+     * @param secret 密钥
+     * @param expireSeconds 过期时间(秒)
+     * @return token字符串
+     */
+    public static String generateToken(@Nonnull Map<String, Object> claims, @Nonnull String secret,
+            long expireSeconds) {
+        if (secret.isEmpty()) {
+            throw new IllegalArgumentException("Secret must not be empty");
+        }
 
-      return claims.getExpiration().after(new Date()) ? Optional.of(claims) : Optional.empty();
-    } catch (JwtException ex) {
-      log.warn("Invalid JWT token: {}", ex.getMessage());
-      return Optional.empty();
-    } catch (Exception ex) {
-      log.error("Unexpected error during JWT parsing", ex);
-      return Optional.empty();
+        SecretKey secretKey = getSecretKey(secret);
+        String jwtToken = Jwts.builder().claims(claims).signWith(secretKey).issuer(ISSUER)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + expireSeconds * 1_000)).compact();
+        return TOKEN_PREFIX + jwtToken;
     }
-  }
 
-  /**
-   * 验证 Token 是否有效
-   */
-  public static boolean validateToken(@Nonnull String token, @Nonnull String secret) {
-    return parseToken(token, secret).isPresent();
-  }
+    /**
+     * 解析JWT Token
+     *
+     * @param token Token 字符串
+     * @param secret 密钥
+     * @return Optional 包含 Claims 对象
+     */
+    public static Optional<Claims> parseToken(@Nonnull String token, @Nonnull String secret) {
+        if (!StringUtils.hasText(token) || !token.startsWith(TOKEN_PREFIX)) {
+            return Optional.empty();
+        }
 
-  /**
-   * 获取 Token 中的指定 Claim
-   */
-  public static <T> Optional<T> getClaim(String token, String secret, String claimName,
-      Class<T> clazz) {
-    return parseToken(token, secret).map(claims -> claims.get(claimName, clazz));
-  }
+        try {
+            String actualJwtToken = token.replace(TOKEN_PREFIX, "");
+            Claims claims = Jwts.parser().verifyWith(getSecretKey(secret)).build()
+                    .parseSignedClaims(actualJwtToken)
+                    .getPayload();
 
-  /**
-   * 获取 Token 过期时间
-   */
-  public static Optional<LocalDateTime> getExpirationDate(String token, String secret) {
-    return parseToken(token, secret).map(Claims::getExpiration).map(Date::toInstant)
-        .map(instant -> instant.atZone(ZoneId.systemDefault()).toLocalDateTime());
-  }
+            return claims.getExpiration().after(new Date()) ? Optional.of(claims)
+                    : Optional.empty();
+        } catch (JwtException ex) {
+            log.warn("Invalid JWT token: {}", ex.getMessage());
+            return Optional.empty();
+        } catch (Exception ex) {
+            log.error("Unexpected error during JWT parsing", ex);
+            return Optional.empty();
+        }
+    }
 
-  /**
-   * 判断 Token 是否过期
-   */
-  public static boolean isTokenExpired(String token, String secret) {
-    Optional<LocalDateTime> expiration = getExpirationDate(token, secret);
-    return expiration.map(e -> e.isBefore(LocalDateTime.now())).orElse(true);
-  }
+    /**
+     * 验证 Token 是否有效
+     */
+    public static boolean validateToken(@Nonnull String token, @Nonnull String secret) {
+        return parseToken(token, secret).isPresent();
+    }
 
-  /**
-   * 刷新 Token（更新签发时间和过期时间）
-   *
-   * @param token 原token
-   * @param secret 密钥
-   * @return 新 Token
-   */
-  public static Optional<String> refreshToken(String token, String secret) {
-    return parseToken(token, secret)
-        .map(claims -> generateToken(claims, secret, DEFAULT_EXPIRE_SECONDS));
-  }
+    /**
+     * 获取 Token 中的指定 Claim
+     */
+    public static <T> Optional<T> getClaim(String token, String secret, String claimName,
+            Class<T> clazz) {
+        return parseToken(token, secret).map(claims -> claims.get(claimName, clazz));
+    }
 
-  /**
-   * 刷新 Token（更新签发时间和过期时间(默认的过期时间)）
-   *
-   * @param token 原token
-   * @param secret 密钥
-   * @param expireSeconds 新的过期时间(秒)
-   * @return 新 Token
-   */
-  public static Optional<String> refreshToken(String token, String secret, long expireSeconds) {
-    return parseToken(token, secret).map(claims -> generateToken(claims, secret, expireSeconds));
-  }
+    /**
+     * 获取 Token 过期时间
+     */
+    public static Optional<LocalDateTime> getExpirationDate(String token, String secret) {
+        return parseToken(token, secret).map(Claims::getExpiration).map(Date::toInstant)
+                .map(instant -> instant.atZone(ZoneId.systemDefault()).toLocalDateTime());
+    }
+
+    /**
+     * 判断 Token 是否过期
+     */
+    public static boolean isTokenExpired(String token, String secret) {
+        Optional<LocalDateTime> expiration = getExpirationDate(token, secret);
+        return expiration.map(e -> e.isBefore(LocalDateTime.now())).orElse(true);
+    }
+
+    /**
+     * 刷新 Token（更新签发时间和过期时间）
+     *
+     * @param token 原token
+     * @param secret 密钥
+     * @return 新 Token
+     */
+    public static Optional<String> refreshToken(String token, String secret) {
+        return parseToken(token, secret)
+                .map(claims -> generateToken(claims, secret, DEFAULT_EXPIRE_SECONDS));
+    }
+
+    /**
+     * 刷新 Token（更新签发时间和过期时间(默认的过期时间)）
+     *
+     * @param token 原token
+     * @param secret 密钥
+     * @param expireSeconds 新的过期时间(秒)
+     * @return 新 Token
+     */
+    public static Optional<String> refreshToken(String token, String secret, long expireSeconds) {
+        return parseToken(token, secret)
+                .map(claims -> generateToken(claims, secret, expireSeconds));
+    }
 }

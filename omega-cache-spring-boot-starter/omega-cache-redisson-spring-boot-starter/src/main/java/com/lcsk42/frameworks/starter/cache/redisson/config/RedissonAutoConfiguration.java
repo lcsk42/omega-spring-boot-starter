@@ -15,45 +15,45 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @Slf4j
 @AllArgsConstructor
 @EnableConfigurationProperties({RedisDistributedProperties.class,
-    BloomFilterPenetrateProperties.class})
+        BloomFilterPenetrateProperties.class})
 public class RedissonAutoConfiguration {
-  private final RedisDistributedProperties redisDistributedProperties;
+    private final RedisDistributedProperties redisDistributedProperties;
 
-  /**
-   * Create a Redis Key serializer with customizable Key Prefix
-   */
-  @Bean
-  public RedisKeySerializer redisKeySerializer() {
-    String prefix = redisDistributedProperties.getPrefix();
-    String prefixCharset = redisDistributedProperties.getPrefixCharset();
-    return new RedisKeySerializer(prefix, prefixCharset);
-  }
+    /**
+     * Create a Redis Key serializer with customizable Key Prefix
+     */
+    @Bean
+    public RedisKeySerializer redisKeySerializer() {
+        String prefix = redisDistributedProperties.getPrefix();
+        String prefixCharset = redisDistributedProperties.getPrefixCharset();
+        return new RedisKeySerializer(prefix, prefixCharset);
+    }
 
-  /**
-   * Bloom filter to prevent cache penetration
-   */
-  @Bean
-  @ConditionalOnProperty(prefix = BloomFilterPenetrateProperties.PREFIX, name = "enabled",
-      havingValue = "true")
-  public RBloomFilter<String> cachePenetrationBloomFilter(RedissonClient redissonClient,
-      BloomFilterPenetrateProperties bloomFilterPenetrateProperties) {
-    RBloomFilter<String> cachePenetrationBloomFilter =
-        redissonClient.getBloomFilter(bloomFilterPenetrateProperties.getName());
-    cachePenetrationBloomFilter.tryInit(bloomFilterPenetrateProperties.getExpectedInsertions(),
-        bloomFilterPenetrateProperties.getFalseProbability());
-    return cachePenetrationBloomFilter;
-  }
+    /**
+     * Bloom filter to prevent cache penetration
+     */
+    @Bean
+    @ConditionalOnProperty(prefix = BloomFilterPenetrateProperties.PREFIX, name = "enabled",
+            havingValue = "true")
+    public RBloomFilter<String> cachePenetrationBloomFilter(RedissonClient redissonClient,
+            BloomFilterPenetrateProperties bloomFilterPenetrateProperties) {
+        RBloomFilter<String> cachePenetrationBloomFilter =
+                redissonClient.getBloomFilter(bloomFilterPenetrateProperties.getName());
+        cachePenetrationBloomFilter.tryInit(bloomFilterPenetrateProperties.getExpectedInsertions(),
+                bloomFilterPenetrateProperties.getFalseProbability());
+        return cachePenetrationBloomFilter;
+    }
 
-  @Bean
-  public StringRedisTemplateProxy stringRedisTemplateProxy(RedisKeySerializer redisKeySerializer,
-      StringRedisTemplate stringRedisTemplate, RedissonClient redissonClient) {
-    stringRedisTemplate.setKeySerializer(redisKeySerializer);
-    return new StringRedisTemplateProxy(stringRedisTemplate, redisDistributedProperties,
-        redissonClient);
-  }
+    @Bean
+    public StringRedisTemplateProxy stringRedisTemplateProxy(RedisKeySerializer redisKeySerializer,
+            StringRedisTemplate stringRedisTemplate, RedissonClient redissonClient) {
+        stringRedisTemplate.setKeySerializer(redisKeySerializer);
+        return new StringRedisTemplateProxy(stringRedisTemplate, redisDistributedProperties,
+                redissonClient);
+    }
 
-  @PostConstruct
-  public void postConstruct() {
-    log.debug("[Omega] - Auto Configuration 'Cache Redisson' completed initialization.");
-  }
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[Omega] - Auto Configuration 'Cache Redisson' completed initialization.");
+    }
 }

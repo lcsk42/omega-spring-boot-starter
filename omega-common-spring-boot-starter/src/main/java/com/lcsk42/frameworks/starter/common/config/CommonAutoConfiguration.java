@@ -10,19 +10,19 @@ import java.util.concurrent.Executor;
 
 @Slf4j
 public class CommonAutoConfiguration {
-  /**
-   * 创建主任务执行器 bean。 配置默认线程池包含以下特性： - 线程名前缀 "default-pool-" - 非守护线程
-   *
-   * @return 配置好的 ThreadPoolExecutor 实例
-   */
-  @Bean
-  @Primary
-  public Executor taskExecutor() {
-    return ThreadPoolBuilder.builder().threadFactory("default-pool-", false).build();
-  }
+    /**
+     * 创建主任务执行器 bean。 配置默认线程池包含以下特性： - 线程名前缀 "default-pool-" - 非守护线程
+     *
+     * @return 配置好的 ThreadPoolExecutor 实例
+     */
+    @Bean
+    @Primary
+    public Executor taskExecutor() {
+        return ThreadPoolBuilder.builder().threadFactory("default-pool-", false).build();
+    }
 
-  @PostConstruct
-  public void postConstruct() {
-    log.debug("[Omega] - Auto Configuration 'Common' completed initialization.");
-  }
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[Omega] - Auto Configuration 'Common' completed initialization.");
+    }
 }

@@ -16,7 +16,8 @@ import java.util.Collection;
  *
  * @param <T> 实体类
  */
-public interface BaseMapper<T extends BasePO> extends com.baomidou.mybatisplus.core.mapper.BaseMapper<T> {
+public interface BaseMapper<T extends BasePO>
+        extends com.baomidou.mybatisplus.core.mapper.BaseMapper<T> {
 
     /**
      * 批量插入记录

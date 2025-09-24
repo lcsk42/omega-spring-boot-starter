@@ -10,25 +10,25 @@ import java.nio.charset.Charset;
 @RequiredArgsConstructor
 public class RedisKeySerializer implements InitializingBean, RedisSerializer<String> {
 
-  private final String keyPrefix;
+    private final String keyPrefix;
 
-  private final String charsetName;
+    private final String charsetName;
 
-  private Charset charset;
+    private Charset charset;
 
-  @Override
-  public byte[] serialize(String key) throws SerializationException {
-    String builderKey = keyPrefix + key;
-    return builderKey.getBytes();
-  }
+    @Override
+    public byte[] serialize(String key) throws SerializationException {
+        String builderKey = keyPrefix + key;
+        return builderKey.getBytes();
+    }
 
-  @Override
-  public String deserialize(byte[] bytes) throws SerializationException {
-    return new String(bytes, charset);
-  }
+    @Override
+    public String deserialize(byte[] bytes) throws SerializationException {
+        return new String(bytes, charset);
+    }
 
-  @Override
-  public void afterPropertiesSet() throws Exception {
-    charset = Charset.forName(charsetName);
-  }
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        charset = Charset.forName(charsetName);
+    }
 }

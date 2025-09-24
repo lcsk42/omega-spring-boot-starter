@@ -33,29 +33,31 @@ public abstract class AbstractCommonSendProducerTemplate<T> {
      * 抽象方法：构建消息对象
      *
      * @param messageSendEvent 消息事件对象
-     * @param requestParam     消息发送的扩展参数
+     * @param requestParam 消息发送的扩展参数
      * @return 构建好的消息对象
      */
-    protected abstract Message<?> buildMessage(T messageSendEvent, BaseSendExtendParam requestParam);
+    protected abstract Message<?> buildMessage(T messageSendEvent,
+            BaseSendExtendParam requestParam);
 
     /**
      * 默认的消息构建方法
      *
      * @param messageSendEvent 消息事件对象
-     * @param requestParam     消息发送的扩展参数
+     * @param requestParam 消息发送的扩展参数
      * @return 构建好的消息对象
      */
     protected Message<?> buildDefaultMessage(T messageSendEvent, BaseSendExtendParam requestParam) {
         // 如果扩展参数中没有指定 keys，则生成一个随机 UUID 作为 keys
-        String keys = StringUtils.isEmpty(requestParam.getKeys()) ? UUID.randomUUID().toString() : requestParam.getKeys();
+        String keys =
+                StringUtils.isEmpty(requestParam.getKeys()) ? UUID.randomUUID().toString()
+                        : requestParam.getKeys();
         return MessageBuilder
                 // 消息体：包含keys和消息事件对象
                 .withPayload(MessageWrapper.of(requestParam.getKeys(), messageSendEvent))
                 // 设置消息头：消息的keys
                 .setHeader(MessageConst.PROPERTY_KEYS, keys)
                 // 设置消息头：消息的tag
-                .setHeader(MessageConst.PROPERTY_TAGS, requestParam.getTag())
-                .build();
+                .setHeader(MessageConst.PROPERTY_TAGS, requestParam.getTag()).build();
     }
 
     /**
@@ -76,28 +78,21 @@ public abstract class AbstractCommonSendProducerTemplate<T> {
             }
 
             // 同步发送消息
-            sendResult = rocketMQTemplate.syncSend(
-                    destinationBuilder.toString(),
+            sendResult = rocketMQTemplate.syncSend(destinationBuilder.toString(),
                     buildMessage(messageSendEvent, baseSendExtendParam),
                     baseSendExtendParam.getTimeout(),
-                    baseSendExtendParam.getDelayLevel().getLevel()
-            );
+                    baseSendExtendParam.getDelayLevel().getLevel());
 
             // 记录发送成功的日志
-            log.info(
-                    "[{}] SendStatus：{}，MessageId：{}，MessageKeys：{}",
+            log.info("[{}] SendStatus：{}，MessageId：{}，MessageKeys：{}",
                     baseSendExtendParam.getEventName(),
-                    sendResult.getSendStatus(),
-                    sendResult.getMsgId(),
-                    baseSendExtendParam.getKeys()
-            );
+                    sendResult.getSendStatus(), sendResult.getMsgId(),
+                    baseSendExtendParam.getKeys());
         } catch (Throwable ex) {
             // 记录发送失败的日志
-            log.error(
-                    "[{}] Message sending failed, message body：{}",
+            log.error("[{}] Message sending failed, message body：{}",
                     baseSendExtendParam.getEventName(),
-                    JSON.toJSONString(messageSendEvent),
-                    ex);
+                    JSON.toJSONString(messageSendEvent), ex);
             throw ex;
         }
         return sendResult;

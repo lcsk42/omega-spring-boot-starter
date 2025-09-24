@@ -15,58 +15,58 @@ import java.util.function.Supplier;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Singleton {
 
-  // 用于按字符串键存储单例实例的线程安全映射
-  private static final ConcurrentHashMap<String, Object> SINGLE_OBJECT_POOL =
-      new ConcurrentHashMap<>();
+    // 用于按字符串键存储单例实例的线程安全映射
+    private static final ConcurrentHashMap<String, Object> SINGLE_OBJECT_POOL =
+            new ConcurrentHashMap<>();
 
-  /**
-   * 通过键从容器中检索单例对象
-   *
-   * @param key 与对象关联的键
-   * @param <T> 期望的对象类型
-   * @return 单例对象，如果未找到则返回 null
-   */
-  @SuppressWarnings("unchecked")
-  public static <T> T get(String key) {
-    Object result = SINGLE_OBJECT_POOL.get(key);
-    return result == null ? null : (T) result;
-  }
-
-  /**
-   * 通过键从容器中检索单例对象
-   * <p>
-   * 如果找不到对象，将使用提供的 {@link Supplier} 创建对象并存储在容器中
-   *
-   * @param key 与对象关联的键
-   * @param supplier 当对象不存在时用于创建对象的提供者
-   * @param <T> 期望的对象类型
-   * @return 现有的或新创建的单例对象
-   */
-  @SuppressWarnings("unchecked")
-  public static <T> T get(String key, Supplier<T> supplier) {
-    Object result = SINGLE_OBJECT_POOL.get(key);
-    if (result == null && (result = supplier.get()) != null) {
-      SINGLE_OBJECT_POOL.put(key, result);
+    /**
+     * 通过键从容器中检索单例对象
+     *
+     * @param key 与对象关联的键
+     * @param <T> 期望的对象类型
+     * @return 单例对象，如果未找到则返回 null
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T get(String key) {
+        Object result = SINGLE_OBJECT_POOL.get(key);
+        return result == null ? null : (T) result;
     }
-    return result != null ? (T) result : null;
-  }
 
-  /**
-   * 使用对象的类名作为键将对象放入容器
-   *
-   * @param value 要存储的对象
-   */
-  public static void put(Object value) {
-    put(value.getClass().getName(), value);
-  }
+    /**
+     * 通过键从容器中检索单例对象
+     * <p>
+     * 如果找不到对象，将使用提供的 {@link Supplier} 创建对象并存储在容器中
+     *
+     * @param key 与对象关联的键
+     * @param supplier 当对象不存在时用于创建对象的提供者
+     * @param <T> 期望的对象类型
+     * @return 现有的或新创建的单例对象
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T get(String key, Supplier<T> supplier) {
+        Object result = SINGLE_OBJECT_POOL.get(key);
+        if (result == null && (result = supplier.get()) != null) {
+            SINGLE_OBJECT_POOL.put(key, result);
+        }
+        return result != null ? (T) result : null;
+    }
 
-  /**
-   * 使用指定的键将对象放入容器
-   *
-   * @param key 与对象关联的键
-   * @param value 要存储的对象
-   */
-  public static void put(String key, Object value) {
-    SINGLE_OBJECT_POOL.put(key, value);
-  }
+    /**
+     * 使用对象的类名作为键将对象放入容器
+     *
+     * @param value 要存储的对象
+     */
+    public static void put(Object value) {
+        put(value.getClass().getName(), value);
+    }
+
+    /**
+     * 使用指定的键将对象放入容器
+     *
+     * @param key 与对象关联的键
+     * @param value 要存储的对象
+     */
+    public static void put(String key, Object value) {
+        SINGLE_OBJECT_POOL.put(key, value);
+    }
 }

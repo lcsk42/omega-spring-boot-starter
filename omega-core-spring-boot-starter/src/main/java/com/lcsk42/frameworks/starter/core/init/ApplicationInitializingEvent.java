@@ -10,12 +10,12 @@ import org.springframework.context.ApplicationEvent;
  */
 public class ApplicationInitializingEvent extends ApplicationEvent {
 
-  /**
-   * 构造一个新的 {@code ApplicationEvent}
-   *
-   * @param source 事件源对象或关联对象 (never {@code null})
-   */
-  public ApplicationInitializingEvent(Object source) {
-    super(source);
-  }
+    /**
+     * 构造一个新的 {@code ApplicationEvent}
+     *
+     * @param source 事件源对象或关联对象 (never {@code null})
+     */
+    public ApplicationInitializingEvent(Object source) {
+        super(source);
+    }
 }

@@ -15,25 +15,25 @@ import org.springframework.context.annotation.Bean;
 @ImportAutoConfiguration(CoreAutoConfiguration.class)
 public class DesignPatternAutoConfiguration {
 
-  /**
-   * 策略模式选择器
-   */
-  @Bean
-  public AbstractStrategyChoose abstractStrategyChoose() {
-    return new AbstractStrategyChoose();
-  }
+    /**
+     * 策略模式选择器
+     */
+    @Bean
+    public AbstractStrategyChoose abstractStrategyChoose() {
+        return new AbstractStrategyChoose();
+    }
 
-  /**
-   * 责任链模式上下文
-   */
-  @SuppressWarnings("rawtypes")
-  @Bean
-  public AbstractChainContext abstractChainContext() {
-    return new AbstractChainContext();
-  }
+    /**
+     * 责任链模式上下文
+     */
+    @SuppressWarnings("rawtypes")
+    @Bean
+    public AbstractChainContext abstractChainContext() {
+        return new AbstractChainContext();
+    }
 
-  @PostConstruct
-  public void postConstruct() {
-    log.debug("[Omega] - Auto Configuration 'Design Pattern' completed initialization.");
-  }
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[Omega] - Auto Configuration 'Design Pattern' completed initialization.");
+    }
 }

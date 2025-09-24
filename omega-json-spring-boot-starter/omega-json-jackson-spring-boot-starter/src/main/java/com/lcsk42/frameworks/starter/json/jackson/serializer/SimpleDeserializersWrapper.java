@@ -27,20 +27,20 @@ import com.fasterxml.jackson.databind.type.ClassKey;
  */
 public class SimpleDeserializersWrapper extends SimpleDeserializers {
 
-  @Override
-  public JsonDeserializer<?> findEnumDeserializer(Class<?> type, DeserializationConfig config,
-      BeanDescription beanDesc) throws JsonMappingException {
-    JsonDeserializer<?> deser = super.findEnumDeserializer(type, config, beanDesc);
-    if (deser != null) {
-      return deser;
+    @Override
+    public JsonDeserializer<?> findEnumDeserializer(Class<?> type, DeserializationConfig config,
+            BeanDescription beanDesc) throws JsonMappingException {
+        JsonDeserializer<?> deser = super.findEnumDeserializer(type, config, beanDesc);
+        if (deser != null) {
+            return deser;
+        }
+        // 重写增强：开始查找指定枚举类型的接口的反序列化器（例如：GenderEnum 枚举类型，则是找它的接口 BaseEnum 的反序列化器）
+        for (Class<?> typeInterface : type.getInterfaces()) {
+            deser = this._classMappings.get(new ClassKey(typeInterface));
+            if (deser != null) {
+                return deser;
+            }
+        }
+        return null;
     }
-    // 重写增强：开始查找指定枚举类型的接口的反序列化器（例如：GenderEnum 枚举类型，则是找它的接口 BaseEnum 的反序列化器）
-    for (Class<?> typeInterface : type.getInterfaces()) {
-      deser = this._classMappings.get(new ClassKey(typeInterface));
-      if (deser != null) {
-        return deser;
-      }
-    }
-    return null;
-  }
 }

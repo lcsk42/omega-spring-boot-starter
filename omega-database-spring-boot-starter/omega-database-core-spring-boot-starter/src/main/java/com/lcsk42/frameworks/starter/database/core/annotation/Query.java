@@ -1,6 +1,5 @@
 package com.lcsk42.frameworks.starter.database.core.annotation;
 
-
 import com.lcsk42.frameworks.starter.database.core.enums.LogicalRelation;
 import com.lcsk42.frameworks.starter.database.core.enums.QueryType;
 

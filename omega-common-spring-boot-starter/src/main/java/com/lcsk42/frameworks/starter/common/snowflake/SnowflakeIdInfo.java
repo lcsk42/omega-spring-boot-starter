@@ -26,23 +26,23 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SnowflakeIdInfo {
-  /**
-   * Snowflake ID 的时间戳组件（自纪元以来的毫秒数）
-   */
-  private long timestamp;
+    /**
+     * Snowflake ID 的时间戳组件（自纪元以来的毫秒数）
+     */
+    private long timestamp;
 
-  /**
-   * 数据中心标识符组件
-   */
-  private long datacenterId;
+    /**
+     * 数据中心标识符组件
+     */
+    private long datacenterId;
 
-  /**
-   * 工作机器标识符组件
-   */
-  private long workerId;
+    /**
+     * 工作机器标识符组件
+     */
+    private long workerId;
 
-  /**
-   * 序列号组件（用于同一毫秒内生成的 ID）
-   */
-  private long sequence;
+    /**
+     * 序列号组件（用于同一毫秒内生成的 ID）
+     */
+    private long sequence;
 }

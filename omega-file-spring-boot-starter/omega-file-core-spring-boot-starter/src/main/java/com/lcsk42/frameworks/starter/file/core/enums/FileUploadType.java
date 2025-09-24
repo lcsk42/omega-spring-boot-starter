@@ -6,5 +6,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum FileUploadType {
-  AWS_S3, ALIYUN_OSS, SFTP, LOCAL,;
+    AWS_S3,
+    ALIYUN_OSS,
+    SFTP,
+    LOCAL,
+    ;
 }

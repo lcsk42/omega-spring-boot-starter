@@ -8,13 +8,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Slf4j
 public class WebConfiguration implements WebMvcConfigurer {
-  @Override
-  public void addFormatters(FormatterRegistry registry) {
-    registry.addConverterFactory(new BaseEnumConverterFactory());
-  }
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverterFactory(new BaseEnumConverterFactory());
+    }
 
-  @PostConstruct
-  public void postConstruct() {
-    log.debug("[Omega] - Auto Configuration 'Web MVC' completed initialization.");
-  }
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[Omega] - Auto Configuration 'Web MVC' completed initialization.");
+    }
 }

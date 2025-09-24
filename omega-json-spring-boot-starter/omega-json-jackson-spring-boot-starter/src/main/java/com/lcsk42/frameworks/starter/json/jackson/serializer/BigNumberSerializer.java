@@ -16,31 +16,31 @@ import java.io.IOException;
 @JacksonStdImpl
 public class BigNumberSerializer extends NumberSerializer {
 
-  /**
-   * 静态实例
-   */
-  public static final BigNumberSerializer INSTANCE = new BigNumberSerializer(Number.class);
+    /**
+     * 静态实例
+     */
+    public static final BigNumberSerializer INSTANCE = new BigNumberSerializer(Number.class);
 
-  /**
-   * JS：Number.MAX_SAFE_INTEGER
-   */
-  private static final long MAX_SAFE_INTEGER = 9007199254740991L;
-  /**
-   * JS：Number.MIN_SAFE_INTEGER
-   */
-  private static final long MIN_SAFE_INTEGER = -9007199254740991L;
+    /**
+     * JS：Number.MAX_SAFE_INTEGER
+     */
+    private static final long MAX_SAFE_INTEGER = 9007199254740991L;
+    /**
+     * JS：Number.MIN_SAFE_INTEGER
+     */
+    private static final long MIN_SAFE_INTEGER = -9007199254740991L;
 
-  public BigNumberSerializer(Class<? extends Number> rawType) {
-    super(rawType);
-  }
-
-  @Override
-  public void serialize(Number value, JsonGenerator jsonGenerator, SerializerProvider provider)
-      throws IOException {
-    if (value.longValue() > MIN_SAFE_INTEGER && value.longValue() < MAX_SAFE_INTEGER) {
-      super.serialize(value, jsonGenerator, provider);
-    } else {
-      jsonGenerator.writeString(value.toString());
+    public BigNumberSerializer(Class<? extends Number> rawType) {
+        super(rawType);
     }
-  }
+
+    @Override
+    public void serialize(Number value, JsonGenerator jsonGenerator, SerializerProvider provider)
+            throws IOException {
+        if (value.longValue() > MIN_SAFE_INTEGER && value.longValue() < MAX_SAFE_INTEGER) {
+            super.serialize(value, jsonGenerator, provider);
+        } else {
+            jsonGenerator.writeString(value.toString());
+        }
+    }
 }

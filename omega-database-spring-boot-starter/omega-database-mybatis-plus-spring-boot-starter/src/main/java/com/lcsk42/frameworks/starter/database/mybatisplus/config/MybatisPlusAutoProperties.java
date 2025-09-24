@@ -28,7 +28,8 @@ import java.util.Map;
 @AutoConfiguration
 @MapperScan("${" + MybatisPlusProperties.MAPPER_PACKAGE + "}")
 @EnableConfigurationProperties(MybatisPlusProperties.class)
-@PropertySource(value = "classpath:default-data-mybatis-plus.yml", factory = YamlPropertySourceFactory.class)
+@PropertySource(value = "classpath:default-data-mybatis-plus.yml",
+        factory = YamlPropertySourceFactory.class)
 public class MybatisPlusAutoProperties {
 
     /**
@@ -48,7 +49,8 @@ public class MybatisPlusAutoProperties {
     public MybatisPlusInterceptor mybatisPlusInterceptor(MybatisPlusProperties properties) {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         // 其他拦截器
-        Map<String, InnerInterceptor> innerInterceptors = ApplicationContextHolder.getBeansOfType(InnerInterceptor.class);
+        Map<String, InnerInterceptor> innerInterceptors =
+                ApplicationContextHolder.getBeansOfType(InnerInterceptor.class);
         if (!innerInterceptors.isEmpty()) {
             innerInterceptors.values().forEach(interceptor::addInnerInterceptor);
         }
@@ -78,16 +80,18 @@ public class MybatisPlusAutoProperties {
     }
 
     /**
-     * 分页插件配置（<a href="https://baomidou.com/pages/97710a/#paginationinnerinterceptor">PaginationInnerInterceptor</a>）
+     * 分页插件配置（<a href=
+     * "https://baomidou.com/pages/97710a/#paginationinnerinterceptor">PaginationInnerInterceptor</a>）
      */
-    private PaginationInnerInterceptor paginationInnerInterceptor(MybatisPlusProperties.Pagination pagination) {
+    private PaginationInnerInterceptor paginationInnerInterceptor(
+            MybatisPlusProperties.Pagination pagination) {
         // 对于单一数据库类型来说，都建议配置该值，避免每次分页都去抓取数据库类型
-        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(pagination.getDbType());
+        PaginationInnerInterceptor paginationInnerInterceptor =
+                new PaginationInnerInterceptor(pagination.getDbType());
         paginationInnerInterceptor.setOverflow(pagination.isOverflow());
         paginationInnerInterceptor.setMaxLimit(pagination.getMaxLimit());
         return paginationInnerInterceptor;
     }
-
 
     @PostConstruct
     public void postConstruct() {

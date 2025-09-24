@@ -12,11 +12,10 @@ package com.lcsk42.frameworks.starter.cache.core.function;
 @FunctionalInterface
 public interface CacheLoader<T> {
 
-  /**
-   * 加载并返回要缓存的值。
-   *
-   * @return 要缓存的值，除非缓存策略明确允许，否则不得为 {@code null}
-   */
-  T get();
+    /**
+     * 加载并返回要缓存的值。
+     *
+     * @return 要缓存的值，除非缓存策略明确允许，否则不得为 {@code null}
+     */
+    T get();
 }
-

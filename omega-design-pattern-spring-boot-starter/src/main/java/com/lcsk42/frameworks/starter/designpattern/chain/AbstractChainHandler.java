@@ -13,21 +13,21 @@ import org.springframework.core.Ordered;
  */
 public interface AbstractChainHandler<T> extends Ordered {
 
-  /**
-   * 执行责任链逻辑
-   *
-   * <p>
-   * 此方法用于处理请求。责任链中的每个处理器要么处理请求， 要么将其传递给责任链中的下一个处理器。
-   * </p>
-   *
-   * @param input 责任链执行的输入数据，通常包含待处理的数据
-   */
-  void accept(T input);
+    /**
+     * 执行责任链逻辑
+     *
+     * <p>
+     * 此方法用于处理请求。责任链中的每个处理器要么处理请求， 要么将其传递给责任链中的下一个处理器。
+     * </p>
+     *
+     * @param input 责任链执行的输入数据，通常包含待处理的数据
+     */
+    void accept(T input);
 
-  /**
-   * 获取责任链组件标识符
-   *
-   * @return 责任链组件的标识符，通常用于区分责任链中的不同处理器
-   */
-  String getHandlerName();
+    /**
+     * 获取责任链组件标识符
+     *
+     * @return 责任链组件的标识符，通常用于区分责任链中的不同处理器
+     */
+    String getHandlerName();
 }

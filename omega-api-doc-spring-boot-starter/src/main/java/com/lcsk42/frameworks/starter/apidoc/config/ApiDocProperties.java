@@ -16,97 +16,97 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 @ConfigurationProperties(prefix = ApiDocProperties.PREFIX)
 public class ApiDocProperties {
 
-  public static final String PREFIX = "framework.api-doc";
+    public static final String PREFIX = "framework.api-doc";
 
-  /**
-   * 组件配置（包括鉴权配置等）
-   */
-  @NestedConfigurationProperty
-  private Components components;
+    /**
+     * 组件配置（包括鉴权配置等）
+     */
+    @NestedConfigurationProperty
+    private Components components;
 
-  /**
-   * ID
-   */
-  private String id;
+    /**
+     * ID
+     */
+    private String id;
 
-  /**
-   * 名称
-   */
-  private String name;
-
-  /**
-   * 描述
-   */
-  private String description;
-
-  /**
-   * 版本
-   */
-  private String version;
-
-  /**
-   * URL
-   */
-  private String url;
-
-  /**
-   * 基本包
-   */
-  private String basePackage;
-
-  /**
-   * 联系人
-   */
-  private Contact contact;
-
-  /**
-   * 许可协议
-   */
-  private License license;
-
-  /**
-   * 是否为生产环境
-   */
-  private boolean production = false;
-
-  /**
-   * 联系人配置属性
-   */
-  @Getter
-  @Setter
-  @NoArgsConstructor
-  public static class Contact {
     /**
      * 名称
      */
     private String name;
 
     /**
-     * 邮箱
+     * 描述
      */
-    private String email;
+    private String description;
+
+    /**
+     * 版本
+     */
+    private String version;
 
     /**
      * URL
      */
     private String url;
-  }
-
-  /**
-   * 许可协议配置属性
-   */
-  @Getter
-  @Setter
-  @NoArgsConstructor
-  public static class License {
-    /**
-     * 名称
-     */
-    private String name;
 
     /**
-     * URL
+     * 基本包
      */
-    private String url;
-  }
+    private String basePackage;
+
+    /**
+     * 联系人
+     */
+    private Contact contact;
+
+    /**
+     * 许可协议
+     */
+    private License license;
+
+    /**
+     * 是否为生产环境
+     */
+    private boolean production = false;
+
+    /**
+     * 联系人配置属性
+     */
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class Contact {
+        /**
+         * 名称
+         */
+        private String name;
+
+        /**
+         * 邮箱
+         */
+        private String email;
+
+        /**
+         * URL
+         */
+        private String url;
+    }
+
+    /**
+     * 许可协议配置属性
+     */
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class License {
+        /**
+         * 名称
+         */
+        private String name;
+
+        /**
+         * URL
+         */
+        private String url;
+    }
 }
