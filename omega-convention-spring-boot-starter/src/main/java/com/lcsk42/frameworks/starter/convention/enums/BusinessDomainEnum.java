@@ -7,5 +7,6 @@ public enum BusinessDomainEnum {
     ROLE,
     PERMISSION,
     FEIGN,
+    LOG,
     ;
 }

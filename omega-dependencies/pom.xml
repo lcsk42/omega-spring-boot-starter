@@ -22,7 +22,10 @@
         <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
         <commons-collections4.version>4.5.0</commons-collections4.version>
         <commons-io.version>2.19.0</commons-io.version>
+        <commons-text.version>1.14.0</commons-text.version>
+        <yauaa.version>7.31.0</yauaa.version>
         <guava.version>33.4.8-jre</guava.version>
+        <ip2region.version>3.3.6</ip2region.version>
         <jjwt.version>0.12.6</jjwt.version>
 
         <!-- 数据库和 ORM 框架 -->
@@ -117,11 +120,32 @@
                 <version>${commons-io.version}</version>
             </dependency>
 
+            <!-- Commons Text: Apache 的文本处理库，提供字符串操作、格式化、转换等功能，增强 JDK 自带的字符串处理能力 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>${commons-text.version}</version>
+            </dependency>
+
+            <!-- YAUAA: Yet Another UserAgent Analyzer，功能强大的用户代理字符串解析库，支持多种设备、浏览器和操作系统的识别 -->
+            <dependency>
+                <groupId>nl.basjes.parse.useragent</groupId>
+                <artifactId>yauaa</artifactId>
+                <version>${yauaa.version}</version>
+            </dependency>
+
             <!-- Guava: Google 的 Java 核心库，提供集合、缓存、并发、字符串处理等工具类，增强 JDK 功能并优化开发效率 -->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <!-- Ip2region:离线 IP 数据管理框架和定位库，支持亿级别的数据段，10 微秒级别的查询性能，提供了许多主流编程语言的 xdb 数据管理引擎的实现 -->
+            <dependency>
+                <groupId>net.dreamlu</groupId>
+                <artifactId>mica-ip2region</artifactId>
+                <version>${ip2region.version}</version>
             </dependency>
 
             <!-- JJWT: Java JWT 库，简化 JSON Web Token 的创建、解析和验证，支持多种签名算法和加密方式 -->

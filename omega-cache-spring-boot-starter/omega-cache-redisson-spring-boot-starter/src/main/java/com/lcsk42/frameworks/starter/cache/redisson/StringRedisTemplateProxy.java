@@ -42,7 +42,7 @@ public class StringRedisTemplateProxy implements DistributedCache {
         if (String.class.isAssignableFrom(clazz)) {
             return clazz.cast(value);
         }
-        return JacksonUtil.fromJson(value, clazz);
+        return JacksonUtil.toBean(value, clazz);
     }
 
     @Override

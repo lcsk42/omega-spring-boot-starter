@@ -144,17 +144,31 @@
                 <version>${revision}</version>
             </dependency>
 
-            <!-- Excel 核心模块 -->
+            <!-- Excel 模块 - 核心 -->
             <dependency>
                 <groupId>com.lcsk42</groupId>
                 <artifactId>omega-excel-core-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
 
-            <!-- Excel FastExcel -->
+            <!-- Excel 模块 - FastExcel -->
             <dependency>
                 <groupId>com.lcsk42</groupId>
                 <artifactId>omega-excel-fastexcel-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 日志模块 - 核心 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-log-core-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 日志模块 - AOP 实现 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-log-aop-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>
