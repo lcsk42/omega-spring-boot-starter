@@ -1,17 +1,18 @@
 package com.lcsk42.frameworks.starter.log.core.model;
 
 import com.lcsk42.frameworks.starter.common.util.IpUtil;
+import com.lcsk42.frameworks.starter.json.jackson.util.JacksonUtil;
 import com.lcsk42.frameworks.starter.log.core.enums.Include;
 import com.lcsk42.frameworks.starter.log.core.exception.LogErrorCode;
-import com.lcsk42.frameworks.starter.log.core.util.AccessLogUtil;
+import com.lcsk42.frameworks.starter.log.core.util.LogUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
-import nl.basjes.parse.useragent.UserAgent;
-import nl.basjes.parse.useragent.UserAgentAnalyzer;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import ua_parser.Client;
+import ua_parser.Parser;
 
 import java.net.URI;
 import java.util.Map;
@@ -26,17 +27,17 @@ public class LogRequest {
     /**
      * 请求方式
      */
-    private String method;
+    private final String method;
 
     /**
      * 请求 URL
      */
-    private URI url;
+    private final URI url;
 
     /**
      * IP
      */
-    private String ip;
+    private final String ip;
 
     /**
      * 请求头
@@ -69,36 +70,38 @@ public class LogRequest {
     private String os;
 
     public LogRequest(Set<Include> includes) {
-        HttpServletRequest request = Optional.ofNullable(RequestContextHolder.getRequestAttributes())
-                .map(attributes -> (ServletRequestAttributes) attributes)
-                .map(ServletRequestAttributes::getRequest)
-                .orElseThrow(LogErrorCode.MISSING_REQUEST::toServiceException);
+        HttpServletRequest request =
+                Optional.ofNullable(RequestContextHolder.getRequestAttributes())
+                        .map(attributes -> (ServletRequestAttributes) attributes)
+                        .map(ServletRequestAttributes::getRequest)
+                        .orElseThrow(LogErrorCode.MISSING_REQUEST::toServiceException);
 
         // 请求方法
-        this.method = AccessLogUtil.getRequestMethod();
+        this.method = LogUtil.getRequestMethod();
 
         // 请求的 url
-        this.url = AccessLogUtil.getRequestUrl();
+        this.url = LogUtil.getRequestUrl();
 
         // ip
-        this.ip = AccessLogUtil.getRequestIp();
+        this.ip = LogUtil.getRequestIp();
 
-        if (includes.contains(Include.REQUEST_HEADERS)) {
-            this.headers = AccessLogUtil.getRequestHeaders();
+        // 请求头
+        if (LogUtil.contains(includes, Include.REQUEST_HEADERS)) {
+            this.headers = LogUtil.getRequestHeaders();
         }
 
         // 请求体
-        if (includes.contains(Include.REQUEST_BODY)) {
-            this.body = AccessLogUtil.getRequestBody();
+        if (LogUtil.contains(includes, Include.REQUEST_BODY)) {
+            this.body = LogUtil.getRequestBody();
         }
 
         // 请求参数
-        if (includes.contains(Include.REQUEST_PARAM)) {
-            this.param = AccessLogUtil.getRequestParams();
+        if (LogUtil.contains(includes, Include.REQUEST_PARAM)) {
+            this.param = LogUtil.getRequestParams();
         }
 
         // 实际地址
-        if (includes.contains(Include.IP_ADDRESS)) {
+        if (LogUtil.contains(includes, Include.IP_ADDRESS)) {
             this.address = IpUtil.getIpv4Address(this.ip);
         }
 
@@ -106,28 +109,33 @@ public class LogRequest {
             return;
         }
 
-        String userAgentString = this.headers.entrySet()
-                .stream()
-                .filter(h -> HttpHeaders.USER_AGENT.equalsIgnoreCase(h.getKey()))
-                .map(Map.Entry::getValue)
-                .findFirst()
-                .orElse(null);
-        if (StringUtils.isBlank(userAgentString)) {
-            return;
-        }
+        if (LogUtil.contains(includes, Include.BROWSER, Include.OS)) {
+            String userAgentString = this.headers.entrySet()
+                    .stream()
+                    .filter(h -> HttpHeaders.USER_AGENT.equalsIgnoreCase(h.getKey()))
+                    .map(Map.Entry::getValue)
+                    .findFirst()
+                    .orElse(null);
+            if (StringUtils.isBlank(userAgentString)) {
+                return;
+            }
 
-        UserAgent.ImmutableUserAgent userAgent = UserAgentAnalyzer.newBuilder()
-                .build()
-                .parse(userAgentString);
+            Client client = new Parser().parse(userAgentString);
 
-        // 浏览器
-        if (includes.contains(Include.BROWSER)) {
-            this.browser = userAgent.getValue(UserAgent.AGENT_NAME_VERSION);
-        }
+            // 浏览器
+            if (LogUtil.contains(includes, Include.BROWSER)) {
+                this.browser = client.userAgent.family + " " + client.userAgent.major;
+            }
 
-        // 操作系统
-        if (includes.contains(Include.OS)) {
-            this.os = userAgent.getValue(UserAgent.OPERATING_SYSTEM_NAME_VERSION);
+            // 操作系统
+            if (LogUtil.contains(includes, Include.OS)) {
+                this.os = client.os.family + " " + client.os.major;
+            }
         }
+    }
+
+    @Override
+    public String toString() {
+        return JacksonUtil.toPrettyJson(this);
     }
 }

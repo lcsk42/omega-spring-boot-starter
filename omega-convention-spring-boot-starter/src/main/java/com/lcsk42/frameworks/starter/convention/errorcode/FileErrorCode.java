@@ -1,32 +1,21 @@
-package com.lcsk42.frameworks.starter.log.core.exception;
+package com.lcsk42.frameworks.starter.convention.errorcode;
 
 import com.lcsk42.frameworks.starter.convention.enums.BusinessDomainEnum;
 import com.lcsk42.frameworks.starter.convention.enums.ErrorSourceEnum;
-import com.lcsk42.frameworks.starter.convention.errorcode.ErrorCode;
 import com.lcsk42.frameworks.starter.convention.model.ErrorNumber;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum LogErrorCode implements ErrorCode {
+public enum FileErrorCode implements ErrorCode {
 
-
-    MISSING_REQUEST(ErrorSourceEnum.SERVICE,
-            BusinessDomainEnum.LOG,
-            ErrorNumber.of(401),
-            "Required request object is missing"),
-
-    READ_REQUEST_BODY_FAILED(ErrorSourceEnum.SERVICE,
-            BusinessDomainEnum.LOG,
-            ErrorNumber.of(402),
-            "Read request body failed"),
-
-    MISSING_RESPONSE(ErrorSourceEnum.SERVICE,
-            BusinessDomainEnum.LOG,
-            ErrorNumber.of(501),
-            "Required response object is missing"),
-            ;
+    IO_RUNTIME_EXCEPTION(
+            ErrorSourceEnum.SERVICE,
+            BusinessDomainEnum.FILE,
+            ErrorNumber.of(1),
+            "IO Runtime Exception"),
+            ;;
 
     /**
      * 错误来源（客户端/服务端/远程）。

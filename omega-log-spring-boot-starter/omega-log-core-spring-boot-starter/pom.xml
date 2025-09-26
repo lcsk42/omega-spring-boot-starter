@@ -25,8 +25,8 @@
             <artifactId>spring-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>nl.basjes.parse.useragent</groupId>
-            <artifactId>yauaa</artifactId>
+            <groupId>com.github.ua-parser</groupId>
+            <artifactId>uap-java</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

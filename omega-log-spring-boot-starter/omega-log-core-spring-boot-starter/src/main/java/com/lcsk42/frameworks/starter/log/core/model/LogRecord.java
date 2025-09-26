@@ -1,5 +1,6 @@
 package com.lcsk42.frameworks.starter.log.core.model;
 
+import com.lcsk42.frameworks.starter.json.jackson.util.JacksonUtil;
 import com.lcsk42.frameworks.starter.log.core.enums.Include;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +51,8 @@ public class LogRecord {
      */
     private String errorMessage;
 
-    public LogRecord(Instant timestamp, LogRequest request, LogResponse response, Duration timeTaken) {
+    public LogRecord(Instant timestamp, LogRequest request, LogResponse response,
+            Duration timeTaken) {
         this.timestamp = timestamp;
         this.request = request;
         this.response = response;
@@ -85,7 +87,7 @@ public class LogRecord {
          * 结束日志记录
          *
          * @param timestamp 结束时间
-         * @param includes  包含信息
+         * @param includes 包含信息
          * @return 日志记录
          */
         public LogRecord finish(Instant timestamp, Set<Include> includes) {
@@ -94,5 +96,10 @@ public class LogRecord {
             Duration duration = Duration.between(this.timestamp, timestamp);
             return new LogRecord(this.timestamp, logRequest, logResponse, duration);
         }
+    }
+
+    @Override
+    public String toString() {
+        return JacksonUtil.toPrettyJson(this);
     }
 }

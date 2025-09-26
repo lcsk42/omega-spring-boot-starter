@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInt
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.lcsk42.frameworks.starter.core.ApplicationContextHolder;
 import com.lcsk42.frameworks.starter.core.YamlPropertySourceFactory;
+import com.lcsk42.frameworks.starter.database.mybatisplus.handler.BasePOMetaObjectHandler;
 import com.lcsk42.frameworks.starter.database.mybatisplus.handler.CompositeBaseEnumTypeHandler;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
@@ -91,6 +92,14 @@ public class MybatisPlusAutoProperties {
         paginationInnerInterceptor.setOverflow(pagination.isOverflow());
         paginationInnerInterceptor.setMaxLimit(pagination.getMaxLimit());
         return paginationInnerInterceptor;
+    }
+
+    /**
+     * 字段自动补全
+     */
+    @Bean
+    public BasePOMetaObjectHandler myMetaObjectHandler() {
+        return new BasePOMetaObjectHandler();
     }
 
     @PostConstruct

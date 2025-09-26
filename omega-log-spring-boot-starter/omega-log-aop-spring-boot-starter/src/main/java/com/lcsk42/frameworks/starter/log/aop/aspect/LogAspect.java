@@ -38,8 +38,7 @@ public class LogAspect {
      * 切点 - 匹配日志注解 {@link Log}
      */
     @Pointcut("@annotation(com.lcsk42.frameworks.starter.log.core.annotation.Log)")
-    public void pointcut() {
-    }
+    public void pointcut() {}
 
     /**
      * 记录日志
@@ -74,8 +73,7 @@ public class LogAspect {
                         endTime,
                         logProperties.getIncludes(),
                         targetMethod,
-                        targetClass
-                );
+                        targetClass);
                 // 记录异常信息
                 if (errorMsg != null) {
                     logRecord.setErrorMessage(errorMsg);
@@ -91,12 +89,13 @@ public class LogAspect {
      * 是否记录日志
      *
      * @param targetMethod 目标方法
-     * @param targetClass  目标类
+     * @param targetClass 目标类
      * @return true：需要记录；false：不需要记录
      */
     private boolean isRecord(Method targetMethod, Class<?> targetClass) {
         // 非 Web 环境不记录
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes =
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null || attributes.getResponse() == null) {
             return false;
         }

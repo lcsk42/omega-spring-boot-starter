@@ -29,43 +29,37 @@ public class AccessLogAspect {
      * 切点 - 匹配所有控制器层的 GET 请求方法
      */
     @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
-    public void pointcut() {
-    }
+    public void pointcut() {}
 
     /**
      * 切点 - 匹配所有控制器层的 GET 请求方法
      */
     @Pointcut("@annotation(org.springframework.web.bind.annotation.GetMapping)")
-    public void pointcutGet() {
-    }
+    public void pointcutGet() {}
 
     /**
      * 切点 - 匹配所有控制器层的 POST 请求方法
      */
     @Pointcut("@annotation(org.springframework.web.bind.annotation.PostMapping)")
-    public void pointcutPost() {
-    }
+    public void pointcutPost() {}
 
     /**
      * 切点 - 匹配所有控制器层的 PUT 请求方法
      */
     @Pointcut("@annotation(org.springframework.web.bind.annotation.PutMapping)")
-    public void pointcutPut() {
-    }
+    public void pointcutPut() {}
 
     /**
      * 切点 - 匹配所有控制器层的 DELETE 请求方法
      */
     @Pointcut("@annotation(org.springframework.web.bind.annotation.DeleteMapping)")
-    public void pointcutDelete() {
-    }
+    public void pointcutDelete() {}
 
     /**
      * 切点 - 匹配所有控制器层的 PATCH 请求方法
      */
     @Pointcut("@annotation(org.springframework.web.bind.annotation.PatchMapping)")
-    public void pointcutPatch() {
-    }
+    public void pointcutPatch() {}
 
     /**
      * 打印访问日志
@@ -78,7 +72,8 @@ public class AccessLogAspect {
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         Instant startTime = Instant.now();
         // 非 Web 环境不记录
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes =
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
             return joinPoint.proceed();
         }

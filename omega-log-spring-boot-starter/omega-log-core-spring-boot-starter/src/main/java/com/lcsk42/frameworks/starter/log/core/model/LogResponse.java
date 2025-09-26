@@ -1,7 +1,8 @@
 package com.lcsk42.frameworks.starter.log.core.model;
 
+import com.lcsk42.frameworks.starter.json.jackson.util.JacksonUtil;
 import com.lcsk42.frameworks.starter.log.core.enums.Include;
-import com.lcsk42.frameworks.starter.log.core.util.AccessLogUtil;
+import com.lcsk42.frameworks.starter.log.core.util.LogUtil;
 import lombok.Getter;
 
 import java.util.Map;
@@ -35,21 +36,26 @@ public class LogResponse {
 
     public LogResponse(Set<Include> includes) {
         // 返回状态
-        this.status = AccessLogUtil.getResponseStatus();
+        this.status = LogUtil.getResponseStatus();
 
         // 返回的请求头
-        if (includes.contains(Include.RESPONSE_HEADERS)) {
-            this.headers = AccessLogUtil.getResponseHeaders();
+        if (LogUtil.contains(includes, Include.RESPONSE_HEADERS)) {
+            this.headers = LogUtil.getResponseHeaders();
         }
 
         // 返回体
-        if (includes.contains(Include.RESPONSE_BODY)) {
-            this.body = AccessLogUtil.getRequestBody();
+        if (LogUtil.contains(includes, Include.RESPONSE_BODY)) {
+            this.body = LogUtil.getResponseBody();
         }
 
         // 返回参数
-        if (includes.contains(Include.RESPONSE_PARAM)) {
-            this.param = AccessLogUtil.getResponseParams();
+        if (LogUtil.contains(includes, Include.RESPONSE_PARAM)) {
+            this.param = LogUtil.getResponseParams();
         }
+    }
+
+    @Override
+    public String toString() {
+        return JacksonUtil.toPrettyJson(this);
     }
 }

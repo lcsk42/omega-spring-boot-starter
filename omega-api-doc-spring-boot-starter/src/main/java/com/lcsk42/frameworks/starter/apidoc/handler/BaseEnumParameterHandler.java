@@ -7,6 +7,7 @@ import com.lcsk42.frameworks.starter.convention.enums.BaseEnum;
 import io.swagger.v3.core.converter.AnnotatedType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springdoc.core.customizers.ParameterCustomizer;
@@ -23,6 +24,7 @@ import java.util.List;
  * 针对实现了 BaseEnum 的枚举，优化其枚举值和描述展示
  * </p>
  */
+@Slf4j
 @SuppressWarnings("rawtypes,unchecked")
 public class BaseEnumParameterHandler implements ParameterCustomizer, PropertyCustomizer {
 
@@ -30,7 +32,7 @@ public class BaseEnumParameterHandler implements ParameterCustomizer, PropertyCu
     public Parameter customize(Parameter parameterModel, MethodParameter methodParameter) {
         Class<?> parameterType = methodParameter.getParameterType();
         // 判断是否为 BaseEnum 的子类型
-        if (!ClassUtils.isAssignable(BaseEnum.class, parameterType)) {
+        if (!ClassUtils.isAssignable(parameterType, BaseEnum.class)) {
             return parameterModel;
         }
         String description = parameterModel.getDescription();
@@ -47,7 +49,7 @@ public class BaseEnumParameterHandler implements ParameterCustomizer, PropertyCu
     public Schema customize(Schema schema, AnnotatedType type) {
         Class<?> rawClass = resolveRawClass(type.getType());
         // 判断是否为 BaseEnum 的子类型
-        if (!ClassUtils.isAssignable(BaseEnum.class, rawClass)) {
+        if (!ClassUtils.isAssignable(rawClass, BaseEnum.class)) {
             return schema;
         }
         // 自定义参数描述并封装参数配置
@@ -79,8 +81,10 @@ public class BaseEnumParameterHandler implements ParameterCustomizer, PropertyCu
      * @return 追加后的描述字符串
      */
     private String appendEnumDescription(String originalDescription, Class<?> enumClass) {
-        return originalDescription + "<span style='color:red'>" + ApiDocUtil.getDescMap(enumClass)
-                + "</span>";
+        return originalDescription +
+                "<span style='color:red'>" +
+                ApiDocUtil.getDescMap(enumClass) +
+                "</span>";
     }
 
     /**

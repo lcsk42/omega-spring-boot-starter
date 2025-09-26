@@ -1,6 +1,5 @@
 package com.lcsk42.frameworks.starter.log.aop.config;
 
-import com.lcsk42.frameworks.starter.core.ApplicationContextHolder;
 import com.lcsk42.frameworks.starter.core.constant.OrderedConstant;
 import com.lcsk42.frameworks.starter.core.constant.StringConstant;
 import com.lcsk42.frameworks.starter.log.aop.aspect.AccessLogAspect;
@@ -28,7 +27,6 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class AopLogAutoConfiguration {
     private final LogProperties logProperties;
-    private final LogHandler logHandler;
 
     /**
      * 日志过滤器
@@ -51,8 +49,9 @@ public class AopLogAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    public LogAspect logAspect() {
-        return new LogAspect(logProperties, logHandler, ApplicationContextHolder.getBean(LogService.class));
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    public LogAspect logAspect(LogHandler logHandler, LogService logService) {
+        return new LogAspect(logProperties, logHandler, logService);
     }
 
     /**
@@ -62,7 +61,7 @@ public class AopLogAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    public AccessLogAspect accessLogAspect() {
+    public AccessLogAspect accessLogAspect(LogHandler logHandler) {
         return new AccessLogAspect(logProperties, logHandler);
     }
 

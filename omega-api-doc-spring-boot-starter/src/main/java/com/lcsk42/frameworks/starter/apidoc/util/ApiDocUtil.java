@@ -3,6 +3,7 @@ package com.lcsk42.frameworks.starter.apidoc.util;
 import com.lcsk42.frameworks.starter.convention.enums.BaseEnum;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 /**
  * 接口文档工具
  */
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ApiDocUtil {
     /**
@@ -53,9 +55,11 @@ public final class ApiDocUtil {
         // 获取枚举类实现的所有接口
         Type[] interfaces = enumClass.getGenericInterfaces();
         // 定义枚举值类型的映射
-        Map<Class<?>, String> typeMap =
-                Map.of(Integer.class, "integer", Long.class, "long", Double.class, "number",
-                        String.class, "string");
+        Map<Class<?>, String> typeMap = Map.of(
+                Integer.class, "integer",
+                Long.class, "long",
+                Double.class, "number",
+                String.class, "string");
         // 遍历所有接口
         for (Type type : interfaces) {
             // 检查接口是否为参数化类型并且原始类型为 BaseEnum
@@ -112,10 +116,13 @@ public final class ApiDocUtil {
      * @param enumClass 枚举类型
      * @return 枚举描述 Map
      */
+    @SuppressWarnings("rawtypes")
     public static Map<Object, String> getDescMap(Class<?> enumClass) {
         BaseEnum[] enums = (BaseEnum[]) enumClass.getEnumConstants();
         return Arrays.stream(enums).collect(
-                Collectors.toMap(BaseEnum::getValue, BaseEnum::getDescription, (o, n) -> o,
+                Collectors.toMap(
+                        BaseEnum::getValue,
+                        BaseEnum::getDescription, (o, n) -> o,
                         LinkedHashMap::new));
     }
 }

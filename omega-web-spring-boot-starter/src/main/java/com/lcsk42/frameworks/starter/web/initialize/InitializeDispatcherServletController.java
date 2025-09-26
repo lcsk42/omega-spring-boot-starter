@@ -11,7 +11,7 @@ import static com.lcsk42.frameworks.starter.web.config.WebAutoConfiguration.INIT
 @Hidden
 @Slf4j(topic = "Initialize DispatcherServlet")
 @RestController
-public final class InitializeDispatcherServletController {
+public class InitializeDispatcherServletController {
 
     /**
      * 初始化 DispatcherServlet 的端点。 通过提前初始化该Servlet来优化首次响应时间。

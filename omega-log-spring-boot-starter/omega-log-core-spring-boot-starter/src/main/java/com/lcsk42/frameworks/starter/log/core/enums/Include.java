@@ -8,6 +8,11 @@ import java.util.Set;
 public enum Include {
 
     /**
+     * 所有项
+     */
+    ALL,
+
+    /**
      * 描述
      */
     DESCRIPTION,
@@ -23,7 +28,7 @@ public enum Include {
     REQUEST_HEADERS,
 
     /**
-     * 请求体（如包含请求体，则请求参数无效）
+     * 请求体
      */
     REQUEST_BODY,
 
@@ -53,7 +58,7 @@ public enum Include {
     RESPONSE_HEADERS,
 
     /**
-     * 响应体（如包含响应体，则响应参数无效）
+     * 响应体
      */
     RESPONSE_BODY,
 
@@ -65,10 +70,9 @@ public enum Include {
 
     private static final Set<Include> DEFAULT_INCLUDES = Set.of(
             Include.REQUEST_HEADERS,
-            Include.RESPONSE_HEADERS,
             Include.REQUEST_PARAM,
-            Include.RESPONSE_PARAM
-    );
+            Include.RESPONSE_HEADERS,
+            Include.RESPONSE_PARAM);
 
 
     /**

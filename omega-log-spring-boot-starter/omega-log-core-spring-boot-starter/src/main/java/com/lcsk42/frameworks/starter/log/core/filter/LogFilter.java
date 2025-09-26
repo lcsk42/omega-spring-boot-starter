@@ -27,8 +27,8 @@ public class LogFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
-                                    @NonNull HttpServletResponse response,
-                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
         if (!this.isFilter(request)) {
             filterChain.doFilter(request, response);
             return;
@@ -37,10 +37,12 @@ public class LogFilter extends OncePerRequestFilter {
         boolean isExcludeUri = logProperties.isMatch(request.getRequestURI());
 
         // 处理可重复读取的请求
-        HttpServletRequest requestWrapper = isExcludeUri ? request : RepeatReadRequestWrapper.of(request);
+        HttpServletRequest requestWrapper =
+                isExcludeUri ? request : RepeatReadRequestWrapper.of(request);
 
         // 处理可重复读取的响应
-        HttpServletResponse responseWrapper = isExcludeUri ? response : RepeatReadResponseWrapper.of(response);
+        HttpServletResponse responseWrapper =
+                isExcludeUri ? response : RepeatReadResponseWrapper.of(response);
 
         filterChain.doFilter(requestWrapper, responseWrapper);
 
@@ -61,7 +63,8 @@ public class LogFilter extends OncePerRequestFilter {
             return false;
         }
         // 不拦截 /error
-        ServerProperties serverProperties = ApplicationContextHolder.getBean(ServerProperties.class);
+        ServerProperties serverProperties =
+                ApplicationContextHolder.getBean(ServerProperties.class);
         return !request.getRequestURI().equals(serverProperties.getError().getPath());
     }
 

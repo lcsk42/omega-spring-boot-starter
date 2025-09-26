@@ -43,11 +43,11 @@ public class BaseEnumDeserializer extends JsonDeserializer<BaseEnum> {
      * @return 对应枚举实例 ，获取不到时为 {@code null}
      */
     private BaseEnum getEnum(Class<?> targetClass, String value, String fieldName) {
-        Field field = FieldUtils.getField(targetClass, fieldName);
+        Field field = FieldUtils.getDeclaredField(targetClass, fieldName, true);
         Class<?> fieldTypeClass = field.getType();
         Object[] enumConstants = fieldTypeClass.getEnumConstants();
         for (Object enumConstant : enumConstants) {
-            if (ClassUtils.isAssignable(BaseEnum.class, fieldTypeClass)) {
+            if (ClassUtils.isAssignable(fieldTypeClass, BaseEnum.class)) {
                 BaseEnum baseEnum = (BaseEnum) enumConstant;
                 if (Objects.equals(String.valueOf(baseEnum.getValue()), value)) {
                     return baseEnum;

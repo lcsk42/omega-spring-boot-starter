@@ -22,22 +22,22 @@ public final class IpUtil {
      */
     public static String getIpv4Address(String ip) {
         if (isInnerIpv4(ip)) {
-            return "内网IP";
+            return "内网 IP";
         }
 
-        Ip2regionSearcher ip2regionSearcher = ApplicationContextHolder.getBean(Ip2regionSearcher.class);
+        Ip2regionSearcher ip2regionSearcher =
+                ApplicationContextHolder.getBean(Ip2regionSearcher.class);
         IpInfo ipInfo = ip2regionSearcher.memorySearch(ip);
         if (ipInfo == null) {
             return null;
         }
 
         return Set.of(
-                        ipInfo.getCountry(),
-                        ipInfo.getRegion(),
-                        ipInfo.getProvince(),
-                        ipInfo.getCity(),
-                        ipInfo.getIsp()
-                ).stream()
+                ipInfo.getCountry(),
+                ipInfo.getRegion(),
+                ipInfo.getProvince(),
+                ipInfo.getCity(),
+                ipInfo.getIsp()).stream()
                 .filter(Objects::nonNull)
                 .collect(Collectors.joining(StringConstant.PIPE));
     }
@@ -50,9 +50,6 @@ public final class IpUtil {
      */
     public static boolean isInnerIpv4(String ip) {
         return NetworkUtil.isInnerIP(
-                "0:0:0:0:0:0:0:1".equals(ip) ?
-                        "127.0.0.1" :
-                        StringEscapeUtils.escapeHtml4(ip)
-        );
+                "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : StringEscapeUtils.escapeHtml4(ip));
     }
 }

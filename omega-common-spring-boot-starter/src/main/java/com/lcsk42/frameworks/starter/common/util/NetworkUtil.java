@@ -20,7 +20,8 @@ import java.util.regex.Pattern;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class NetworkUtil {
 
-    private static final Pattern IPV4 = Pattern.compile("\"^(25[0-5]|2[0-4]\\\\d|[0-1]?\\\\d?\\\\d)\\\\.(25[0-5]|2[0-4]\\\\d|[0-1]?\\\\d?\\\\d)\\\\.(25[0-5]|2[0-4]\\\\d|[0-1]?\\\\d?\\\\d)\\\\.(25[0-5]|2[0-4]\\\\d|[0-1]?\\\\d?\\\\d)$\"");
+    private static final Pattern IPV4 = Pattern.compile(
+            "^(25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.(25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.(25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.(25[0-5]|2[0-4]\\d|[01]?\\d?\\d)$");
 
     public static final String LOCAL_IP = "127.0.0.1";
 
@@ -91,11 +92,13 @@ public final class NetworkUtil {
     /**
      * 判定是否为内网IPv4<br>
      * 私有IP：
+     *
      * <pre>
      * A类 10.0.0.0-10.255.255.255
      * B类 172.16.0.0-172.31.255.255
      * C类 192.168.0.0-192.168.255.255
      * </pre>
+     * <p>
      * 当然，还有127这个网段是环回地址
      *
      * @param ipAddress IP地址
@@ -114,7 +117,8 @@ public final class NetworkUtil {
         long cBegin = ipv4ToLong("192.168.0.0");
         long cEnd = ipv4ToLong("192.168.255.255");
 
-        isInnerIp = isInner(ipNum, aBegin, aEnd) || isInner(ipNum, bBegin, bEnd) || isInner(ipNum, cBegin, cEnd) || LOCAL_IP.equals(ipAddress);
+        isInnerIp = isInner(ipNum, aBegin, aEnd) || isInner(ipNum, bBegin, bEnd)
+                || isInner(ipNum, cBegin, cEnd) || LOCAL_IP.equals(ipAddress);
         return isInnerIp;
     }
 
@@ -151,8 +155,8 @@ public final class NetworkUtil {
      * 指定IP的long是否在指定范围内
      *
      * @param userIp 用户IP
-     * @param begin  开始IP
-     * @param end    结束IP
+     * @param begin 开始IP
+     * @param end 结束IP
      * @return 是否在范围内
      */
     private static boolean isInner(long userIp, long begin, long end) {

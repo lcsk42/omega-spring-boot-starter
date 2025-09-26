@@ -1,6 +1,9 @@
 package com.lcsk42.frameworks.starter.core;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.lang.NonNull;
@@ -14,10 +17,16 @@ import java.util.Map;
  * 一个用于全局持有和访问 Spring {@link ApplicationContext} 的工具类。 适用于在非托管组件中访问 Spring 管理的 Bean。
  * </p>
  */
-public class ApplicationContextHolder implements ApplicationContextAware {
+public class ApplicationContextHolder implements BeanFactoryPostProcessor, ApplicationContextAware {
+
+    /**
+     * "@PostConstruct" 注解标记的类中，由于 ApplicationContext 还未加载，导致空指针<br>
+     * 因此实现BeanFactoryPostProcessor 注 入ConfigurableListableBeanFactory 实现 bean 的操作
+     */
+    private static ConfigurableListableBeanFactory beanFactory;
 
     // Spring 应用上下文的静态引用
-    private static ApplicationContext context;
+    private static ApplicationContext applicationContext;
 
     /**
      * 根据类型获取 Spring 管理的 Bean
@@ -27,7 +36,7 @@ public class ApplicationContextHolder implements ApplicationContextAware {
      * @return Bean实例
      */
     public static <T> T getBean(Class<T> clazz) {
-        return context.getBean(clazz);
+        return getBeanFactory().getBean(clazz);
     }
 
     /**
@@ -37,7 +46,7 @@ public class ApplicationContextHolder implements ApplicationContextAware {
      * @return Bean 实例
      */
     public static Object getBean(String name) {
-        return context.getBean(name);
+        return getBeanFactory().getBean(name);
     }
 
     /**
@@ -49,7 +58,7 @@ public class ApplicationContextHolder implements ApplicationContextAware {
      * @return Bean实例
      */
     public static <T> T getBean(String name, Class<T> clazz) {
-        return context.getBean(name, clazz);
+        return getBeanFactory().getBean(name, clazz);
     }
 
     /**
@@ -60,7 +69,7 @@ public class ApplicationContextHolder implements ApplicationContextAware {
      * @return 包含 Bean 名称和实例的 Map
      */
     public static <T> Map<String, T> getBeansOfType(Class<T> clazz) {
-        return context.getBeansOfType(clazz);
+        return getBeanFactory().getBeansOfType(clazz);
     }
 
     /**
@@ -73,7 +82,51 @@ public class ApplicationContextHolder implements ApplicationContextAware {
      */
     public static <A extends Annotation> A findAnnotationOnBean(String beanName,
             Class<A> annotationType) {
-        return context.findAnnotationOnBean(beanName, annotationType);
+        return getBeanFactory().findAnnotationOnBean(beanName, annotationType);
+    }
+
+    /**
+     * 获取配置文件配置项的值
+     *
+     * @param key 配置项key
+     * @return 属性值
+     * @since 5.3.3
+     */
+    public static String getProperty(String key) {
+        if (null == applicationContext) {
+            return null;
+        }
+        return applicationContext.getEnvironment().getProperty(key);
+    }
+
+    /**
+     * 获取配置文件配置项的值
+     *
+     * @param key 配置项key
+     * @param defaultValue 默认值
+     * @return 属性值
+     */
+    public static String getProperty(String key, String defaultValue) {
+        if (null == applicationContext) {
+            return null;
+        }
+        return applicationContext.getEnvironment().getProperty(key, defaultValue);
+    }
+
+    /**
+     * 获取配置文件配置项的值
+     *
+     * @param <T> 属性值类型
+     * @param key 配置项key
+     * @param targetType 配置项类型
+     * @param defaultValue 默认值
+     * @return 属性值
+     */
+    public static <T> T getProperty(String key, Class<T> targetType, T defaultValue) {
+        if (null == applicationContext) {
+            return null;
+        }
+        return applicationContext.getEnvironment().getProperty(key, targetType, defaultValue);
     }
 
     /**
@@ -82,7 +135,7 @@ public class ApplicationContextHolder implements ApplicationContextAware {
      * @return 应用上下文
      */
     public static ApplicationContext getInstance() {
-        return context;
+        return applicationContext;
     }
 
     /**
@@ -95,6 +148,30 @@ public class ApplicationContextHolder implements ApplicationContextAware {
     @SuppressWarnings("squid:S2696")
     public void setApplicationContext(@NonNull ApplicationContext applicationContext)
             throws BeansException {
-        ApplicationContextHolder.context = applicationContext;
+        ApplicationContextHolder.applicationContext = applicationContext;
+    }
+
+    /**
+     * "@PostConstruct" 注解标记的类中，由于 ApplicationContext 还未加载，导致空指针<br>
+     * 因此实现 BeanFactoryPostProcessor 注入 ConfigurableListableBeanFactory实现 bean 的操作
+     */
+    @Override
+    public void postProcessBeanFactory(@NonNull ConfigurableListableBeanFactory beanFactory)
+            throws BeansException {
+        ApplicationContextHolder.beanFactory = beanFactory;
+    }
+
+    /**
+     * 获取{@link ListableBeanFactory}，可能为{@link ConfigurableListableBeanFactory} 或 {@link ApplicationContextAware}
+     *
+     * @return {@link ListableBeanFactory}
+     */
+    public static ListableBeanFactory getBeanFactory() {
+        final ListableBeanFactory factory = null == beanFactory ? applicationContext : beanFactory;
+        if (null == factory) {
+            throw new RuntimeException(
+                    "No ConfigurableListableBeanFactory or ApplicationContext injected, maybe not in the Spring environment?");
+        }
+        return factory;
     }
 }

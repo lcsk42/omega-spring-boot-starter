@@ -6,7 +6,7 @@ import com.lcsk42.frameworks.starter.log.core.config.AccessLogProperties;
 import com.lcsk42.frameworks.starter.log.core.enums.Include;
 import com.lcsk42.frameworks.starter.log.core.model.AccessLogContext;
 import com.lcsk42.frameworks.starter.log.core.model.LogRecord;
-import com.lcsk42.frameworks.starter.log.core.util.AccessLogUtil;
+import com.lcsk42.frameworks.starter.log.core.util.LogUtil;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,7 +26,8 @@ import java.util.Set;
  */
 @Slf4j
 public abstract class AbstractLogHandler implements LogHandler {
-    private final TransmittableThreadLocal<AccessLogContext> logContextThread = new TransmittableThreadLocal<>();
+    private final TransmittableThreadLocal<AccessLogContext> logContextThread =
+            new TransmittableThreadLocal<>();
 
     @Override
     public boolean isRecord(Method targetMethod, Class<?> targetClass) {
@@ -58,18 +59,18 @@ public abstract class AbstractLogHandler implements LogHandler {
 
     @Override
     public LogRecord finish(LogRecord.Recorder recorder,
-                            Instant endTime,
-                            Set<Include> includes,
-                            Method targetMethod,
-                            Class<?> targetClass) {
+            Instant endTime,
+            Set<Include> includes,
+            Method targetMethod,
+            Class<?> targetClass) {
         Set<Include> includeSet = this.getIncludes(includes, targetMethod, targetClass);
         LogRecord logRecord = this.finish(recorder, endTime, includeSet);
         // 记录日志描述
-        if (includeSet.contains(Include.DESCRIPTION)) {
+        if (LogUtil.contains(includes, Include.DESCRIPTION)) {
             this.logDescription(logRecord, targetMethod);
         }
         // 记录所属模块
-        if (includeSet.contains(Include.MODULE)) {
+        if (LogUtil.contains(includes, Include.MODULE)) {
             this.logModule(logRecord, targetMethod, targetClass);
         }
         return logRecord;
@@ -83,15 +84,16 @@ public abstract class AbstractLogHandler implements LogHandler {
     /**
      * 记录日志描述
      *
-     * @param logRecord    日志记录
+     * @param logRecord 日志记录
      * @param targetMethod 目标方法
      */
     @Override
     public void logDescription(LogRecord logRecord, Method targetMethod) {
-        logRecord.setDescription("请在该接口方法上添加 @com.lcsk42.frameworks.starter.log.core.annotation.Log(value) 来指定日志描述");
+        logRecord.setDescription(
+                "请在该接口方法上添加 @com.lcsk42.frameworks.starter.log.core.annotation.Log(value) 来指定日志描述");
         Log methodLog = AnnotationUtils.getAnnotation(targetMethod, Log.class);
         // 例如：@Log("新增部门") -> 新增部门
-        if (methodLog != null && StringUtils.isNotBlank(methodLog.value())) {
+        if (methodLog != null && StringUtils.isNotBlank(methodLog.description())) {
             logRecord.setDescription(methodLog.value());
             return;
         }
@@ -105,13 +107,14 @@ public abstract class AbstractLogHandler implements LogHandler {
     /**
      * 记录所属模块
      *
-     * @param logRecord    日志记录
+     * @param logRecord 日志记录
      * @param targetMethod 目标方法
-     * @param targetClass  目标类
+     * @param targetClass 目标类
      */
     @Override
     public void logModule(LogRecord logRecord, Method targetMethod, Class<?> targetClass) {
-        logRecord.setModule("请在该接口方法或类上添加 @com.lcsk42.frameworks.starter.log.core.annotation.Log(module) 来指定所属模块");
+        logRecord.setModule(
+                "请在该接口方法或类上添加 @com.lcsk42.frameworks.starter.log.core.annotation.Log(module) 来指定所属模块");
         Log methodLog = AnnotationUtils.getAnnotation(targetMethod, Log.class);
         // 例如：@Log(module = "部门管理") -> 部门管理
         // 方法级注解优先级高于类级注解
@@ -132,7 +135,8 @@ public abstract class AbstractLogHandler implements LogHandler {
     }
 
     @Override
-    public Set<Include> getIncludes(Set<Include> includes, Method targetMethod, Class<?> targetClass) {
+    public Set<Include> getIncludes(Set<Include> includes, Method targetMethod,
+            Class<?> targetClass) {
         Log classLog = AnnotationUtils.getAnnotation(targetClass, Log.class);
         Set<Include> includeSet = new HashSet<>(includes);
         if (classLog != null) {
@@ -149,7 +153,7 @@ public abstract class AbstractLogHandler implements LogHandler {
     /**
      * 处理日志包含信息
      *
-     * @param includes      日志包含信息
+     * @param includes 日志包含信息
      * @param logAnnotation Log 注解
      */
     private void processInclude(Set<Include> includes, Log logAnnotation) {
@@ -168,17 +172,17 @@ public abstract class AbstractLogHandler implements LogHandler {
         AccessLogProperties properties = accessLogContext.getProperties().getAccessLog();
         // 是否需要打印 规则: 是否打印开关 或 放行路径
         if (!properties.getEnabled() ||
-                AccessLogUtil.exclusionPath(accessLogContext.getProperties(), AccessLogUtil.getRequestPath())) {
+                LogUtil.exclusionPath(accessLogContext.getProperties(),
+                        LogUtil.getRequestPath())) {
             return;
         }
         // 构建上下文
         logContextThread.set(accessLogContext);
-        String param = AccessLogUtil.getParam(properties);
+        String param = LogUtil.getParam(properties);
         log.info(param != null ? "[Start] [{}] {} param: {}" : "[Start] [{}] {}",
-                AccessLogUtil.getRequestMethod(),
-                AccessLogUtil.getRequestPath(),
-                param
-        );
+                LogUtil.getRequestMethod(),
+                LogUtil.getRequestPath(),
+                param);
     }
 
     @Override
@@ -188,13 +192,13 @@ public abstract class AbstractLogHandler implements LogHandler {
             return;
         }
         try {
-            Duration timeTaken = Duration.between(logContext.getStartTime(), accessLogContext.getEndTime());
-            log.info("[End] [{}] {} {} {}ms",
-                    AccessLogUtil.getRequestMethod(),
-                    AccessLogUtil.getRequestPath(),
-                    AccessLogUtil.getResponseStatus(),
-                    timeTaken.toMillis()
-            );
+            Duration timeTaken =
+                    Duration.between(logContext.getStartTime(), accessLogContext.getEndTime());
+            log.info("[  End] [{}] {} {} {}ms",
+                    LogUtil.getRequestMethod(),
+                    LogUtil.getRequestPath(),
+                    LogUtil.getResponseStatus(),
+                    timeTaken.toMillis());
         } finally {
             logContextThread.remove();
         }

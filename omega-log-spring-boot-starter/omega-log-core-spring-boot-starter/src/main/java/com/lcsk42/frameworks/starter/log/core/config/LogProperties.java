@@ -1,7 +1,7 @@
 package com.lcsk42.frameworks.starter.log.core.config;
 
 import com.lcsk42.frameworks.starter.log.core.enums.Include;
-import com.lcsk42.frameworks.starter.log.core.util.AccessLogUtil;
+import com.lcsk42.frameworks.starter.log.core.util.LogUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,6 +45,7 @@ public class LogProperties {
      * @return 是否匹配
      */
     public boolean isMatch(String uri) {
-        return this.getExcludePatterns().stream().anyMatch(pattern -> AccessLogUtil.isMatch(uri, pattern));
+        return this.getExcludePatterns().stream()
+                .anyMatch(pattern -> LogUtil.isMatch(uri, pattern));
     }
 }

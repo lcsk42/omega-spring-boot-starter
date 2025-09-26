@@ -6,6 +6,7 @@ import com.lcsk42.frameworks.starter.core.constant.StringConstant;
 import com.lcsk42.frameworks.starter.json.jackson.util.JacksonUtil;
 import com.lcsk42.frameworks.starter.log.core.config.AccessLogProperties;
 import com.lcsk42.frameworks.starter.log.core.config.LogProperties;
+import com.lcsk42.frameworks.starter.log.core.enums.Include;
 import com.lcsk42.frameworks.starter.log.core.exception.LogErrorCode;
 import com.lcsk42.frameworks.starter.log.core.wrapper.RepeatReadRequestWrapper;
 import com.lcsk42.frameworks.starter.log.core.wrapper.RepeatReadResponseWrapper;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,12 +36,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class AccessLogUtil {
+public final class LogUtil {
     /**
      * 资源路径 - doc 路径
      */
@@ -49,8 +52,7 @@ public final class AccessLogUtil {
             "/v3/api-docs/**",
             "/webjars/**",
             "/swagger-resources/**",
-            "/swagger-ui.html"
-    );
+            "/swagger-ui.html");
 
     /**
      * 获取参数信息
@@ -95,7 +97,7 @@ public final class AccessLogUtil {
      * 排除路径
      *
      * @param properties 属性
-     * @param path       路径
+     * @param path 路径
      * @return boolean
      */
     public static boolean exclusionPath(LogProperties properties, String path) {
@@ -108,7 +110,7 @@ public final class AccessLogUtil {
     /**
      * 处理敏感参数，支持 Map 和 List<Map<String, Object>> 类型
      *
-     * @param params          参数
+     * @param params 参数
      * @param sensitiveParams 敏感参数列表
      * @return 处理后的参数
      */
@@ -128,12 +130,14 @@ public final class AccessLogUtil {
     /**
      * 过滤敏感参数
      *
-     * @param params          参数 Map
+     * @param params 参数 Map
      * @param sensitiveParams 敏感参数列表
      * @return 处理后的参数 Map
      */
-    private static Map<String, Object> filterSensitiveParams(Map<String, Object> params, List<String> sensitiveParams) {
-        if (params == null || params.isEmpty() || sensitiveParams == null || sensitiveParams.isEmpty()) {
+    private static Map<String, Object> filterSensitiveParams(Map<String, Object> params,
+            List<String> sensitiveParams) {
+        if (params == null || params.isEmpty() || sensitiveParams == null
+                || sensitiveParams.isEmpty()) {
             return params;
         }
 
@@ -149,20 +153,22 @@ public final class AccessLogUtil {
     /**
      * 处理超长参数，支持 Map 和 List<Map<String, Object>> 类型
      *
-     * @param params    参数
+     * @param params 参数
      * @param threshold 截断阈值（值长度超过该值才截断）
      * @param maxLength 最大长度
-     * @param suffix    后缀（如 "..."）
+     * @param suffix 后缀（如 "..."）
      * @return 处理后的参数
      */
     @SuppressWarnings("unchecked")
-    private static Object processTruncateLongParams(Object params, int threshold, int maxLength, String suffix) {
+    private static Object processTruncateLongParams(Object params, int threshold, int maxLength,
+            String suffix) {
         if (params instanceof Map) {
             return truncateLongParams((Map<String, Object>) params, threshold, maxLength, suffix);
         } else if (params instanceof List) {
             return ((List<?>) params).stream()
                     .filter(Map.class::isInstance)
-                    .map(item -> truncateLongParams((Map<String, Object>) item, threshold, maxLength, suffix))
+                    .map(item -> truncateLongParams((Map<String, Object>) item, threshold,
+                            maxLength, suffix))
                     .collect(Collectors.toList());
         }
         return params;
@@ -171,16 +177,16 @@ public final class AccessLogUtil {
     /**
      * 截断超长参数
      *
-     * @param params    参数 Map
+     * @param params 参数 Map
      * @param threshold 截断阈值（值长度超过该值才截断）
      * @param maxLength 最大长度
-     * @param suffix    后缀（如 "..."）
+     * @param suffix 后缀（如 "..."）
      * @return 处理后的参数 Map
      */
     private static Map<String, Object> truncateLongParams(Map<String, Object> params,
-                                                          int threshold,
-                                                          int maxLength,
-                                                          String suffix) {
+            int threshold,
+            int maxLength,
+            String suffix) {
         if (params == null || params.isEmpty()) {
             return params;
         }
@@ -190,7 +196,8 @@ public final class AccessLogUtil {
             Object value = entry.getValue();
             if (value instanceof String strValue) {
                 if (strValue.length() > threshold) {
-                    entry.setValue(strValue.substring(0, Math.min(strValue.length(), maxLength)) + suffix);
+                    entry.setValue(
+                            strValue.substring(0, Math.min(strValue.length(), maxLength)) + suffix);
                 }
             }
         }
@@ -203,13 +210,15 @@ public final class AccessLogUtil {
      * @return {@link Object }
      */
     private static Object getAccessLogReqParam() {
-        HttpServletRequest request = Optional.ofNullable(RequestContextHolder.getRequestAttributes())
-                .map(attributes -> (ServletRequestAttributes) attributes)
-                .map(ServletRequestAttributes::getRequest)
-                .orElseThrow(LogErrorCode.MISSING_REQUEST::toServiceException);
+        HttpServletRequest request =
+                Optional.ofNullable(RequestContextHolder.getRequestAttributes())
+                        .map(attributes -> (ServletRequestAttributes) attributes)
+                        .map(ServletRequestAttributes::getRequest)
+                        .orElseThrow(LogErrorCode.MISSING_REQUEST::toServiceException);
 
         String body = null;
-        if (!(request instanceof RepeatReadRequestWrapper wrapper) || !wrapper.isMultipartContent(request)) {
+        if (!(request instanceof RepeatReadRequestWrapper wrapper)
+                || !wrapper.isMultipartContent(request)) {
             try (final BufferedReader reader = request.getReader()) {
                 body = IOUtils.toString(reader);
             } catch (IOException ignore) {
@@ -234,7 +243,7 @@ public final class AccessLogUtil {
     /**
      * 路径是否匹配
      *
-     * @param path    路径
+     * @param path 路径
      * @param pattern 匹配模式
      * @return 是否匹配
      */
@@ -293,7 +302,9 @@ public final class AccessLogUtil {
 
     /**
      * 获取请求 URL（包含 query 参数）
-     * <p>{@code http://localhost:8000/system/user?page=1&size=10}</p>
+     * <p>
+     * {@code http://localhost:8000/system/user?page=1&size=10}
+     * </p>
      *
      * @return {@link URI }
      */
@@ -334,8 +345,7 @@ public final class AccessLogUtil {
                 "Proxy-Client-IP",
                 "WL-Proxy-Client-IP",
                 "HTTP_CLIENT_IP",
-                "HTTP_X_FORWARDED_FOR"
-        )) {
+                "HTTP_X_FORWARDED_FOR")) {
             String ip = request.getHeader(header);
             if (StringUtils.isNotEmpty(ip) && !"unknown".equalsIgnoreCase(ip)) {
                 if ("X-Forwarded-For".equalsIgnoreCase(header)) {
@@ -359,8 +369,8 @@ public final class AccessLogUtil {
                 .collect(Collectors.toMap(
                         Function.identity(),
                         request::getHeader,
-                        (o, n) -> n
-                )) : Collections.emptyMap();
+                        (o, n) -> n))
+                : Collections.emptyMap();
     }
 
     /**
@@ -371,7 +381,8 @@ public final class AccessLogUtil {
     public static String getRequestBody() {
         HttpServletRequest request = getRequest();
         String body = null;
-        if (request instanceof RepeatReadRequestWrapper wrapper && !wrapper.isMultipartContent(request)) {
+        if (request instanceof RepeatReadRequestWrapper wrapper
+                && !wrapper.isMultipartContent(request)) {
             try (final BufferedReader reader = request.getReader()) {
                 body = IOUtils.toString(reader);
             } catch (IOException ignore) {
@@ -389,8 +400,7 @@ public final class AccessLogUtil {
     public static Map<String, Object> getRequestParams() {
         String body = getRequestBody();
         if (StringUtils.isNotBlank(body) && JacksonUtil.isJson(body)) {
-            return JacksonUtil.toBean(body, new TypeReference<>() {
-            });
+            return JacksonUtil.toBean(body, new TypeReference<>() {});
         }
         return null;
     }
@@ -415,7 +425,8 @@ public final class AccessLogUtil {
      */
     public static String getResponseBody() {
         HttpServletResponse response = getResponse();
-        if (response instanceof RepeatReadResponseWrapper wrapper && !wrapper.isStreamingResponse()) {
+        if (response instanceof RepeatReadResponseWrapper wrapper
+                && !wrapper.isStreamingResponse()) {
             String body = wrapper.getResponseContent();
             return JacksonUtil.isJson(body) ? body : null;
         }
@@ -429,8 +440,9 @@ public final class AccessLogUtil {
      */
     public static Map<String, Object> getResponseParams() {
         String body = getResponseBody();
-        return StringUtils.isNotBlank(body) && JacksonUtil.isJson(body) ? JacksonUtil.toBean(body, new TypeReference<>() {
-        }) : null;
+        return StringUtils.isNotBlank(body) && JacksonUtil.isJson(body)
+                ? JacksonUtil.toBean(body, new TypeReference<>() {})
+                : null;
     }
 
     /**
@@ -457,7 +469,18 @@ public final class AccessLogUtil {
                 .collect(Collectors.toMap(
                         Function.identity(),
                         response::getHeader,
-                        (o, n) -> n
-                ));
+                        (o, n) -> n));
+    }
+
+
+    /**
+     * 判断是否包含某个 模块
+     *
+     * @param includes 集合
+     * @param include 目标
+     * @return 是否符合条件
+     */
+    public static boolean contains(Set<Include> includes, Include... include) {
+        return CollectionUtils.containsAny(includes, Include.ALL, include);
     }
 }
