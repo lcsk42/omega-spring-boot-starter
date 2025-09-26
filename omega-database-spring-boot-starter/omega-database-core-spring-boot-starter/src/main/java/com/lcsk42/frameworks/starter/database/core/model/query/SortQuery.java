@@ -3,7 +3,7 @@ package com.lcsk42.frameworks.starter.database.core.model.query;
 import com.lcsk42.frameworks.starter.core.constant.StringConstant;
 import com.lcsk42.frameworks.starter.database.core.util.SqlInjectionUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,8 +17,8 @@ import java.util.List;
 /**
  * 排序查询条件
  */
+@Getter
 @Setter
-@NoArgsConstructor
 @Schema(description = "排序查询条件")
 public class SortQuery {
     /**

@@ -3,9 +3,7 @@ package com.lcsk42.frameworks.starter.database.core.model.query;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 import org.hibernate.validator.constraints.Range;
@@ -13,8 +11,6 @@ import org.springframework.data.domain.Sort;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @FieldNameConstants
 @Schema(description = "分页查询参数")
 public class PageQuery extends SortQuery {
