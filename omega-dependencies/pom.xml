@@ -213,6 +213,13 @@
                 <version>${aliyun-sdk-oss.version}</version>
             </dependency>
 
+            <!-- SpEL Validator:基于 SpEL 的 jakarta.validation-api 扩展增强包 -->
+            <dependency>
+                <groupId>cn.sticki</groupId>
+                <artifactId>spel-validator-jakarta</artifactId>
+                <version>${spel-validator.version}</version>
+            </dependency>
+
             <!-- Knife4j: 是基于 Swagger 的增强 API 文档工具，提供更美观的 UI 和调试功能 -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>

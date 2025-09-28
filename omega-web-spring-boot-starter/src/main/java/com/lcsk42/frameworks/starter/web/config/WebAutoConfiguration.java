@@ -6,12 +6,16 @@ import com.lcsk42.frameworks.starter.web.initialize.InitializeDispatcherServletC
 import com.lcsk42.frameworks.starter.web.initialize.InitializeDispatcherServletHandler;
 import com.lcsk42.frameworks.starter.web.initialize.PortHolder;
 import jakarta.annotation.PostConstruct;
+import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.BaseHibernateValidatorConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -95,6 +99,26 @@ public class WebAutoConfiguration {
     @Bean
     public WebConfiguration webConfig() {
         return new WebConfiguration();
+    }
+
+    /**
+     * Validator 失败立即返回模式配置
+     *
+     * <p>
+     * 默认情况下会校验完所有字段，然后才抛出异常。
+     * </p>
+     */
+    @Bean
+    public Validator validator(MessageSource messageSource) {
+        try (LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean()) {
+            // 国际化
+            factoryBean.setValidationMessageSource(messageSource);
+            // 快速失败
+            factoryBean.getValidationPropertyMap()
+                    .put(BaseHibernateValidatorConfiguration.FAIL_FAST, Boolean.TRUE.toString());
+            factoryBean.afterPropertiesSet();
+            return factoryBean.getValidator();
+        }
     }
 
     @PostConstruct
