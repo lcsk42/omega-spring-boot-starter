@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 @Getter
 @Setter
@@ -27,12 +27,7 @@ public class RedisDistributedProperties {
     private String prefixCharset = StandardCharsets.UTF_8.name();
 
     /**
-     * 值的默认超时时间 (单位: 毫秒)
+     * 默认的时间间隔(30s)
      */
-    private Long valueTimeout = 30 * 1_000L;
-
-    /**
-     * 值超时的时间单位
-     */
-    private TimeUnit valueTimeUnit = TimeUnit.MILLISECONDS;
+    private Duration timeout = Duration.ofSeconds(30);
 }
