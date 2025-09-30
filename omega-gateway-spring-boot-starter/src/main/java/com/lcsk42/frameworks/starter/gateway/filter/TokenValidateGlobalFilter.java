@@ -58,9 +58,7 @@ public class TokenValidateGlobalFilter implements GlobalFilter {
 
     private boolean isRequestAllowed(ServerHttpRequest request,
             List<GatewayConfiguration.HttpEndpoint> allowList) {
-        if (CollectionUtils.isEmpty(allowList)) {
-            return false;
-        }
+
         HttpMethod requestMethod = request.getMethod();
         String requestPath = request.getPath().toString();
 
@@ -75,6 +73,11 @@ public class TokenValidateGlobalFilter implements GlobalFilter {
                 "/*/swagger-ui.html")
                 .anyMatch(resourcePath -> isPathMatch(requestPath, resourcePath))) {
             return true;
+        }
+
+        // 白名单为空，直接返回 false
+        if (CollectionUtils.isEmpty(allowList)) {
+            return false;
         }
 
         // 是否在白名单中
