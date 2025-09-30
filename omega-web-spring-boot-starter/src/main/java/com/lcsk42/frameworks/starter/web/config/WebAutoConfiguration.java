@@ -1,5 +1,6 @@
 package com.lcsk42.frameworks.starter.web.config;
 
+import com.lcsk42.frameworks.starter.core.YamlPropertySourceFactory;
 import com.lcsk42.frameworks.starter.web.GlobalExceptionHandler;
 import com.lcsk42.frameworks.starter.web.GlobalResultHandler;
 import com.lcsk42.frameworks.starter.web.initialize.InitializeDispatcherServletController;
@@ -12,6 +13,7 @@ import org.hibernate.validator.BaseHibernateValidatorConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -22,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
  * Web 自动化配置类，用于设置通用的 web 相关 bean 和工具组件。
  */
 @Slf4j
+@PropertySource(value = "classpath:default-web.yml", factory = YamlPropertySourceFactory.class)
 public class WebAutoConfiguration {
 
     /**

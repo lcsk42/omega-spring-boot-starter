@@ -198,7 +198,7 @@ public abstract class AbstractLogHandler implements LogHandler {
                     LogUtil.getRequestMethod(),
                     LogUtil.getRequestPath(),
                     LogUtil.getResponseStatus(),
-                    timeTaken.toMillis());
+                    timeTaken.toString());
         } finally {
             logContextThread.remove();
         }

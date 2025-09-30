@@ -13,6 +13,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springdoc.core.configuration.SpringDocConfiguration;
 import org.springdoc.core.customizers.GlobalOpenApiCustomizer;
 import org.springdoc.core.customizers.OpenApiBuilderCustomizer;
@@ -64,8 +65,14 @@ public class ApiDocAutoConfiguration implements WebMvcConfigurer {
     @Bean
     @ConditionalOnMissingBean
     public OpenAPI openApi(ApiDocProperties properties) {
-        Info info = new Info().title("%s %s".formatted(properties.getName(), "API 文档"))
-                .version(properties.getVersion())
+        Info info = new Info();
+        String title = properties.getName();
+        if (StringUtils.isNoneBlank(title)) {
+            info.title("%s %s".formatted(title, "API 文档"));
+        } else {
+            info.title("API 文档");
+        }
+        info.version(properties.getVersion())
                 .description(properties.getDescription());
         ApiDocProperties.Contact contact = properties.getContact();
         if (contact != null) {
