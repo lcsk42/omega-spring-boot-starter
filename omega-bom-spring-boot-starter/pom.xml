@@ -178,6 +178,13 @@
                 <artifactId>omega-idempotent-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
+
+            <!-- Gateway -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-gateway-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

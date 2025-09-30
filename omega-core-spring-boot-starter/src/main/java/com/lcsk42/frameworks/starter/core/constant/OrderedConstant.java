@@ -15,20 +15,31 @@ public final class OrderedConstant {
      */
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class Filter {
+
+        /**
+         * Token 过滤器
+         */
+        public static final int TOKEN = Ordered.HIGHEST_PRECEDENCE;
+
         /**
          * API 加密过滤器顺序
          */
-        public static final int API_ENCRYPT = Ordered.HIGHEST_PRECEDENCE;
+        public static final int API_ENCRYPT = Ordered.HIGHEST_PRECEDENCE + 100;
 
         /**
          * 链路追踪过滤器顺序
          */
-        public static final int TRACE = Ordered.HIGHEST_PRECEDENCE + 100;
+        public static final int TRACE = Ordered.HIGHEST_PRECEDENCE + 200;
 
         /**
          * XSS 过滤器顺序
          */
-        public static final int XSS = Ordered.HIGHEST_PRECEDENCE + 200;
+        public static final int XSS = Ordered.HIGHEST_PRECEDENCE + 300;
+
+        /**
+         * Request Id 处理器
+         */
+        public static final int REQUEST_ID = 0;
 
         /**
          * 日志过滤器顺序

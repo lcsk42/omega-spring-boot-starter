@@ -35,6 +35,7 @@
         <module>omega-excel-spring-boot-starter</module>
         <module>omega-log-spring-boot-starter</module>
         <module>omega-idempotent-spring-boot-starter</module>
+        <module>omega-gateway-spring-boot-starter</module>
     </modules>
 
     <properties>
