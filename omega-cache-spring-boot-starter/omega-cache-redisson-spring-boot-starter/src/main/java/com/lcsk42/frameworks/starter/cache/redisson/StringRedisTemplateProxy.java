@@ -66,22 +66,24 @@ public class StringRedisTemplateProxy implements DistributedCache {
     }
 
     @Override
-    public <T> T safeGet(String key, Class<T> clazz, CacheLoader<T> cacheLoader, Duration timeout, RBloomFilter<String> bloomFilter) {
+    public <T> T safeGet(String key, Class<T> clazz, CacheLoader<T> cacheLoader, Duration timeout,
+            RBloomFilter<String> bloomFilter) {
         return safeGet(key, clazz, cacheLoader, timeout, bloomFilter, null, null);
     }
 
     @Override
-    public <T> T safeGet(String key, Class<T> clazz, CacheLoader<T> cacheLoader, Duration timeout, RBloomFilter<String> bloomFilter, CacheGetFilter<String> cacheCheckFilter) {
+    public <T> T safeGet(String key, Class<T> clazz, CacheLoader<T> cacheLoader, Duration timeout,
+            RBloomFilter<String> bloomFilter, CacheGetFilter<String> cacheCheckFilter) {
         return safeGet(key, clazz, cacheLoader, timeout, bloomFilter, cacheCheckFilter, null);
     }
 
     @Override
     public <T> T safeGet(String key, Class<T> clazz,
-                         CacheLoader<T> cacheLoader,
-                         Duration timeout,
-                         RBloomFilter<String> bloomFilter,
-                         CacheGetFilter<String> cacheGetFilter,
-                         CacheGetIfAbsent<String> cacheGetIfAbsent) {
+            CacheLoader<T> cacheLoader,
+            Duration timeout,
+            RBloomFilter<String> bloomFilter,
+            CacheGetFilter<String> cacheGetFilter,
+            CacheGetIfAbsent<String> cacheGetIfAbsent) {
         T result = get(key, clazz);
         // 如果缓存结果不为 null 或不为空，则返回缓存结果
         // 使用函数来决定是否返回 null 以支持不可删除的 Bloom 过滤器场景
@@ -89,7 +91,7 @@ public class StringRedisTemplateProxy implements DistributedCache {
         if (!CacheUtil.isNullOrBlank(result)
                 || Optional.ofNullable(cacheGetFilter).map(each -> each.filter(key)).orElse(false)
                 || Optional.ofNullable(bloomFilter).map(each -> !each.contains(key))
-                .orElse(false)) {
+                        .orElse(false)) {
             return result;
         }
         RLock lock = redissonClient.getLock(SAFE_GET_DISTRIBUTED_LOCK_KEY_PREFIX + key);
@@ -97,7 +99,8 @@ public class StringRedisTemplateProxy implements DistributedCache {
         try {
             if (CacheUtil.isNullOrBlank(result = get(key, clazz))) {
                 if (CacheUtil
-                        .isNullOrBlank(result = loadAndSet(key, cacheLoader, timeout, true, bloomFilter))) {
+                        .isNullOrBlank(result =
+                                loadAndSet(key, cacheLoader, timeout, true, bloomFilter))) {
                     Optional.ofNullable(cacheGetIfAbsent).ifPresent(each -> each.accept(key));
                 }
             }
@@ -108,7 +111,8 @@ public class StringRedisTemplateProxy implements DistributedCache {
     }
 
     @Override
-    public void safePut(String key, Object value, Duration timeout, RBloomFilter<String> bloomFilter) {
+    public void safePut(String key, Object value, Duration timeout,
+            RBloomFilter<String> bloomFilter) {
         put(key, value, timeout);
         if (bloomFilter != null) {
             bloomFilter.add(key);
@@ -130,72 +134,52 @@ public class StringRedisTemplateProxy implements DistributedCache {
     @Override
     public <T> void put(String key, T value, Duration timeout) {
         convertValue(value)
-                .ifPresent(val ->
-                        stringRedisTemplate.opsForValue().set(key, val, convertTimeout(timeout), TimeUnit.NANOSECONDS)
-                );
+                .ifPresent(val -> stringRedisTemplate.opsForValue().set(key, val,
+                        convertTimeout(timeout), TimeUnit.NANOSECONDS));
     }
 
     @Override
     public <T> boolean putIfAbsent(String key, T value, Duration timeout) {
-        DefaultRedisScript<Boolean> script = Singleton.get(LUA_PUT_IF_ABSENT_SCRIPT_PATH, () -> {
-            DefaultRedisScript<Boolean> redisScript = new DefaultRedisScript<>();
-            redisScript.setScriptSource(
-                    new ResourceScriptSource(
-                            new ClassPathResource(LUA_PUT_IF_ABSENT_SCRIPT_PATH)));
-            redisScript.setResultType(Boolean.class);
-            return redisScript;
-        });
+        DefaultRedisScript<Boolean> script = getDefaultRedisScript(LUA_PUT_IF_ABSENT_SCRIPT_PATH);
 
         if (Objects.isNull(script)) {
             return false;
         }
 
-        long expireNanos = timeout != null ? timeout.toNanos() : -1;
-        Boolean result = stringRedisTemplate.execute(script,
-                Collections.singletonList(key),
-                convertValue(value),
-                expireNanos,
-                TimeUnit.NANOSECONDS);
-
-        return BooleanUtils.isTrue(result);
+        return convertValue(value)
+                .map(val -> stringRedisTemplate.execute(
+                        script,
+                        Collections.singletonList(key),
+                        val,
+                        String.valueOf(convertTimeout(timeout))))
+                .map(BooleanUtils::isTrue)
+                .orElse(false);
     }
 
     @Override
     public <T> boolean putIfExists(String key, T value, Duration timeout) {
-        DefaultRedisScript<Boolean> script = Singleton.get(LUA_PUT_IF_EXISTS_SCRIPT_PATH, () -> {
-            DefaultRedisScript<Boolean> redisScript = new DefaultRedisScript<>();
-            redisScript.setScriptSource(
-                    new ResourceScriptSource(
-                            new ClassPathResource(LUA_PUT_IF_EXISTS_SCRIPT_PATH)));
-            redisScript.setResultType(Boolean.class);
-            return redisScript;
-        });
+        DefaultRedisScript<Boolean> script = getDefaultRedisScript(LUA_PUT_IF_EXISTS_SCRIPT_PATH);
 
         if (Objects.isNull(script)) {
             return false;
         }
 
-        long expireNanos = timeout != null ? timeout.toNanos() : -1;
-        Boolean result = stringRedisTemplate.execute(script,
-                Collections.singletonList(key),
-                convertValue(value),
-                expireNanos,
-                TimeUnit.NANOSECONDS);
+        return convertValue(value)
+                .map(val -> stringRedisTemplate.execute(script,
+                        Collections.singletonList(key),
+                        val,
+                        String.valueOf(convertTimeout(timeout))))
+                .map(BooleanUtils::isTrue)
+                .orElse(false);
 
-        return BooleanUtils.isTrue(result);
     }
 
     @Override
     public boolean putIfAllAbsent(Collection<String> keys) {
+
         DefaultRedisScript<Boolean> script =
-                Singleton.get(LUA_PUT_IF_ALL_ABSENT_SCRIPT_PATH, () -> {
-                    DefaultRedisScript<Boolean> redisScript = new DefaultRedisScript<>();
-                    redisScript.setScriptSource(
-                            new ResourceScriptSource(
-                                    new ClassPathResource(LUA_PUT_IF_ALL_ABSENT_SCRIPT_PATH)));
-                    redisScript.setResultType(Boolean.class);
-                    return redisScript;
-                });
+                getDefaultRedisScript(LUA_PUT_IF_ALL_ABSENT_SCRIPT_PATH);
+
         if (Objects.isNull(script)) {
             return false;
         }
@@ -238,7 +222,8 @@ public class StringRedisTemplateProxy implements DistributedCache {
 
     @Override
     public boolean expire(String key, Duration timeout) {
-        return BooleanUtils.isTrue(stringRedisTemplate.expire(key, timeout.toNanos(), TimeUnit.NANOSECONDS));
+        return BooleanUtils
+                .isTrue(stringRedisTemplate.expire(key, timeout.toNanos(), TimeUnit.NANOSECONDS));
     }
 
     @Override
@@ -325,32 +310,43 @@ public class StringRedisTemplateProxy implements DistributedCache {
 
     @Override
     public long zRemoveRangeByScore(String key, double min, double max) {
-        return Optional.ofNullable(stringRedisTemplate.opsForZSet().removeRangeByScore(key, min, max))
+        return Optional
+                .ofNullable(stringRedisTemplate.opsForZSet().removeRangeByScore(key, min, max))
                 .orElse(NumberUtils.LONG_ZERO);
     }
 
     @Override
     public long zRemoveRangeByRank(String key, int startIndex, int endIndex) {
-        return Optional.ofNullable(stringRedisTemplate.opsForZSet().removeRange(key, startIndex, endIndex))
+        return Optional
+                .ofNullable(stringRedisTemplate.opsForZSet().removeRange(key, startIndex, endIndex))
                 .orElse(NumberUtils.LONG_ZERO);
     }
 
     @Override
     public <T> Collection<T> zRangeByScore(String key, double min, double max, Class<T> clazz) {
         Set<String> values = stringRedisTemplate.opsForZSet().rangeByScore(key, min, max);
-        return values != null ? values.stream().map(value -> handleResult(value, clazz)).collect(Collectors.toSet()) : Set.of();
+        return values != null
+                ? values.stream().map(value -> handleResult(value, clazz))
+                        .collect(Collectors.toSet())
+                : Set.of();
 
     }
 
     @Override
-    public <T> Collection<T> zRangeByScore(String key, double min, double max, int offset, int count, Class<T> clazz) {
-        Set<String> values = stringRedisTemplate.opsForZSet().rangeByScore(key, min, max, offset, count);
-        return values != null ? values.stream().map(value -> handleResult(value, clazz)).collect(Collectors.toSet()) : Set.of();
+    public <T> Collection<T> zRangeByScore(String key, double min, double max, int offset,
+            int count, Class<T> clazz) {
+        Set<String> values =
+                stringRedisTemplate.opsForZSet().rangeByScore(key, min, max, offset, count);
+        return values != null
+                ? values.stream().map(value -> handleResult(value, clazz))
+                        .collect(Collectors.toSet())
+                : Set.of();
     }
 
     @Override
     public long zCountRangeByScore(String key, double min, double max) {
-        return Optional.ofNullable(stringRedisTemplate.opsForZSet().count(key, min, max)).orElse(NumberUtils.LONG_ZERO);
+        return Optional.ofNullable(stringRedisTemplate.opsForZSet().count(key, min, max))
+                .orElse(NumberUtils.LONG_ZERO);
     }
 
     @Override
@@ -430,6 +426,17 @@ public class StringRedisTemplateProxy implements DistributedCache {
         return stringRedisTemplate;
     }
 
+    private DefaultRedisScript<Boolean> getDefaultRedisScript(String path) {
+        return Singleton.get(path, () -> {
+            DefaultRedisScript<Boolean> redisScript = new DefaultRedisScript<>();
+            redisScript.setScriptSource(
+                    new ResourceScriptSource(
+                            new ClassPathResource(path)));
+            redisScript.setResultType(Boolean.class);
+            return redisScript;
+        });
+    }
+
     private <T> Optional<String> convertValue(T value) {
         if (value instanceof String val) {
             return Optional.of(val);
@@ -453,10 +460,10 @@ public class StringRedisTemplateProxy implements DistributedCache {
     }
 
     private <T> T loadAndSet(String key,
-                             CacheLoader<T> cacheLoader,
-                             Duration timeout,
-                             boolean safeFlag,
-                             RBloomFilter<String> bloomFilter) {
+            CacheLoader<T> cacheLoader,
+            Duration timeout,
+            boolean safeFlag,
+            RBloomFilter<String> bloomFilter) {
         T result = cacheLoader.get();
         if (CacheUtil.isNullOrBlank(result)) {
             return result;

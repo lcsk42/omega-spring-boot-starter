@@ -27,7 +27,8 @@ public class DefaultIdempotentNameGenerator implements IdempotentNameGenerator {
             // 使用 JacksonUtil 序列化参数，然后计算哈希值以确保唯一性
             String argsJson = JacksonUtil.toJSON(args);
             if (argsJson != null) {
-                nameSb.append(DigestUtils.md5DigestAsHex(argsJson.getBytes(StandardCharsets.UTF_8)));
+                nameSb.append(
+                        DigestUtils.md5DigestAsHex(argsJson.getBytes(StandardCharsets.UTF_8)));
             }
         }
         return nameSb.toString();

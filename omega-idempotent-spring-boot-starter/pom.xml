@@ -3,22 +3,28 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.lcsk42</groupId>
-        <artifactId>omega-log-spring-boot-starter</artifactId>
+        <artifactId>omega-spring-boot-starter</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>omega-log-aop-spring-boot-starter</artifactId>
+    <artifactId>omega-idempotent-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
     <description>
-        Omega 日志模块 - AOP 实现
+        Omega 幂等模块
     </description>
+
 
     <dependencies>
         <dependency>
             <groupId>com.lcsk42</groupId>
-            <artifactId>omega-log-core-spring-boot-starter</artifactId>
+            <artifactId>omega-cache-redisson-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lcsk42</groupId>
+            <artifactId>omega-common-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -29,6 +35,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
         </dependency>
     </dependencies>
 </project>

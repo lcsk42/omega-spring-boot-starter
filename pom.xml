@@ -34,6 +34,7 @@
         <module>omega-mq-spring-boot-starter</module>
         <module>omega-excel-spring-boot-starter</module>
         <module>omega-log-spring-boot-starter</module>
+        <module>omega-idempotent-spring-boot-starter</module>
     </modules>
 
     <properties>
@@ -152,6 +153,9 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>

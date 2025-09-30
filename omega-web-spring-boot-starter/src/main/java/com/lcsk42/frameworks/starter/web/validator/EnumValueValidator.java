@@ -90,7 +90,9 @@ public class EnumValueValidator implements ConstraintValidator<EnumValue, Object
                 }
             }
         } catch (Exception e) {
-            log.error("An error occurred while validating the enum value, please check the @EnumValue parameter configuration.", e);
+            log.error(
+                    "An error occurred while validating the enum value, please check the @EnumValue parameter configuration.",
+                    e);
         }
         return false;
     }
@@ -99,7 +101,7 @@ public class EnumValueValidator implements ConstraintValidator<EnumValue, Object
      * 遍历枚举类，判断是否包含指定值
      *
      * @param enumConstants 枚举类数组
-     * @param value         待校验的值
+     * @param value 待校验的值
      * @return 是否包含指定值
      */
     private boolean findEnumValue(Enum[] enumConstants, Object value) {

@@ -171,6 +171,13 @@
                 <artifactId>omega-log-aop-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
+
+            <!-- 幂等 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-idempotent-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

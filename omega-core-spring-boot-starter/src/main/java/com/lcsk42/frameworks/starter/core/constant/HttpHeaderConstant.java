@@ -40,4 +40,14 @@ public final class HttpHeaderConstant {
      * 令牌
      */
     public static final String TOKEN = "Token";
+
+    /**
+     * 幂等 Token
+     */
+    public static final String IDEMPOTENT_TOKEN = "Idempotent-Token";
+
+    /**
+     * 幂等 Token（通过 url query 传递）
+     */
+    public static final String IDEMPOTENT_TOKEN_PARAM = "idempotentToken";
 }

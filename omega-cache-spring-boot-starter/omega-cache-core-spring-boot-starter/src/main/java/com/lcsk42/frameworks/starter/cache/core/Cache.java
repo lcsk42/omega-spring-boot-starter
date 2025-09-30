@@ -36,9 +36,9 @@ public interface Cache {
     /**
      * 通过键从缓存中获取对象。
      *
-     * @param key   缓存键（不可为空字符串）
+     * @param key 缓存键（不可为空字符串）
      * @param clazz 预期的对象类型
-     * @param <T>   值的类型
+     * @param <T> 值的类型
      * @return 缓存的对象，若未找到则返回 {@code null}
      */
     <T> T get(@NotBlank String key, @NotBlank Class<T> clazz);
@@ -46,7 +46,7 @@ public interface Cache {
     /**
      * 设置缓存
      *
-     * @param key   缓存键（不可为空字符串）
+     * @param key 缓存键（不可为空字符串）
      * @param value 要存储的对象
      */
     default <T> void put(@NotBlank String key, T value) {
@@ -56,8 +56,8 @@ public interface Cache {
     /**
      * 将值存入缓存并设置过期时间
      *
-     * @param key     缓存键（不可为空字符串）
-     * @param value   要存储的对象
+     * @param key 缓存键（不可为空字符串）
+     * @param value 要存储的对象
      * @param timeout 过期时间
      */
     <T> void put(@NotBlank String key, T value, @NotNull Duration timeout);
@@ -65,9 +65,11 @@ public interface Cache {
     /**
      * 设置缓存
      *
-     * <p>如果键已存在，则不设置</p>
+     * <p>
+     * 如果键已存在，则不设置
+     * </p>
      *
-     * @param key   键
+     * @param key 键
      * @param value 值
      * @return true：设置成功；false：设置失败
      */
@@ -78,10 +80,12 @@ public interface Cache {
     /**
      * 设置缓存
      *
-     * <p>如果键已存在，则不设置</p>
+     * <p>
+     * 如果键已存在，则不设置
+     * </p>
      *
-     * @param key     键
-     * @param value   值
+     * @param key 键
+     * @param value 值
      * @param timeout 过期时间
      * @return true：设置成功；false：设置失败
      */
@@ -89,9 +93,11 @@ public interface Cache {
 
     /**
      * 设置缓存
-     * <p>如果键不存在，则不设置</p>
+     * <p>
+     * 如果键不存在，则不设置
+     * </p>
      *
-     * @param key   键
+     * @param key 键
      * @param value 值
      * @return true：设置成功；false：设置失败
      */
@@ -101,10 +107,12 @@ public interface Cache {
 
     /**
      * 设置缓存
-     * <p>如果键不存在，则不设置</p>
+     * <p>
+     * 如果键不存在，则不设置
+     * </p>
      *
-     * @param key     键
-     * @param value   值
+     * @param key 键
+     * @param value 值
      * @param timeout 过期时间
      * @return true：设置成功；false：设置失败
      */
@@ -161,7 +169,7 @@ public interface Cache {
     /**
      * 设置缓存过期时间
      *
-     * @param key     键
+     * @param key 键
      * @param timeout 过期时间
      * @return true：设置成功；false：设置失败
      */
@@ -178,7 +186,7 @@ public interface Cache {
     /**
      * 查询缓存剩余过期时间
      *
-     * @param key      键
+     * @param key 键
      * @param timeUnit 时间单位
      * @return 缓存剩余过期时间
      */
@@ -195,7 +203,7 @@ public interface Cache {
     /**
      * 设置 Hash 中指定字段的值
      *
-     * @param key   Hash 键
+     * @param key Hash 键
      * @param field 字段
      * @param value 值
      */
@@ -204,7 +212,7 @@ public interface Cache {
     /**
      * 获取 Hash 中指定字段的值
      *
-     * @param key   Hash 键
+     * @param key Hash 键
      * @param field 字段
      * @return 值
      */
@@ -215,10 +223,10 @@ public interface Cache {
     /**
      * 获取 Hash 中指定字段的值
      *
-     * @param key   Hash 键
+     * @param key Hash 键
      * @param field 字段
      * @param clazz 预期的对象类型
-     * @param <T>   值的类型
+     * @param <T> 值的类型
      * @return 值
      */
     <T> T hGet(@NotBlank String key, @NotBlank String field, @NotNull Class<T> clazz);
@@ -236,9 +244,9 @@ public interface Cache {
     /**
      * 获取整个 Hash 的所有字段值
      *
-     * @param key   Hash 键
+     * @param key Hash 键
      * @param clazz 预期的对象类型
-     * @param <T>   值的类型
+     * @param <T> 值的类型
      * @return Map
      */
     <T> Map<String, T> hGet(@NotBlank String key, @NotNull Class<T> clazz);
@@ -246,7 +254,7 @@ public interface Cache {
     /**
      * 判断 Hash 中是否存在指定字段
      *
-     * @param key   Hash 键
+     * @param key Hash 键
      * @param field 字段
      * @return true：存在；false：不存在
      */
@@ -255,7 +263,7 @@ public interface Cache {
     /**
      * 删除 Hash 中指定字段
      *
-     * @param key    Hash 键
+     * @param key Hash 键
      * @param fields 字段数组
      * @return 删除成功的字段数量
      */
@@ -264,7 +272,7 @@ public interface Cache {
     /**
      * 添加元素到 ZSet 中
      *
-     * @param key   键
+     * @param key 键
      * @param value 值
      * @param score 分数
      * @return true：添加成功；false：添加失败
@@ -274,7 +282,7 @@ public interface Cache {
     /**
      * 查询 ZSet 中指定元素的分数
      *
-     * @param key   键
+     * @param key 键
      * @param value 值
      * @return 分数（null 表示元素不存在）
      */
@@ -283,7 +291,7 @@ public interface Cache {
     /**
      * 查询 ZSet 中指定元素的排名
      *
-     * @param key   键
+     * @param key 键
      * @param value 值
      * @return 排名（从 0 开始，null 表示元素不存在）
      */
@@ -300,7 +308,7 @@ public interface Cache {
     /**
      * 从 ZSet 中删除指定元素
      *
-     * @param key   键
+     * @param key 键
      * @param value 值
      * @return true：删除成功；false：删除失败
      */
@@ -323,9 +331,9 @@ public interface Cache {
      * 索引从 0 开始。<code>-1<code> 表示最高分，<code>-2<code> 表示第二高分。
      * </p>
      *
-     * @param key        键
+     * @param key 键
      * @param startIndex 起始索引
-     * @param endIndex   结束索引
+     * @param endIndex 结束索引
      * @return 删除的元素个数
      */
     long zRemoveRangeByRank(@NotBlank String key, int startIndex, int endIndex);
@@ -345,42 +353,45 @@ public interface Cache {
     /**
      * 根据分数范围查询 ZSet 中的元素列表
      *
-     * @param key   键
-     * @param min   最小分数（包含）
-     * @param max   最大分数（包含）
+     * @param key 键
+     * @param min 最小分数（包含）
+     * @param max 最大分数（包含）
      * @param clazz 预期的对象类型
-     * @param <T>   值的类型
+     * @param <T> 值的类型
      * @return 元素列表
      */
-    <T> Collection<T> zRangeByScore(@NotBlank String key, double min, double max, @NotNull Class<T> clazz);
+    <T> Collection<T> zRangeByScore(@NotBlank String key, double min, double max,
+            @NotNull Class<T> clazz);
 
     /**
      * 根据分数范围查询 ZSet 中的元素列表
      *
-     * @param key    键
-     * @param min    最小分数（包含）
-     * @param max    最大分数（包含）
+     * @param key 键
+     * @param min 最小分数（包含）
+     * @param max 最大分数（包含）
      * @param offset 偏移量
-     * @param count  数量
+     * @param count 数量
      * @return 元素列表
      */
-    default Collection<String> zRangeByScore(@NotBlank String key, double min, double max, int offset, int count) {
+    default Collection<String> zRangeByScore(@NotBlank String key, double min, double max,
+            int offset, int count) {
         return zRangeByScore(key, min, max, offset, count, String.class);
     }
 
     /**
      * 根据分数范围查询 ZSet 中的元素列表
      *
-     * @param key    键
-     * @param min    最小分数（包含）
-     * @param max    最大分数（包含）
+     * @param key 键
+     * @param min 最小分数（包含）
+     * @param max 最大分数（包含）
      * @param offset 偏移量
-     * @param count  数量
-     * @param clazz  预期的对象类型
-     * @param <T>    值的类型
+     * @param count 数量
+     * @param clazz 预期的对象类型
+     * @param <T> 值的类型
      * @return 元素列表
      */
-    <T> Collection<T> zRangeByScore(@NotBlank String key, double min, double max, int offset, int count, @NotNull Class<T> clazz);
+    <T> Collection<T> zRangeByScore(@NotBlank String key, double min, double max, int offset,
+            int count, @NotNull Class<T> clazz);
 
     /**
      * 根据分数范围查询 ZSet 中的元素个数
@@ -395,7 +406,7 @@ public interface Cache {
     /**
      * 计算 ZSet 中多个元素的分数之和
      *
-     * @param key    键
+     * @param key 键
      * @param values 值列表
      * @return 分数之和
      */
@@ -404,7 +415,7 @@ public interface Cache {
     /**
      * 向集合添加元素
      *
-     * @param key   集合键
+     * @param key 集合键
      * @param value 要添加的值
      */
     <T> void sAdd(@NotBlank String key, T value);
@@ -412,7 +423,7 @@ public interface Cache {
     /**
      * 批量向集合添加元素
      *
-     * @param key    集合键
+     * @param key 集合键
      * @param values 要添加的值集合
      * @return 成功添加的元素数量
      */
@@ -421,7 +432,7 @@ public interface Cache {
     /**
      * 从集合中移除元素
      *
-     * @param key   集合键
+     * @param key 集合键
      * @param value 要移除的值
      * @return 是否成功移除
      */
@@ -430,7 +441,7 @@ public interface Cache {
     /**
      * 批量从集合中移除元素
      *
-     * @param key    集合键
+     * @param key 集合键
      * @param values 要移除的值集合
      * @return 成功移除的元素数量
      */
@@ -457,7 +468,7 @@ public interface Cache {
     /**
      * 判断元素是否在集合中
      *
-     * @param key   集合键
+     * @param key 集合键
      * @param value 要检查的值
      * @return 是否存在
      */

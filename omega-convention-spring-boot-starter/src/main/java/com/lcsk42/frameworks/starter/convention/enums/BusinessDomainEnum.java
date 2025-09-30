@@ -6,5 +6,6 @@ public enum BusinessDomainEnum {
     LOG,
     SQL,
     FILE,
+    IDEMPOTENT,
     ;
 }
