@@ -44,9 +44,7 @@ public final class KeyUtil {
             }
             key = String.valueOf(eval);
         }
-        if (StringUtils.isNoneBlank(idempotent.uniqueKeyPrefix())) {
-            return CacheUtil.buildKey(idempotent.uniqueKeyPrefix(), name, key);
-        }
-        return CacheUtil.buildKey(name, key);
+
+        return CacheUtil.buildKey(idempotent.uniqueKeyPrefix(), name, key);
     }
 }

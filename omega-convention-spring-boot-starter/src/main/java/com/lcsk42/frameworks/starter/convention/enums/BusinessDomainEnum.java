@@ -7,5 +7,6 @@ public enum BusinessDomainEnum {
     SQL,
     FILE,
     IDEMPOTENT,
+    RATE_LIMITER,
     ;
 }

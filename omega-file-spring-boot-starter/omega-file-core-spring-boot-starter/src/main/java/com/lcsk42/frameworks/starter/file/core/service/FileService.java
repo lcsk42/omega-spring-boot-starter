@@ -220,6 +220,7 @@ public interface FileService {
      * 为安全文件下载生成有时间限制的预签名 URL。
      * <p>
      * URL 将在默认超时期限后过期。调用方应对过期的 URL 实现适当的错误处理。
+     * </p>
      *
      * @param key 要生成 URL 的文件标识符
      * @param bucketName 源存储桶名称
@@ -236,6 +237,7 @@ public interface FileService {
      * 为安全文件上传生成有时间限制的预签名 URL。
      * <p>
      * 生成的 URL 允许直接上传，无需额外权限。
+     * </p>
      *
      * @param key 文件将要存储的目标路径
      * @param bucketName 目标存储桶名称

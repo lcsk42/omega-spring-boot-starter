@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -19,12 +20,9 @@ public final class CacheUtil {
      * @return 构造的缓存键
      */
     public static String buildKey(String... keys) {
-        Stream.of(keys).forEach(key -> {
-            if (StringUtils.isBlank(key)) {
-                throw new RuntimeException("Cache key part must not be null or empty");
-            }
-        });
-        return StringUtils.join(keys, SPLICING_OPERATOR);
+        return Stream.of(keys)
+                .filter(StringUtils::isNotBlank)
+                .collect(Collectors.joining(SPLICING_OPERATOR));
     }
 
     /**

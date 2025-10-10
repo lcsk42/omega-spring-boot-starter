@@ -1,20 +1,31 @@
-package com.lcsk42.frameworks.starter.convention.errorcode;
+package com.lcsk42.frameworks.starter.ratelimiter.exception;
 
 import com.lcsk42.frameworks.starter.convention.enums.BusinessDomainEnum;
 import com.lcsk42.frameworks.starter.convention.enums.ErrorSourceEnum;
+import com.lcsk42.frameworks.starter.convention.errorcode.ErrorCode;
 import com.lcsk42.frameworks.starter.convention.model.ErrorNumber;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum FileErrorCode implements ErrorCode {
+public enum RateLimiterErrorCode implements ErrorCode {
 
-    IO_RUNTIME_EXCEPTION(
+    RATE_LIMITER_EXCEPTION(
             ErrorSourceEnum.SERVICE,
-            BusinessDomainEnum.FILE,
+            BusinessDomainEnum.RATE_LIMITER,
             ErrorNumber.of(1),
-            "IO Runtime Exception"),
+            "服务器限流异常，请稍候再试"),
+    RATE_LIMITER_KEY_EVAL_EXCEPTION(
+            ErrorSourceEnum.SERVICE,
+            BusinessDomainEnum.RATE_LIMITER,
+            ErrorNumber.of(1),
+            "限流 Key 解析错误"),
+    RATE_LIMITER_GET_IP_EXCEPTION(
+            ErrorSourceEnum.SERVICE,
+            BusinessDomainEnum.RATE_LIMITER,
+            ErrorNumber.of(1),
+            "限流获取 IP 失败"),
             ;
 
     /**
