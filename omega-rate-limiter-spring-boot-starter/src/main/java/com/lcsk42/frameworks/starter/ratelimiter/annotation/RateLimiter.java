@@ -11,9 +11,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 限流注解
- *
- * @author KAI
- * @since 2.2.0
  */
 @Documented
 @Target(ElementType.METHOD)

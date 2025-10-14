@@ -21,12 +21,8 @@ import static java.lang.annotation.ElementType.TYPE_USE;
  *
  * <p>
  * {@code @EnumValue(value = XxxEnum.class, message = "参数值无效")} <br />
- * {@code @EnumValue(enumValues = {"F", "M"} ,message = "性别只允许为F或M")}
+ * {@code @EnumValue(enumValues = {"F", "M"} ,message = "性别只允许为 F 或 M")}
  * </p>
- *
- * @author Jasmine
- * @author Charles7c
- * @since 2.7.3
  */
 @Documented
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})

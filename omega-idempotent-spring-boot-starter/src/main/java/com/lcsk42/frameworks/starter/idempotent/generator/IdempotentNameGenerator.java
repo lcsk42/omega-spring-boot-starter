@@ -4,10 +4,6 @@ import java.lang.reflect.Method;
 
 /**
  * 幂等名称生成器
- *
- * @author loach
- * @author Charles7c
- * @since 2.10.0
  */
 public interface IdempotentNameGenerator {
 
