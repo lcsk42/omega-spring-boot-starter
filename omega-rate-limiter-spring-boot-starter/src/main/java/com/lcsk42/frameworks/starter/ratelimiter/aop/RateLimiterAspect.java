@@ -51,20 +51,18 @@ public class RateLimiterAspect {
      * 单个限流注解切点
      */
     @Pointcut("@annotation(com.lcsk42.frameworks.starter.ratelimiter.annotation.RateLimiter)")
-    public void rateLimiterPointCut() {
-    }
+    public void rateLimiterPointCut() {}
 
     /**
      * 多个限流注解切点
      */
     @Pointcut("@annotation(com.lcsk42.frameworks.starter.ratelimiter.annotation.RateLimiters)")
-    public void rateLimitersPointCut() {
-    }
+    public void rateLimitersPointCut() {}
 
     /**
      * 单限流场景
      *
-     * @param joinPoint   切点
+     * @param joinPoint 切点
      * @param rateLimiter 限流注解
      * @return 目标方法的执行结果
      * @throws Throwable /
@@ -81,7 +79,7 @@ public class RateLimiterAspect {
     /**
      * 多限流场景
      *
-     * @param joinPoint    切点
+     * @param joinPoint 切点
      * @param rateLimiters 限流组注解
      * @return 目标方法的执行结果
      * @throws Throwable /
@@ -100,7 +98,7 @@ public class RateLimiterAspect {
     /**
      * 是否需要限流
      *
-     * @param joinPoint   切点
+     * @param joinPoint 切点
      * @param rateLimiter 限流注解
      * @return true: 需要限流；false：不需要限流
      */
@@ -192,15 +190,15 @@ public class RateLimiterAspect {
      * 判断是否需要更新限流器配置
      *
      * @param rRateLimiter 限流器
-     * @param rateType     限流类型（OVERALL：全局限流；PER_CLIENT：单机限流）
-     * @param rate         速率（指定时间间隔产生的令牌数）
+     * @param rateType 限流类型（OVERALL：全局限流；PER_CLIENT：单机限流）
+     * @param rate 速率（指定时间间隔产生的令牌数）
      * @param rateInterval 速率间隔
      * @return 是否需要更新配置
      */
     private boolean shouldUpdate(RRateLimiter rRateLimiter,
-                                 RateType rateType,
-                                 long rate,
-                                 Duration rateInterval) {
+            RateType rateType,
+            long rate,
+            Duration rateInterval) {
         RateLimiterConfig config = rRateLimiter.getConfig();
         return !Objects.equals(config.getRateType(), rateType) ||
                 !Objects.equals(config.getRate(), rate) ||

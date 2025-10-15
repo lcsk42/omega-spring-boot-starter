@@ -43,10 +43,7 @@ public class FeignSupportConfig {
         return new OptionalDecoder(
                 new ResponseEntityDecoder(
                         new FeignResultDecoder(
-                                new SpringDecoder(this.messageConverters, customizers)
-                        )
-                )
-        );
+                                new SpringDecoder(this.messageConverters, customizers))));
     }
 
     /**
@@ -66,8 +63,7 @@ public class FeignSupportConfig {
 
         // 添加对 "text/html" 和 "text/plain" 内容类型的支持
         mappingJackson2HttpMessageConverter.setSupportedMediaTypes(
-                List.of(MediaType.TEXT_HTML, MediaType.TEXT_PLAIN)
-        );
+                List.of(MediaType.TEXT_HTML, MediaType.TEXT_PLAIN));
 
         restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
         return restTemplate;
@@ -92,7 +88,8 @@ public class FeignSupportConfig {
      * @return DispatcherServlet 的 ServletRegistrationBean
      */
     @Bean
-    public ServletRegistrationBean<DispatcherServlet> dispatcherRegistration(DispatcherServlet servlet) {
+    public ServletRegistrationBean<DispatcherServlet> dispatcherRegistration(
+            DispatcherServlet servlet) {
         servlet.setThreadContextInheritable(true);
         return new ServletRegistrationBean<>(servlet, "/**");
     }
@@ -106,15 +103,15 @@ public class FeignSupportConfig {
      */
     @Bean
     public RequestInterceptor requestInterceptor() {
-        return template ->
-                Optional.ofNullable(RequestContextHolder.getRequestAttributes())
-                        .filter(ServletRequestAttributes.class::isInstance)
-                        .map(ServletRequestAttributes.class::cast)
-                        .map(ServletRequestAttributes::getRequest)
-                        .ifPresent(request -> {
-                            Collections.list(request.getHeaderNames()).stream()
-                                    .filter(name -> StringUtils.equalsIgnoreCase(HttpHeaders.CONTENT_LENGTH, name))
-                                    .forEach(name -> template.header(name, request.getHeader(name)));
-                        });
+        return template -> Optional.ofNullable(RequestContextHolder.getRequestAttributes())
+                .filter(ServletRequestAttributes.class::isInstance)
+                .map(ServletRequestAttributes.class::cast)
+                .map(ServletRequestAttributes::getRequest)
+                .ifPresent(request -> {
+                    Collections.list(request.getHeaderNames()).stream()
+                            .filter(name -> StringUtils.equalsIgnoreCase(HttpHeaders.CONTENT_LENGTH,
+                                    name))
+                            .forEach(name -> template.header(name, request.getHeader(name)));
+                });
     }
 }
