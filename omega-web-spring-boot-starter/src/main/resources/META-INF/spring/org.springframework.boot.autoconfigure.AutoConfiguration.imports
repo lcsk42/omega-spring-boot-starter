@@ -1,1 +1,2 @@
 com.lcsk42.frameworks.starter.web.config.WebAutoConfiguration
+com.lcsk42.frameworks.starter.web.feign.FeignSupportConfig
