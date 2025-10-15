@@ -1,4 +1,4 @@
-package com.lcsk42.frameworks.starter.database.core.model.requset;
+package com.lcsk42.frameworks.starter.database.core.model.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;

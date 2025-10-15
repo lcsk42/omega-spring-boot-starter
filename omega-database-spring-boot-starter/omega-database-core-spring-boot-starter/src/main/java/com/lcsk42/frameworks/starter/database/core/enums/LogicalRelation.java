@@ -14,5 +14,10 @@ public enum LogicalRelation {
      * 或者关系
      */
     OR,
+
+    /**
+     * 非关系
+     */
+    NOT,
     ;
 }
