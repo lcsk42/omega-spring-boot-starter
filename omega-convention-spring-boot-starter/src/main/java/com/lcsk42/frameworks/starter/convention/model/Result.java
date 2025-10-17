@@ -107,6 +107,17 @@ public class Result<T> implements Serializable {
     }
 
     /**
+     * 使用自定义错误码和消息构造一个失败响应。
+     *
+     * @param errorCode 错误码。
+     * @param errorMessage 错误消息。
+     * @return 包含指定错误信息的失败结果对象。
+     */
+    public static <T> Result<T> fail(String errorCode, String errorMessage, T data) {
+        return Result.<T>builder().code(errorCode).message(errorMessage).data(data).build();
+    }
+
+    /**
      * 判断响应是否成功。
      *
      * @return 当响应码为空时返回 true，否则返回 false。

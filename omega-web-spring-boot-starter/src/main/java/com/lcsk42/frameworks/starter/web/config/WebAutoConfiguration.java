@@ -9,7 +9,6 @@ import com.lcsk42.frameworks.starter.web.initialize.PortHolder;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.BaseHibernateValidatorConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -105,10 +104,10 @@ public class WebAutoConfiguration {
     }
 
     /**
-     * Validator 失败立即返回模式配置
+     * Validator 配置
      *
      * <p>
-     * 默认情况下会校验完所有字段，然后才抛出异常。
+     * 处理多语言
      * </p>
      */
     @Bean
@@ -116,9 +115,6 @@ public class WebAutoConfiguration {
         try (LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean()) {
             // 国际化
             factoryBean.setValidationMessageSource(messageSource);
-            // 快速失败
-            factoryBean.getValidationPropertyMap()
-                    .put(BaseHibernateValidatorConfiguration.FAIL_FAST, Boolean.TRUE.toString());
             factoryBean.afterPropertiesSet();
             return factoryBean.getValidator();
         }

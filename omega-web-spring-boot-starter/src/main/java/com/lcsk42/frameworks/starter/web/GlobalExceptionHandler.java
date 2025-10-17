@@ -7,6 +7,7 @@ import com.lcsk42.frameworks.starter.core.constant.HttpHeaderConstant;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
@@ -33,18 +36,29 @@ public class GlobalExceptionHandler {
     @SneakyThrows
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public Result<Void> validExceptionHandler(HttpServletRequest request,
+    public Result<Map<String, List<String>>> validExceptionHandler(HttpServletRequest request,
             MethodArgumentNotValidException ex) {
-        // 从第一个字段错误中提取校验错误信息
+        // 提取校验错误信息并组装
         BindingResult bindingResult = ex.getBindingResult();
-        FieldError firstFieldError = bindingResult.getFieldErrors().getFirst();
-        String exceptionStr =
-                Optional.ofNullable(firstFieldError).map(FieldError::getDefaultMessage)
-                        .orElse(StringUtils.EMPTY);
+
+        Map<String, List<String>> fieldValidationFailed = bindingResult.getFieldErrors()
+                .stream()
+                .collect(
+                        Collectors.groupingBy(FieldError::getField,
+                                Collectors.mapping(
+                                        fe -> ObjectUtils.defaultIfNull(fe.getDefaultMessage(),
+                                                "Field validation failed"),
+                                        Collectors.toList())));
+
         // 记录错误详情
-        log.error(ERROR_LOG_TEMPLATE, request.getMethod(), getUrl(request), exceptionStr);
+        if (log.isErrorEnabled()) {
+            log.error(ERROR_LOG_TEMPLATE, request.getMethod(), getUrl(request),
+                    fieldValidationFailed);
+        }
         // 返回包含错误码和消息的失败响应
-        return Result.fail(BaseErrorCode.CLIENT_ERROR.getCode(), exceptionStr)
+        return Result
+                .fail(BaseErrorCode.CLIENT_ERROR.getCode(), "Valid Exception",
+                        fieldValidationFailed)
                 .withRequestId(getRequestId(request));
     }
 
@@ -61,8 +75,10 @@ public class GlobalExceptionHandler {
             return Result.fail(ex);
         }
         // 记录不包含原因的异常详情
-        log.error(ERROR_LOG_TEMPLATE, request.getMethod(), request.getRequestURL().toString(),
-                ex.toString());
+        if (log.isErrorEnabled()) {
+            log.error(ERROR_LOG_TEMPLATE, request.getMethod(), request.getRequestURL().toString(),
+                    ex.toString());
+        }
         return Result.fail(ex).withRequestId(getRequestId(request));
     }
 
@@ -73,8 +89,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Throwable.class)
     public Result<Void> defaultErrorHandler(HttpServletRequest request, Throwable throwable) {
         // 记录未捕获的异常
-        log.error(ERROR_LOG_TEMPLATE, request.getMethod(), getUrl(request), throwable.toString(),
-                throwable);
+        if (log.isErrorEnabled()) {
+            log.error(ERROR_LOG_TEMPLATE, request.getMethod(), getUrl(request),
+                    throwable.toString(),
+                    throwable);
+        }
         return Result.fail(throwable.getMessage()).withRequestId(getRequestId(request));
     }
 

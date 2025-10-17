@@ -32,7 +32,7 @@ public class EnumValueValidator implements ConstraintValidator<EnumValue, Object
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         if (value == null) {
-            return true;
+            return false;
         }
 
         // 处理数组场景
@@ -107,7 +107,7 @@ public class EnumValueValidator implements ConstraintValidator<EnumValue, Object
     private boolean findEnumValue(Enum[] enumConstants, Object value) {
         for (Enum enumConstant : enumConstants) {
             if (enumConstant instanceof BaseEnum<?> baseEnum) {
-                if (baseEnum.getValue().toString().equals(value)) {
+                if (baseEnum.toString().equals(value)) {
                     return true;
                 }
             } else if (enumConstant.toString().equals(value)) {
