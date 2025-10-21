@@ -4,6 +4,7 @@ package com.lcsk42.frameworks.starter.log.aop.aspect;
 import com.lcsk42.frameworks.starter.log.core.config.LogProperties;
 import com.lcsk42.frameworks.starter.log.core.handler.LogHandler;
 import com.lcsk42.frameworks.starter.log.core.model.AccessLogContext;
+import com.lcsk42.frameworks.starter.log.core.util.LogUtil;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -80,6 +81,7 @@ public class AccessLogAspect {
         try {
             // 开始访问日志记录
             logHandler.accessLogStart(AccessLogContext.builder()
+                    .requestId(LogUtil.getRequestId())
                     .startTime(startTime)
                     .properties(logProperties)
                     .build());

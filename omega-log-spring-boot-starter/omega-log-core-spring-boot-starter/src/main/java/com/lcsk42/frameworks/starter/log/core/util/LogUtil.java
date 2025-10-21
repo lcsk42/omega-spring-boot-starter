@@ -1,7 +1,9 @@
 package com.lcsk42.frameworks.starter.log.core.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.lcsk42.frameworks.starter.common.util.IdUtil;
 import com.lcsk42.frameworks.starter.common.util.NetworkUtil;
+import com.lcsk42.frameworks.starter.core.constant.HttpHeaderConstant;
 import com.lcsk42.frameworks.starter.core.constant.StringConstant;
 import com.lcsk42.frameworks.starter.json.jackson.util.JacksonUtil;
 import com.lcsk42.frameworks.starter.log.core.config.AccessLogProperties;
@@ -482,5 +484,19 @@ public final class LogUtil {
      */
     public static boolean contains(Set<Include> includes, Include... include) {
         return CollectionUtils.containsAny(includes, Include.ALL, include);
+    }
+
+    /**
+     * 获取请求 ID
+     *
+     * @return 请求 ID
+     */
+    public static String getRequestId() {
+        HttpServletRequest request = getRequest();
+        if (request == null) {
+            return null;
+        }
+        String requestId = request.getHeader(HttpHeaderConstant.REQUEST_ID);
+        return StringUtils.defaultIfBlank(requestId, IdUtil.generateStandardUuid());
     }
 }

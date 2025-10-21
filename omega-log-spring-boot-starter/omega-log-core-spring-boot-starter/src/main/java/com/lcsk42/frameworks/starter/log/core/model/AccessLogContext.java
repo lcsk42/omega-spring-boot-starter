@@ -14,6 +14,12 @@ import java.time.Instant;
 @Builder
 @AllArgsConstructor
 public class AccessLogContext {
+
+    /**
+     * 请求 ID
+     */
+    private String requestId;
+
     /**
      * 开始时间
      */

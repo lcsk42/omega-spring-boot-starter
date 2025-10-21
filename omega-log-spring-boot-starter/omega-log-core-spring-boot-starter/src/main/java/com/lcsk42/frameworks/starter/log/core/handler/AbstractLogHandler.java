@@ -179,7 +179,8 @@ public abstract class AbstractLogHandler implements LogHandler {
         // 构建上下文
         logContextThread.set(accessLogContext);
         String param = LogUtil.getParam(properties);
-        log.info(param != null ? "[Start] [{}] {} param: {}" : "[Start] [{}] {}",
+        log.info(param != null ? "[Start:{}] [{}] {} param: {}" : "[Start:{}] [{}] {}",
+                accessLogContext.getRequestId(),
                 LogUtil.getRequestMethod(),
                 LogUtil.getRequestPath(),
                 param);
@@ -194,7 +195,8 @@ public abstract class AbstractLogHandler implements LogHandler {
         try {
             Duration timeTaken =
                     Duration.between(logContext.getStartTime(), accessLogContext.getEndTime());
-            log.info("[  End] [{}] {} {} {}ms",
+            log.info("[  End:{}] [{}] {} {} {}ms",
+                    logContext.getRequestId(),
                     LogUtil.getRequestMethod(),
                     LogUtil.getRequestPath(),
                     LogUtil.getResponseStatus(),
