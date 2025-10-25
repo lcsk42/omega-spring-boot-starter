@@ -1,5 +1,6 @@
 package com.lcsk42.frameworks.starter.web.feign;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.RequestInterceptor;
 import feign.Retryer;
 import feign.codec.Decoder;
@@ -39,11 +40,13 @@ public class FeignSupportConfig {
      * 它组合了多个解码器，包括对响应的可选支持。
      */
     @Bean
-    public Decoder feignDecoder(ObjectProvider<HttpMessageConverterCustomizer> customizers) {
+    public Decoder feignDecoder(ObjectProvider<HttpMessageConverterCustomizer> customizers,
+            ObjectMapper objectMapper) {
         return new OptionalDecoder(
                 new ResponseEntityDecoder(
                         new FeignResultDecoder(
-                                new SpringDecoder(this.messageConverters, customizers))));
+                                new SpringDecoder(this.messageConverters, customizers),
+                                objectMapper)));
     }
 
     /**
