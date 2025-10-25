@@ -2,8 +2,10 @@ package com.lcsk42.frameworks.starter.convention.model;
 
 import com.lcsk42.frameworks.starter.convention.errorcode.BaseErrorCode;
 import com.lcsk42.frameworks.starter.convention.exception.AbstractException;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.With;
 import org.springframework.util.StringUtils;
 
@@ -13,6 +15,8 @@ import java.util.Optional;
 
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Result<T> implements Serializable {
 
     @Serial

@@ -36,6 +36,7 @@
 
         <!-- 缓存 -->
         <redisson.version>3.50.0</redisson.version>
+        <caffeine.version>3.2.2</caffeine.version>
 
         <!-- 消息队列 -->
         <rocketmq-spring-boot-starter.version>2.3.1</rocketmq-spring-boot-starter.version>
@@ -183,6 +184,13 @@
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
+            </dependency>
+
+            <!-- Caffeine: 一个高性能、近乎最优的 Java 缓存库，提供内存缓存解决方案，支持多种淘汰策略和异步加载，广泛用于提升应用响应速度。 -->
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine.version}</version>
             </dependency>
 
             <!-- RocketMQ: 是一款高性能、高可靠、分布式的消息中间件，支持海量消息堆积、顺序消息、事务消息和实时订阅功能，适用于大规模分布式系统与实时数据处理场景  -->

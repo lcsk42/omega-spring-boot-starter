@@ -1,6 +1,11 @@
 server:
   port: 18080
 
+spring:
+  cache:
+    type: caffeine
+    spec: maximumSize=500, expireAfterWrite=30s
+
 management:
   endpoints:
     web:
