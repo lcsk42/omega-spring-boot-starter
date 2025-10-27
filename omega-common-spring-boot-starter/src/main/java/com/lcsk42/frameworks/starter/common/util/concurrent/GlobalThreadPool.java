@@ -1,4 +1,4 @@
-package com.lcsk42.frameworks.starter.common.util;
+package com.lcsk42.frameworks.starter.common.util.concurrent;
 
 import com.lcsk42.frameworks.starter.common.threadpool.build.ThreadPoolBuilder;
 import lombok.AccessLevel;
@@ -27,6 +27,13 @@ public final class GlobalThreadPool {
         }
 
         threadPoolExecutor = ThreadPoolBuilder.builder().threadFactory("global-", false).build();
+    }
+
+    /**
+     * 关闭全局线程池执行器 (优雅关闭) ,将等待已提交的任务执行完成后再关闭。
+     */
+    public static synchronized void shutdown() {
+        shutdown(false);
     }
 
     /**

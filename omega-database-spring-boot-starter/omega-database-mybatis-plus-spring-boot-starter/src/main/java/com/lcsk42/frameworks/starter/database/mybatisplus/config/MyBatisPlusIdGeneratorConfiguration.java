@@ -2,7 +2,7 @@ package com.lcsk42.frameworks.starter.database.mybatisplus.config;
 
 import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
-import com.lcsk42.frameworks.starter.common.util.NetworkUtil;
+import com.lcsk42.frameworks.starter.common.util.net.NetworkUtil;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;

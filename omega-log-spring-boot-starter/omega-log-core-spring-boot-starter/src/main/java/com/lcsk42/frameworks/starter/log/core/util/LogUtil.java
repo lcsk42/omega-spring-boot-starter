@@ -2,7 +2,7 @@ package com.lcsk42.frameworks.starter.log.core.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.lcsk42.frameworks.starter.common.util.IdUtil;
-import com.lcsk42.frameworks.starter.common.util.NetworkUtil;
+import com.lcsk42.frameworks.starter.common.util.net.NetworkUtil;
 import com.lcsk42.frameworks.starter.core.constant.HttpHeaderConstant;
 import com.lcsk42.frameworks.starter.core.constant.StringConstant;
 import com.lcsk42.frameworks.starter.json.jackson.util.JacksonUtil;

@@ -1,7 +1,7 @@
 package com.lcsk42.frameworks.starter.common.convert;
 
 
-import com.lcsk42.frameworks.starter.common.util.LocalDateTimeUtil;
+import com.lcsk42.frameworks.starter.common.util.time.LocalDateTimeUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;

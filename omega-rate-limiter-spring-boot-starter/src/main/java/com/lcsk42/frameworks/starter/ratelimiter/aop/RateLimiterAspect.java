@@ -2,7 +2,7 @@ package com.lcsk42.frameworks.starter.ratelimiter.aop;
 
 import com.lcsk42.frameworks.starter.cache.core.util.CacheUtil;
 import com.lcsk42.frameworks.starter.common.util.ExpressionUtils;
-import com.lcsk42.frameworks.starter.common.util.NetworkUtil;
+import com.lcsk42.frameworks.starter.common.util.net.NetworkUtil;
 import com.lcsk42.frameworks.starter.ratelimiter.annotation.RateLimiter;
 import com.lcsk42.frameworks.starter.ratelimiter.annotation.RateLimiters;
 import com.lcsk42.frameworks.starter.ratelimiter.config.RateLimiterConfiguration;

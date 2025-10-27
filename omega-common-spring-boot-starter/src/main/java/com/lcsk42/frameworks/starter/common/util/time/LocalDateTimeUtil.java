@@ -1,4 +1,4 @@
-package com.lcsk42.frameworks.starter.common.util;
+package com.lcsk42.frameworks.starter.common.util.time;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  * LocalDateTime 转换和操作工具类。 提供跨不同时区处理时间戳的方法。
@@ -82,21 +83,58 @@ public final class LocalDateTimeUtil {
     }
 
     /**
-     * 基本 ISO 日期格式(yyyyMMdd)的格式化器（不含分隔符）。 此格式遵循 ISO-8601 扩展日期格式，但省略了连字符。
-     * <p>
-     * 示例：2023年12月25日格式化为 "20231225"。
+     * 创建并为 {@link DateTimeFormatter} 赋予默认时区和位置信息，默认值为系统默认值。
      *
-     * @see DateTimeFormatter#ISO_LOCAL_DATE
+     * @param pattern 日期格式
+     * @return {@link DateTimeFormatter}
      */
-    public static final DateTimeFormatter BASIC_ISO_DATE_FORMATTER;
+    public static DateTimeFormatter createFormatter(String pattern) {
+        return DateTimeFormatter.ofPattern(pattern, Locale.getDefault())
+                .withZone(ZoneId.systemDefault());
+    }
 
     /**
-     * 标准日期格式：yyyyMMddHHmmss
+     * 纯(无分割符)日期格式：yyyyMMdd
      */
-    public static final DateTimeFormatter PURE_DATETIME_PATTERN;
+    public static final DateTimeFormatter PURE_DATE;
+
+    /**
+     * 纯(无分割符)日期格式：HHmmss
+     */
+    public static final DateTimeFormatter PURE_TIME;
+
+    /**
+     * 纯(无分割符)日期格式：yyyyMMddHHmmss
+     */
+    public static final DateTimeFormatter PURE_DATE_TIME;
+
+    /**
+     * 标准日期时间格式，精确到毫秒：yyyy-MM-dd HH:mm:ss
+     */
+    public static final DateTimeFormatter NORM_DATE_TIME;
+
+    /**
+     * 标准日期时间格式，精确到毫秒：yyyy-MM-dd HH:mm:ss.SSS
+     */
+    public static final DateTimeFormatter NORM_DATE_TIME_MS;
+
+    /**
+     * 标准日期格式：yyyy年MM月dd日
+     */
+    public static final DateTimeFormatter CHINESE_DATE;
+
+    /**
+     * 标准日期格式：yyyy年MM月dd日 HH时mm分ss秒
+     */
+    public static final DateTimeFormatter CHINESE_DATE_TIME;
 
     static {
-        BASIC_ISO_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
-        PURE_DATETIME_PATTERN = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        PURE_DATE = createFormatter("yyyyMMdd");
+        PURE_TIME = createFormatter("HHmmss");
+        PURE_DATE_TIME = createFormatter("yyyyMMddHHmmss");
+        NORM_DATE_TIME = createFormatter("yyyy-MM-dd HH:mm:ss");
+        NORM_DATE_TIME_MS = createFormatter("yyyy-MM-dd HH:mm:ss.SSS");
+        CHINESE_DATE = createFormatter("yyyy年MM月dd日");
+        CHINESE_DATE_TIME = createFormatter("yyyy年MM月dd日HH时mm分ss秒");
     }
 }

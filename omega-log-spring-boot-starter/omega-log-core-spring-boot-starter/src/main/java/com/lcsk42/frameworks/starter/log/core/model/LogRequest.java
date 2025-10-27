@@ -1,6 +1,6 @@
 package com.lcsk42.frameworks.starter.log.core.model;
 
-import com.lcsk42.frameworks.starter.common.util.IpUtil;
+import com.lcsk42.frameworks.starter.common.util.net.IpUtil;
 import com.lcsk42.frameworks.starter.json.jackson.util.JacksonUtil;
 import com.lcsk42.frameworks.starter.log.core.enums.Include;
 import com.lcsk42.frameworks.starter.log.core.exception.LogErrorCode;
