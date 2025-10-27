@@ -43,9 +43,13 @@ public abstract class AbstractLogHandler implements LogHandler {
         if (targetClass.getDeclaredAnnotation(Hidden.class) != null) {
             return false;
         }
-        // 如果接口方法或类上有 @Log 注解，且要求忽略该接口，则不记录日志
         Log methodLog = AnnotationUtils.getAnnotation(targetMethod, Log.class);
-        if (methodLog != null && methodLog.ignore()) {
+        // 没有 @Log 注解，不记录
+        if (methodLog == null) {
+            return false;
+        }
+        // 如果接口方法或类上有 @Log 注解，且要求忽略该接口，则不记录日志
+        if (methodLog.ignore()) {
             return false;
         }
         Log classLog = AnnotationUtils.getAnnotation(targetClass, Log.class);

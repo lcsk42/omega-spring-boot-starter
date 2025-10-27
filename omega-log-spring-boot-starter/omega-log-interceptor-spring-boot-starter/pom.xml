@@ -3,27 +3,28 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.lcsk42</groupId>
-        <artifactId>omega-spring-boot-starter</artifactId>
+        <artifactId>omega-log-spring-boot-starter</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>omega-log-spring-boot-starter</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>omega-log-interceptor-spring-boot-starter</artifactId>
+    <packaging>jar</packaging>
 
-    <name>${project.artifactId}</name>
+    <name>${revision}</name>
     <description>
-        Omega 日志模块
+        Omega 日志模块 - 拦截器实现
     </description>
-    <modules>
-        <module>omega-log-core-spring-boot-starter</module>
-        <module>omega-log-aop-spring-boot-starter</module>
-        <module>omega-log-interceptor-spring-boot-starter</module>
-    </modules>
+
 
     <dependencies>
         <dependency>
             <groupId>com.lcsk42</groupId>
-            <artifactId>omega-core-spring-boot-starter</artifactId>
+            <artifactId>omega-log-core-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
         </dependency>
     </dependencies>
 </project>
