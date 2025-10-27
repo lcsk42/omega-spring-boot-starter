@@ -21,7 +21,7 @@ public class RequestIdFilter implements GlobalFilter {
                 .getFirst(HttpHeaderConstant.REQUEST_ID);
 
         if (StringUtils.isBlank(requestId)) {
-            requestId = HttpHeaderConstant.getGatewayRequestId();
+            requestId = HttpHeaderConstant.getRequestId();
             request = request.mutate()
                     .header(HttpHeaderConstant.REQUEST_ID, requestId)
                     .build();

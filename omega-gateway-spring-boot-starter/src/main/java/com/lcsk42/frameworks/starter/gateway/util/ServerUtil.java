@@ -29,11 +29,7 @@ public final class ServerUtil {
         String requestId = request.getHeaders()
                 .getFirst(HttpHeaderConstant.REQUEST_ID);
 
-        if (StringUtils.isBlank(requestId)) {
-            return HttpHeaderConstant.getExceptionRequestId();
-        } else {
-            return HttpHeaderConstant.getClientRequestId(requestId);
-        }
+        return StringUtils.defaultIfBlank(requestId, HttpHeaderConstant.getRequestId());
     }
 
     /**

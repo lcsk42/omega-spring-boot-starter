@@ -106,7 +106,7 @@ public class GlobalResultHandler implements ResponseBodyAdvice<Object> {
 
         if (StringUtils.isBlank(requestId)) {
             // 如果 request ID 是空的，生成一个新的
-            requestId = HttpHeaderConstant.getReturnRequestId();
+            requestId = HttpHeaderConstant.getRequestId();
         }
 
         if (Objects.isNull(body)) {

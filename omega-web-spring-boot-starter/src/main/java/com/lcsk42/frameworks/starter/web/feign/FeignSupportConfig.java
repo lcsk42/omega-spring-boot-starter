@@ -24,7 +24,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Optional;
 
@@ -111,10 +111,14 @@ public class FeignSupportConfig {
                 .map(ServletRequestAttributes.class::cast)
                 .map(ServletRequestAttributes::getRequest)
                 .ifPresent(request -> {
-                    Collections.list(request.getHeaderNames()).stream()
-                            .filter(name -> StringUtils.equalsIgnoreCase(HttpHeaders.CONTENT_LENGTH,
-                                    name))
-                            .forEach(name -> template.header(name, request.getHeader(name)));
+                    Enumeration<String> headerNames = request.getHeaderNames();
+                    while (headerNames.hasMoreElements()) {
+                        String name = headerNames.nextElement();
+                        if (!StringUtils.equalsIgnoreCase(HttpHeaders.CONTENT_LENGTH,
+                                name)) {
+                            template.header(name, request.getHeader(name));
+                        }
+                    }
                 });
     }
 }

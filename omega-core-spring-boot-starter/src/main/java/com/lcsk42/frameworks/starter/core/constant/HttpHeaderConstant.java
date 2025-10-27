@@ -20,20 +20,8 @@ public final class HttpHeaderConstant {
      */
     public static final String REQUEST_ID = "Request-Id";
 
-    public static String getClientRequestId(String requestId) {
-        return "C-" + requestId;
-    }
-
-    public static String getGatewayRequestId() {
-        return "G-" + UUID.randomUUID();
-    }
-
-    public static String getReturnRequestId() {
-        return "R-" + UUID.randomUUID();
-    }
-
-    public static String getExceptionRequestId() {
-        return "GE-" + UUID.randomUUID();
+    public static String getRequestId() {
+        return UUID.randomUUID().toString();
     }
 
     /**

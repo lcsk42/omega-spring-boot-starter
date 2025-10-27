@@ -110,7 +110,7 @@ public class GlobalExceptionHandler {
     private String getRequestId(HttpServletRequest request) {
         String requestId = request.getHeader(HttpHeaderConstant.REQUEST_ID);
         if (StringUtils.isBlank(requestId)) {
-            requestId = HttpHeaderConstant.getExceptionRequestId();
+            requestId = HttpHeaderConstant.getRequestId();
         }
         return requestId;
     }
