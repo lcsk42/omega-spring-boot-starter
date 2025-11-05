@@ -21,7 +21,7 @@ public class ApplicationContextHolder implements BeanFactoryPostProcessor, Appli
 
     /**
      * "@PostConstruct" 注解标记的类中，由于 ApplicationContext 还未加载，导致空指针<br>
-     * 因此实现BeanFactoryPostProcessor 注 入ConfigurableListableBeanFactory 实现 bean 的操作
+     * 因此实现 BeanFactoryPostProcessor 注入 ConfigurableListableBeanFactory 实现 bean 的操作
      */
     private static ConfigurableListableBeanFactory beanFactory;
 

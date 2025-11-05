@@ -61,7 +61,7 @@ public class IdempotentParamExecuteHandler extends AbstractIdempotentExecuteHand
     private Long getCurrentUserId() {
         return Optional.ofNullable(UserContext.getUserId())
                 .orElseGet(() -> {
-                    log.info("用户ID获取失败");
+                    log.warn("用户ID获取失败");
                     return NumberUtils.LONG_ZERO;
                 });
     }

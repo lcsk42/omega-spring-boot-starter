@@ -1,5 +1,6 @@
 package com.lcsk42.frameworks.starter.web.config;
 
+import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.lcsk42.frameworks.starter.core.YamlPropertySourceFactory;
 import com.lcsk42.frameworks.starter.web.GlobalExceptionHandler;
 import com.lcsk42.frameworks.starter.web.GlobalResultHandler;
@@ -118,6 +119,22 @@ public class WebAutoConfiguration {
             factoryBean.afterPropertiesSet();
             return factoryBean.getValidator();
         }
+    }
+
+    /**
+     * 启动时打印 Nacos 配置信息
+     */
+    @Bean
+    public String printNacosConfiguration(NacosDiscoveryProperties discoveryProperties) {
+        log.debug(
+                "[Omega] -Nacos Info{serverAddr='{}', username='{}', namespace='{}', group='{}', service='{}', ip='{}'}",
+                discoveryProperties.getServerAddr(),
+                discoveryProperties.getUsername(),
+                discoveryProperties.getNamespace(),
+                discoveryProperties.getGroup(),
+                discoveryProperties.getService(),
+                discoveryProperties.getIp());
+        return "[Omega] - Nacos Service Configuration Printed.";
     }
 
     @PostConstruct

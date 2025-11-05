@@ -45,11 +45,7 @@ public final class ServerUtil {
             String message, String requestId) {
         response.setStatusCode(statusCode);
         String json = JacksonUtil.toJSON(
-                Result.builder()
-                        .code(statusCode.toString())
-                        .message(message)
-                        .build()
-                        .withRequestId(requestId));
+                Result.fail(statusCode.toString(), message).withRequestId(requestId));
 
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
