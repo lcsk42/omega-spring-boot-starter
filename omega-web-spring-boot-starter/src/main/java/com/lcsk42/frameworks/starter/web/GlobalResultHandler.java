@@ -34,7 +34,7 @@ public class GlobalResultHandler implements ResponseBodyAdvice<Object> {
      * 判断是否应处理响应体。此方法检查：
      * 1. 检查类是否具有 @RestController 注解, 如果没有，不处理
      * 2. 检查类或方法是否具有 @CompatibleOutput 注解, 如果有, 则不处理
-     * 2. 检查返回值是否为 Result 类型
+     * 3. 检查返回值是否为 Result 类型
      */
     @Override
     public boolean supports(@NonNull MethodParameter returnType,

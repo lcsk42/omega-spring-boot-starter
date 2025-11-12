@@ -37,6 +37,7 @@
         <module>omega-idempotent-spring-boot-starter</module>
         <module>omega-gateway-spring-boot-starter</module>
         <module>omega-rate-limiter-spring-boot-starter</module>
+        <module>omega-test-spring-boot-starter</module>
     </modules>
 
     <properties>
