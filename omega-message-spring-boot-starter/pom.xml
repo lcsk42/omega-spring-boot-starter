@@ -7,19 +7,15 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>omega-test-spring-boot-starter</artifactId>
+    <artifactId>omega-message-spring-boot-starter</artifactId>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
     <description>
-        Omega 测试模块
+        Omega 消息模块
     </description>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>omega-message-mail-spring-boot-starter</module>
+    </modules>
 </project>

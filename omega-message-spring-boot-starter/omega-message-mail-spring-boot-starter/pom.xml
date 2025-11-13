@@ -3,23 +3,27 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.lcsk42</groupId>
-        <artifactId>omega-spring-boot-starter</artifactId>
+        <artifactId>omega-message-spring-boot-starter</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>omega-test-spring-boot-starter</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>omega-message-mail-spring-boot-starter</artifactId>
+    <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
     <description>
-        Omega 测试模块
+        Omega 消息模块 - 邮件
     </description>
 
     <dependencies>
         <dependency>
+            <groupId>com.lcsk42</groupId>
+            <artifactId>omega-common-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- Java 邮件支持 -->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
     </dependencies>
 </project>

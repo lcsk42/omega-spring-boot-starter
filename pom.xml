@@ -38,6 +38,7 @@
         <module>omega-gateway-spring-boot-starter</module>
         <module>omega-rate-limiter-spring-boot-starter</module>
         <module>omega-test-spring-boot-starter</module>
+        <module>omega-message-spring-boot-starter</module>
     </modules>
 
     <properties>
