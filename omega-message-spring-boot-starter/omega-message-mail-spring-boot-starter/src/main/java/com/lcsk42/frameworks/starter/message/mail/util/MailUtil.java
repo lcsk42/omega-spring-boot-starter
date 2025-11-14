@@ -36,7 +36,7 @@ public final class MailUtil {
      *
      * @param subject 主题
      * @param content 内容
-     * @param to      收件人
+     * @param to 收件人
      * @throws MessagingException /
      */
     public static void sendText(String to, String subject, String content)
@@ -50,7 +50,7 @@ public final class MailUtil {
      *
      * @param subject 主题
      * @param content 内容
-     * @param tos     收件人列表
+     * @param tos 收件人列表
      * @throws MessagingException /
      */
     public static void sendText(Collection<String> tos, String subject, String content)
@@ -63,13 +63,13 @@ public final class MailUtil {
      *
      * @param subject 主题
      * @param content 内容
-     * @param tos     收件人列表
+     * @param tos 收件人列表
      * @throws MessagingException /
      */
     public static void sendText(Collection<String> tos,
-                                Collection<String> ccs,
-                                Collection<String> bccs,
-                                String subject, String content) throws MessagingException {
+            Collection<String> ccs,
+            Collection<String> bccs,
+            String subject, String content) throws MessagingException {
         send(tos, ccs, bccs, subject, content, false);
     }
 
@@ -79,12 +79,12 @@ public final class MailUtil {
      *
      * @param subject 主题
      * @param content 内容
-     * @param tos     收件人列表
+     * @param tos 收件人列表
      * @throws MessagingException /
      */
     public static void sendText(Collection<String> tos,
-                                Collection<String> ccs,
-                                String subject, String content) throws MessagingException {
+            Collection<String> ccs,
+            String subject, String content) throws MessagingException {
         send(tos, ccs, null, subject, content, false);
     }
 
@@ -94,7 +94,7 @@ public final class MailUtil {
      *
      * @param subject 主题
      * @param content 内容
-     * @param to      收件人
+     * @param to 收件人
      * @throws MessagingException /
      */
     public static void sendHtml(String to, String subject, String content)
@@ -107,8 +107,8 @@ public final class MailUtil {
      *
      * @param subject 主题
      * @param content 内容
-     * @param to      收件人
-     * @param files   附件列表
+     * @param to 收件人
+     * @param files 附件列表
      * @throws MessagingException /
      */
     public static void sendHtml(String to, String subject, String content, File... files)
@@ -121,14 +121,14 @@ public final class MailUtil {
      *
      * @param subject 主题
      * @param content 内容
-     * @param tos     收件人列表
-     * @param files   附件列表
+     * @param tos 收件人列表
+     * @param files 附件列表
      * @throws MessagingException /
      */
     public static void sendHtml(Collection<String> tos,
-                                String subject,
-                                String content,
-                                File... files) throws MessagingException {
+            String subject,
+            String content,
+            File... files) throws MessagingException {
         send(tos, null, null, subject, content, true, files);
     }
 
@@ -137,16 +137,16 @@ public final class MailUtil {
      *
      * @param subject 主题
      * @param content 内容
-     * @param tos     收件人列表
-     * @param ccs     抄送人列表
-     * @param files   附件列表
+     * @param tos 收件人列表
+     * @param ccs 抄送人列表
+     * @param files 附件列表
      * @throws MessagingException /
      */
     public static void sendHtml(Collection<String> tos,
-                                Collection<String> ccs,
-                                String subject,
-                                String content,
-                                File... files) throws MessagingException {
+            Collection<String> ccs,
+            String subject,
+            String content,
+            File... files) throws MessagingException {
         send(tos, ccs, null, subject, content, true, files);
     }
 
@@ -155,40 +155,40 @@ public final class MailUtil {
      *
      * @param subject 主题
      * @param content 内容
-     * @param tos     收件人列表
-     * @param ccs     抄送人列表
-     * @param bccs    密送人列表
-     * @param files   附件列表
+     * @param tos 收件人列表
+     * @param ccs 抄送人列表
+     * @param bccs 密送人列表
+     * @param files 附件列表
      * @throws MessagingException /
      */
     public static void sendHtml(Collection<String> tos,
-                                Collection<String> ccs,
-                                Collection<String> bccs,
-                                String subject,
-                                String content,
-                                File... files) throws MessagingException {
+            Collection<String> ccs,
+            Collection<String> bccs,
+            String subject,
+            String content,
+            File... files) throws MessagingException {
         send(tos, ccs, bccs, subject, content, true, files);
     }
 
     /**
      * 发送邮件给多个人
      *
-     * @param tos     收件人列表
-     * @param ccs     抄送人列表
-     * @param bccs    密送人列表
+     * @param tos 收件人列表
+     * @param ccs 抄送人列表
+     * @param bccs 密送人列表
      * @param subject 主题
      * @param content 内容
-     * @param html    是否是 HTML
-     * @param files   附件列表
+     * @param html 是否是 HTML
+     * @param files 附件列表
      * @throws MessagingException /
      */
     public static void send(Collection<String> tos,
-                            Collection<String> ccs,
-                            Collection<String> bccs,
-                            String subject,
-                            String content,
-                            boolean html,
-                            File... files) throws MessagingException {
+            Collection<String> ccs,
+            Collection<String> bccs,
+            String subject,
+            String content,
+            boolean html,
+            File... files) throws MessagingException {
 
         Validate.isTrue(CollectionUtils.isNotEmpty(tos), "请至少指定一名收件人");
 

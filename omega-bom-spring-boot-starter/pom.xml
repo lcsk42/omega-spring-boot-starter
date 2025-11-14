@@ -206,6 +206,20 @@
                 <artifactId>omega-message-mail-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
+
+            <!-- 字段脱敏 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-security-mask-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- XSS 注入处理 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-security-xss-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

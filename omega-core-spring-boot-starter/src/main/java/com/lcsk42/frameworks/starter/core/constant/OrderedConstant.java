@@ -34,7 +34,7 @@ public final class OrderedConstant {
         /**
          * XSS 过滤器顺序
          */
-        public static final int XSS = Ordered.HIGHEST_PRECEDENCE + 300;
+        public static final int XSS = Ordered.LOWEST_PRECEDENCE - 200;
 
         /**
          * Request Id 处理器
