@@ -3,27 +3,23 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.lcsk42</groupId>
-        <artifactId>omega-spring-boot-starter</artifactId>
+        <artifactId>omega-message-spring-boot-starter</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>omega-message-spring-boot-starter</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>omega-message-websocket-spring-boot-starter</artifactId>
+    <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
     <description>
-        Omega 消息模块
+        Omega 消息模块 - WebSocket
     </description>
 
-    <modules>
-        <module>omega-message-mail-spring-boot-starter</module>
-        <module>omega-message-websocket-spring-boot-starter</module>
-    </modules>
-
     <dependencies>
+        <!-- WebSocket 支持 -->
         <dependency>
-            <groupId>com.lcsk42</groupId>
-            <artifactId>omega-core-spring-boot-starter</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
     </dependencies>
 </project>

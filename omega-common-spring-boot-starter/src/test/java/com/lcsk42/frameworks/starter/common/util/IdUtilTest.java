@@ -99,7 +99,8 @@ class IdUtilTest {
     @Test
     void testGenerateWorkerIdWithInvalidHostInfo() throws Exception {
         mockedInetAddress = mockStatic(InetAddress.class);
-        mockedInetAddress.when(InetAddress::getLocalHost).thenThrow(new RuntimeException("Network error"));
+        mockedInetAddress.when(InetAddress::getLocalHost)
+                .thenThrow(new RuntimeException("Network error"));
 
         long workerBits = 5;
         long maxWorkerId = ~(-1L << workerBits);
@@ -131,7 +132,8 @@ class IdUtilTest {
     @Test
     void testGenerateDatacenterIdWithInvalidIp() throws Exception {
         mockedInetAddress = mockStatic(InetAddress.class);
-        mockedInetAddress.when(InetAddress::getLocalHost).thenThrow(new RuntimeException("Network error"));
+        mockedInetAddress.when(InetAddress::getLocalHost)
+                .thenThrow(new RuntimeException("Network error"));
 
         long datacenterBits = 5;
         long maxDatacenterId = ~(-1L << datacenterBits);

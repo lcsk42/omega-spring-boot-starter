@@ -35,7 +35,8 @@ public final class CryptoUtil {
     private static final String RSA_ALGORITHM = "RSA";
     private static final int RSA_KEY_SIZE = 2048;
     private static final String IV_PARAMETER = "1234567890123456";
-    private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+    private static final String CHARS =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
 
     /**
      * Base64 编码
@@ -106,7 +107,7 @@ public final class CryptoUtil {
     /**
      * AES 加密
      *
-     * @param data     待加密数据
+     * @param data 待加密数据
      * @param password 秘钥字符串
      * @return 加密后字符串, 采用 Base64 编码
      */
@@ -117,9 +118,9 @@ public final class CryptoUtil {
     /**
      * AES 加密
      *
-     * @param data     待加密数据
+     * @param data 待加密数据
      * @param password 秘钥字符串
-     * @param iv       偏移量
+     * @param iv 偏移量
      * @return 加密后字符串, 采用 Base64 编码
      */
     public static String encryptAes(String data, String password, String iv) {
@@ -130,8 +131,10 @@ public final class CryptoUtil {
         }
 
         try {
-            SecretKeySpec secretKey = new SecretKeySpec(password.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
-            IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8));
+            SecretKeySpec secretKey =
+                    new SecretKeySpec(password.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
+            IvParameterSpec ivParameterSpec =
+                    new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8));
 
             Cipher cipher = Cipher.getInstance(AES_TRANSFORMATION);
             cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec);
@@ -147,7 +150,7 @@ public final class CryptoUtil {
     /**
      * AES 解密
      *
-     * @param data     待解密数据
+     * @param data 待解密数据
      * @param password 秘钥字符串
      * @return 解密后字符串
      */
@@ -158,9 +161,9 @@ public final class CryptoUtil {
     /**
      * AES 解密
      *
-     * @param data     待解密数据
+     * @param data 待解密数据
      * @param password 秘钥字符串
-     * @param iv       偏移量
+     * @param iv 偏移量
      * @return 解密后字符串
      */
     public static String decryptAes(String data, String password, String iv) {
@@ -172,8 +175,10 @@ public final class CryptoUtil {
         }
 
         try {
-            SecretKeySpec secretKey = new SecretKeySpec(password.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
-            IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8));
+            SecretKeySpec secretKey =
+                    new SecretKeySpec(password.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
+            IvParameterSpec ivParameterSpec =
+                    new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8));
 
             Cipher cipher = Cipher.getInstance(AES_TRANSFORMATION);
             cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
@@ -199,7 +204,8 @@ public final class CryptoUtil {
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
             String publicKey = Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded());
-            String privateKey = Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded());
+            String privateKey =
+                    Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded());
             return Pair.of(publicKey, privateKey);
         } catch (Exception e) {
             log.error("生成 RSA 密钥对失败", e);
@@ -210,7 +216,7 @@ public final class CryptoUtil {
     /**
      * RSA 公钥加密
      *
-     * @param data      待加密数据
+     * @param data 待加密数据
      * @param publicKey 公钥
      * @return 加密后字符串, 采用Base64编码
      * @author lishuyan
@@ -237,7 +243,7 @@ public final class CryptoUtil {
     /**
      * RSA 私钥解密
      *
-     * @param data       待解密数据
+     * @param data 待解密数据
      * @param privateKey 私钥
      * @return 解密后字符串
      * @author lishuyan

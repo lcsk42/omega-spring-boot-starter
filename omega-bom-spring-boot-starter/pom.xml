@@ -207,6 +207,13 @@
                 <version>${revision}</version>
             </dependency>
 
+            <!-- WebSocket 模块 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-message-websocket-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
             <!-- 字段脱敏 -->
             <dependency>
                 <groupId>com.lcsk42</groupId>
