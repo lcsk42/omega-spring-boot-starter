@@ -7,19 +7,15 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>omega-test-spring-boot-starter</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>omega-crypto-spring-boot-starter</artifactId>
+    <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
     <description>
-        Omega 测试模块
+        Omega 加解密
     </description>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>omega-crypto-core-spring-boot-starter</module>
+    </modules>
 </project>

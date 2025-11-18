@@ -220,6 +220,13 @@
                 <artifactId>omega-security-xss-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
+
+            <!-- 测试工具 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-test-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
