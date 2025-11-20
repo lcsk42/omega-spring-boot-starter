@@ -3,6 +3,7 @@ package com.lcsk42.frameworks.starter.apidoc.config;
 import com.lcsk42.frameworks.starter.apidoc.handler.BaseEnumParameterHandler;
 import com.lcsk42.frameworks.starter.apidoc.handler.OpenApiHandler;
 import com.lcsk42.frameworks.starter.core.YamlPropertySourceFactory;
+import com.lcsk42.frameworks.starter.core.constant.StringConstant;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -11,8 +12,10 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springdoc.core.configuration.SpringDocConfiguration;
 import org.springdoc.core.customizers.GlobalOpenApiCustomizer;
@@ -28,6 +31,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -43,10 +47,13 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @EnableWebMvc
+@RequiredArgsConstructor
 @AutoConfiguration(before = SpringDocConfiguration.class)
 @EnableConfigurationProperties({ApiDocProperties.class})
 @PropertySource(value = "classpath:default-api-doc.yml", factory = YamlPropertySourceFactory.class)
 public class ApiDocAutoConfiguration implements WebMvcConfigurer {
+
+    private final Environment environment;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -66,12 +73,25 @@ public class ApiDocAutoConfiguration implements WebMvcConfigurer {
     @ConditionalOnMissingBean
     public OpenAPI openApi(ApiDocProperties properties) {
         Info info = new Info();
-        String title = properties.getName();
-        if (StringUtils.isNoneBlank(title)) {
-            info.title("%s %s".formatted(title, "API 文档"));
-        } else {
-            info.title("API 文档");
+
+        StringBuilder title = new StringBuilder();
+        String[] activeProfiles = environment.getActiveProfiles();
+        if (ArrayUtils.isNotEmpty(activeProfiles)) {
+            title.append(StringConstant.BRACKET_START);
+            title.append(String.join(StringConstant.COMMA, activeProfiles));
+            title.append(StringConstant.BRACKET_END);
+            title.append(StringConstant.SPACE);
         }
+
+        String name = properties.getName();
+        if (StringUtils.isNoneBlank(name)) {
+            title.append(name);
+            title.append(StringConstant.SPACE);
+        }
+
+        title.append("API 文档");
+        info.title(title.toString());
+
         info.version(properties.getVersion())
                 .description(properties.getDescription());
         ApiDocProperties.Contact contact = properties.getContact();
