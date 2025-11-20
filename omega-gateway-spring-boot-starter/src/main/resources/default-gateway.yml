@@ -5,6 +5,20 @@ spring:
   cache:
     type: caffeine
     spec: maximumSize=500, expireAfterWrite=30s
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: root-to-doc
+          uri: http://127.0.0.1:${server.port}
+          predicates:
+            - Path=/
+          filters:
+            - RedirectTo=302, /doc.html
+          order: -1
 
 management:
   endpoints:
