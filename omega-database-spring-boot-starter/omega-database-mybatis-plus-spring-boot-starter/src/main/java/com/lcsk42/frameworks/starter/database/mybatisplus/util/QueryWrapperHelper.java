@@ -37,7 +37,6 @@ public final class QueryWrapperHelper {
      *
      * @param queryWrapper 查询条件封装对象
      * @param sort 排序条件
-     * @since 2.9.0
      */
     public static <T> void sort(QueryWrapper<T> queryWrapper, Sort sort) {
         if (sort == null || sort.isUnsorted()) {

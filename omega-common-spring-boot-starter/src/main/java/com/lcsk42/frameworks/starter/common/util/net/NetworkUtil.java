@@ -43,7 +43,7 @@ public final class NetworkUtil {
             Enumeration<InetAddress> addresses = iface.getInetAddresses();
             while (addresses.hasMoreElements()) {
                 InetAddress addr = addresses.nextElement();
-                // 检查是否为IPv4地址、非回路地址、非局域网地址
+                // 检查是否为 IPv4 地址、非回路地址、非局域网地址
                 if (addr instanceof Inet4Address && !addr.isLoopbackAddress()
                         && !addr.isSiteLocalAddress()) {
                     // 找到第一个符合条件的地址立即返回
@@ -57,11 +57,10 @@ public final class NetworkUtil {
     }
 
     /**
-     * 从多级反向代理中获得第一个非unknown IP地址
+     * 从多级反向代理中获得第一个非 unknown IP 地址
      *
-     * @param ip 获得的IP地址
-     * @return 第一个非unknown IP地址
-     * @since 4.4.1
+     * @param ip 获得的 IP 地址
+     * @return 第一个非 unknown IP 地址
      */
     public static String getMultistageReverseProxyIp(String ip) {
         // 多级反向代理检测
@@ -80,7 +79,7 @@ public final class NetworkUtil {
     }
 
     /**
-     * 检测给定字符串是否为未知，多用于检测HTTP请求相关<br>
+     * 检测给定字符串是否为未知，多用于检测 HTTP 请求相关<br>
      *
      * @param checkString 被检测的字符串
      * @return 是否未知
@@ -99,7 +98,7 @@ public final class NetworkUtil {
      * C类 192.168.0.0-192.168.255.255
      * </pre>
      * <p>
-     * 当然，还有127这个网段是环回地址
+     * 当然，还有 127 这个网段是环回地址
      *
      * @param ipAddress IP地址
      * @return 是否为内网IP
@@ -123,7 +122,7 @@ public final class NetworkUtil {
     }
 
     /**
-     * 根据ip地址(xxx.xxx.xxx.xxx)计算出long型的数据
+     * 根据ip地址(xxx.xxx.xxx.xxx)计算出 long 型的数据
      * 方法别名：inet_aton
      *
      * @param strIP IP V4 地址
@@ -138,10 +137,10 @@ public final class NetworkUtil {
     }
 
     /**
-     * 将匹配到的Ipv4地址的4个分组分别处理
+     * 将匹配到的 Ipv4 地址的 4 个分组分别处理
      *
-     * @param matcher 匹配到的Ipv4正则
-     * @return ipv4对应long
+     * @param matcher 匹配到的 Ipv4 正则
+     * @return ipv4 对应 long
      */
     private static long matchAddress(Matcher matcher) {
         long addr = 0;
@@ -154,9 +153,9 @@ public final class NetworkUtil {
     /**
      * 指定IP的long是否在指定范围内
      *
-     * @param userIp 用户IP
-     * @param begin 开始IP
-     * @param end 结束IP
+     * @param userIp 用户 IP
+     * @param begin 开始 IP
+     * @param end 结束 IP
      * @return 是否在范围内
      */
     private static boolean isInner(long userIp, long begin, long end) {

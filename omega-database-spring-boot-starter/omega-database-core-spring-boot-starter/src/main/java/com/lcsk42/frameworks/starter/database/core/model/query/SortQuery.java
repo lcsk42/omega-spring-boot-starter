@@ -35,7 +35,6 @@ public class SortQuery {
      * </p>
      *
      * @param sort 排序条件
-     * @since 2.12.0
      */
     public SortQuery(String... sort) {
         this.sort = sort;

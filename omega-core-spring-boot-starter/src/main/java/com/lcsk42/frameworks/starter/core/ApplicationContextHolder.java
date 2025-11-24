@@ -90,7 +90,6 @@ public class ApplicationContextHolder implements BeanFactoryPostProcessor, Appli
      *
      * @param key 配置项key
      * @return 属性值
-     * @since 5.3.3
      */
     public static String getProperty(String key) {
         if (null == applicationContext) {

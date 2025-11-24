@@ -363,7 +363,6 @@ public final class LogUtil {
      * 获取请求头信息
      *
      * @return {@link Map }<{@link String }, {@link String }>
-     * @since 2.11.0
      */
     public static Map<String, String> getRequestHeaders() {
         HttpServletRequest request = getRequest();
