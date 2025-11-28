@@ -10,16 +10,29 @@ public class BasePOMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject, BasePO.Fields.deleted, Boolean.class, false);
-        this.strictInsertFill(metaObject, BasePO.Fields.createTime, LocalDateTime.class,
+        this.strictInsertFill(
+                metaObject,
+                BasePO.Fields.deleted,
+                Boolean.class,
+                false);
+        this.strictInsertFill(
+                metaObject,
+                BasePO.Fields.createTime,
+                LocalDateTime.class,
                 LocalDateTime.now());
-        this.strictInsertFill(metaObject, BasePO.Fields.updateTime, LocalDateTime.class,
+        this.strictInsertFill(
+                metaObject,
+                BasePO.Fields.updateTime,
+                LocalDateTime.class,
                 LocalDateTime.now());
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.strictUpdateFill(metaObject, BasePO.Fields.updateTime, LocalDateTime.class,
+        this.strictUpdateFill(
+                metaObject,
+                BasePO.Fields.updateTime,
+                LocalDateTime.class,
                 LocalDateTime.now());
     }
 }

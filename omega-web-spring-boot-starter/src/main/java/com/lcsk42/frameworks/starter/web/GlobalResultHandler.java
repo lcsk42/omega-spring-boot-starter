@@ -3,7 +3,8 @@ package com.lcsk42.frameworks.starter.web;
 import com.lcsk42.frameworks.starter.convention.model.Result;
 import com.lcsk42.frameworks.starter.core.constant.HttpHeaderConstant;
 import com.lcsk42.frameworks.starter.json.jackson.util.JacksonUtil;
-import com.lcsk42.frameworks.starter.web.annotation.CompatibleOutput;
+import com.lcsk42.frameworks.starter.web.annotation.RawResponse;
+import com.lcsk42.frameworks.starter.web.util.WebUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -11,7 +12,6 @@ import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.server.PathContainer;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.lang.NonNull;
@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
-import org.springframework.web.util.pattern.PathPattern;
-import org.springframework.web.util.pattern.PathPatternParser;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -33,7 +31,7 @@ public class GlobalResultHandler implements ResponseBodyAdvice<Object> {
     /**
      * 判断是否应处理响应体。此方法检查：
      * 1. 检查类是否具有 @RestController 注解, 如果没有，不处理
-     * 2. 检查类或方法是否具有 @CompatibleOutput 注解, 如果有, 则不处理
+     * 2. 检查类或方法是否具有 @RawResponse 注解, 如果有, 则不处理
      * 3. 检查返回值是否为 Result 类型
      */
     @Override
@@ -54,7 +52,7 @@ public class GlobalResultHandler implements ResponseBodyAdvice<Object> {
                 "/v3/api-docs/**",
                 "/webjars/**",
                 "/swagger-resources/**",
-                "/swagger-ui.html").anyMatch(resourcePath -> isMatch(uri, resourcePath))) {
+                "/swagger-ui.html").anyMatch(resourcePath -> WebUtil.isMatch(uri, resourcePath))) {
             return false;
         }
 
@@ -67,16 +65,16 @@ public class GlobalResultHandler implements ResponseBodyAdvice<Object> {
             return false;
         }
 
-        // 如果类上有 @CompatibleOutput 注解，不处理
+        // 如果类上有 @RawResponse 注解，不处理
         boolean hasClassAnnotation =
-                AnnotationUtils.findAnnotation(controllerClass, CompatibleOutput.class) != null;
+                AnnotationUtils.findAnnotation(controllerClass, RawResponse.class) != null;
         if (hasClassAnnotation) {
             return false;
         }
 
-        // 如果方法上有 @CompatibleOutput 注解，不处理
+        // 如果方法上有 @RawResponse 注解，不处理
         boolean hasMethodAnnotation =
-                returnType.getMethodAnnotation(CompatibleOutput.class) != null;
+                returnType.getMethodAnnotation(RawResponse.class) != null;
         if (hasMethodAnnotation) {
             return false;
         }
@@ -124,11 +122,5 @@ public class GlobalResultHandler implements ResponseBodyAdvice<Object> {
 
         // 其他情况下，直接将响应体包装为 Result 对象
         return Result.ok(body).withRequestId(requestId);
-    }
-
-    private boolean isMatch(String path, String pattern) {
-        PathPattern pathPattern = PathPatternParser.defaultInstance.parse(pattern);
-        PathContainer pathContainer = PathContainer.parsePath(path);
-        return pathPattern.matches(pathContainer);
     }
 }

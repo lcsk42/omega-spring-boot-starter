@@ -33,6 +33,7 @@ public final class CacheUtil {
      */
     public static boolean isNullOrBlank(Object cacheVal) {
         return Objects.isNull(cacheVal)
-                || (cacheVal instanceof String && StringUtils.isBlank((String) cacheVal));
+                || (cacheVal instanceof String cacheValString
+                        && StringUtils.isBlank(cacheValString));
     }
 }

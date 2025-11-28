@@ -8,7 +8,7 @@ import jakarta.annotation.Nonnull;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -44,7 +44,7 @@ public final class JwtUtil {
     }
 
     /**
-     * 生成JWT Token (使用默认过期时间)
+     * 生成 JWT Token (使用默认过期时间)
      */
     public static String generateToken(@Nonnull Map<String, Object> claims,
             @Nonnull String secret) {
@@ -52,23 +52,28 @@ public final class JwtUtil {
     }
 
     /**
-     * 生成JWT Token
+     * 生成 JWT Token
      *
      * @param claims 自定义claims
      * @param secret 密钥
      * @param expireSeconds 过期时间(秒)
      * @return token字符串
      */
-    public static String generateToken(@Nonnull Map<String, Object> claims, @Nonnull String secret,
+    public static String generateToken(@Nonnull Map<String, Object> claims,
+            @Nonnull String secret,
             long expireSeconds) {
         if (secret.isEmpty()) {
             throw new IllegalArgumentException("Secret must not be empty");
         }
 
         SecretKey secretKey = getSecretKey(secret);
-        String jwtToken = Jwts.builder().claims(claims).signWith(secretKey).issuer(ISSUER)
+        String jwtToken = Jwts.builder()
+                .claims(claims)
+                .signWith(secretKey)
+                .issuer(ISSUER)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expireSeconds * 1_000)).compact();
+                .expiration(new Date(System.currentTimeMillis() + expireSeconds * 1_000))
+                .compact();
         return TOKEN_PREFIX + jwtToken;
     }
 
@@ -80,12 +85,12 @@ public final class JwtUtil {
      * @return Optional 包含 Claims 对象
      */
     public static Optional<Claims> parseToken(@Nonnull String token, @Nonnull String secret) {
-        if (!StringUtils.hasText(token) || !token.startsWith(TOKEN_PREFIX)) {
+        if (StringUtils.isBlank(token) || !token.startsWith(TOKEN_PREFIX)) {
             return Optional.empty();
         }
 
         try {
-            String actualJwtToken = token.replace(TOKEN_PREFIX, "");
+            String actualJwtToken = token.replace(TOKEN_PREFIX, StringUtils.EMPTY);
             Claims claims = Jwts.parser().verifyWith(getSecretKey(secret)).build()
                     .parseSignedClaims(actualJwtToken)
                     .getPayload();
@@ -111,15 +116,18 @@ public final class JwtUtil {
     /**
      * 获取 Token 中的指定 Claim
      */
-    public static <T> Optional<T> getClaim(String token, String secret, String claimName,
-            Class<T> clazz) {
+    public static <T> Optional<T> getClaim(@Nonnull String token,
+            @Nonnull String secret,
+            @Nonnull String claimName,
+            @Nonnull Class<T> clazz) {
         return parseToken(token, secret).map(claims -> claims.get(claimName, clazz));
     }
 
     /**
      * 获取 Token 过期时间
      */
-    public static Optional<LocalDateTime> getExpirationDate(String token, String secret) {
+    public static Optional<LocalDateTime> getExpirationDate(@Nonnull String token,
+            @Nonnull String secret) {
         return parseToken(token, secret).map(Claims::getExpiration).map(Date::toInstant)
                 .map(instant -> instant.atZone(ZoneId.systemDefault()).toLocalDateTime());
     }
@@ -127,7 +135,7 @@ public final class JwtUtil {
     /**
      * 判断 Token 是否过期
      */
-    public static boolean isTokenExpired(String token, String secret) {
+    public static boolean isTokenExpired(@Nonnull String token, @Nonnull String secret) {
         Optional<LocalDateTime> expiration = getExpirationDate(token, secret);
         return expiration.map(e -> e.isBefore(LocalDateTime.now())).orElse(true);
     }
@@ -139,7 +147,7 @@ public final class JwtUtil {
      * @param secret 密钥
      * @return 新 Token
      */
-    public static Optional<String> refreshToken(String token, String secret) {
+    public static Optional<String> refreshToken(@Nonnull String token, @Nonnull String secret) {
         return parseToken(token, secret)
                 .map(claims -> generateToken(claims, secret, DEFAULT_EXPIRE_SECONDS));
     }
@@ -152,7 +160,8 @@ public final class JwtUtil {
      * @param expireSeconds 新的过期时间(秒)
      * @return 新 Token
      */
-    public static Optional<String> refreshToken(String token, String secret, long expireSeconds) {
+    public static Optional<String> refreshToken(@Nonnull String token, @Nonnull String secret,
+            long expireSeconds) {
         return parseToken(token, secret)
                 .map(claims -> generateToken(claims, secret, expireSeconds));
     }

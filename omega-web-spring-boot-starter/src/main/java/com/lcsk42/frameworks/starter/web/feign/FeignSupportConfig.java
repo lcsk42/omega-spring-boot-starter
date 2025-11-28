@@ -66,7 +66,9 @@ public class FeignSupportConfig {
 
         // 添加对 "text/html" 和 "text/plain" 内容类型的支持
         mappingJackson2HttpMessageConverter.setSupportedMediaTypes(
-                List.of(MediaType.TEXT_HTML, MediaType.TEXT_PLAIN));
+                List.of(
+                        MediaType.TEXT_HTML,
+                        MediaType.TEXT_PLAIN));
 
         restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
         return restTemplate;
