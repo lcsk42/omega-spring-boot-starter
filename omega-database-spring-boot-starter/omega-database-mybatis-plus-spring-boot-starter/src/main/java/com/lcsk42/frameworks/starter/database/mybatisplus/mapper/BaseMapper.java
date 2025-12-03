@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWra
 import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper;
 import com.baomidou.mybatisplus.extension.toolkit.ChainWrappers;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
-import com.lcsk42.frameworks.starter.database.mybatisplus.model.po.BasePO;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
@@ -16,7 +15,7 @@ import java.util.Collection;
  *
  * @param <T> 实体类
  */
-public interface BaseMapper<T extends BasePO>
+public interface BaseMapper<T>
         extends com.baomidou.mybatisplus.core.mapper.BaseMapper<T> {
 
     /**
