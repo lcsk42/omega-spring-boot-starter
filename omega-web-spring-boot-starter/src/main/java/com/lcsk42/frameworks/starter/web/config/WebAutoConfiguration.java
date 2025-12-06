@@ -4,13 +4,17 @@ import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.lcsk42.frameworks.starter.core.YamlPropertySourceFactory;
 import com.lcsk42.frameworks.starter.web.GlobalExceptionHandler;
 import com.lcsk42.frameworks.starter.web.GlobalResultHandler;
+import com.lcsk42.frameworks.starter.web.filter.UserTransmitFilter;
 import com.lcsk42.frameworks.starter.web.initialize.InitializeDispatcherServletController;
 import com.lcsk42.frameworks.starter.web.initialize.InitializeDispatcherServletHandler;
 import com.lcsk42.frameworks.starter.web.initialize.PortHolder;
+import com.lcsk42.frameworks.starter.web.service.TokenService;
+import com.lcsk42.frameworks.starter.web.service.impl.TokenServiceDefaultImpl;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
@@ -31,6 +35,7 @@ public class WebAutoConfiguration {
      * DispatcherServlet 初始化端点路径。
      */
     public static final String INITIALIZE_PATH = "/initialize/dispatcher-servlet";
+
 
     /**
      * 全局异常处理器，用于拦截所有控制器级别的异常。
@@ -119,6 +124,24 @@ public class WebAutoConfiguration {
             factoryBean.afterPropertiesSet();
             return factoryBean.getValidator();
         }
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public TokenService tokenService() {
+        return new TokenServiceDefaultImpl();
+    }
+
+    /**
+     * 用户信息传递过滤器
+     */
+    @Bean
+    public FilterRegistrationBean<UserTransmitFilter> globalUserTransmitFilter() {
+        FilterRegistrationBean<UserTransmitFilter> registration = new FilterRegistrationBean<>();
+        registration.setFilter(new UserTransmitFilter(tokenService()));
+        registration.addUrlPatterns("/*");
+        registration.setOrder(100);
+        return registration;
     }
 
     /**

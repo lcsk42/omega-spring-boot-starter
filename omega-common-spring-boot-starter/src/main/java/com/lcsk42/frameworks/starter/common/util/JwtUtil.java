@@ -23,8 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class JwtUtil {
 
-    // 默认过期时间: 24 小时 (单位:秒)
-    private static final long DEFAULT_EXPIRE_SECONDS = 60 * 60 * 24L;
+    // 默认过期时间: 10 分钟 (单位:秒)
+    private static final long DEFAULT_EXPIRE_SECONDS = 10 * 60L;
 
     // Token 头
     public static final String TOKEN_PREFIX = "Bearer ";
@@ -67,14 +67,13 @@ public final class JwtUtil {
         }
 
         SecretKey secretKey = getSecretKey(secret);
-        String jwtToken = Jwts.builder()
+        return Jwts.builder()
                 .claims(claims)
                 .signWith(secretKey)
                 .issuer(ISSUER)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expireSeconds * 1_000))
                 .compact();
-        return TOKEN_PREFIX + jwtToken;
     }
 
     /**

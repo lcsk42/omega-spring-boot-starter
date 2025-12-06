@@ -5,20 +5,18 @@ import com.lcsk42.frameworks.starter.convention.model.BaseUserInfoDTO;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.Optional;
-import java.util.function.Function;
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UserContext {
 
-    private static final ThreadLocal<Object> USER_THREAD_LOCAL = new TransmittableThreadLocal<>();
+    private static final ThreadLocal<BaseUserInfoDTO> USER_THREAD_LOCAL =
+            new TransmittableThreadLocal<>();
 
     /**
      * 设置用户至上下文
      *
      * @param user 用户详情信息
      */
-    public static <T extends BaseUserInfoDTO> void setUser(T user) {
+    public static void setUser(BaseUserInfoDTO user) {
         USER_THREAD_LOCAL.set(user);
     }
 
@@ -27,9 +25,8 @@ public final class UserContext {
      *
      * @return 用户详情信息
      */
-    @SuppressWarnings("unchecked")
-    public static <T extends BaseUserInfoDTO> T getUser() {
-        return (T) USER_THREAD_LOCAL.get();
+    public static BaseUserInfoDTO getUser() {
+        return USER_THREAD_LOCAL.get();
     }
 
     /**
@@ -38,18 +35,7 @@ public final class UserContext {
      * @return userId
      */
     public static Long getUserId() {
-        return getProperty(BaseUserInfoDTO::getUserId);
-    }
-
-    /**
-     * 获取上下文中用户特定属性
-     *
-     * @param propertyGetter 属性获取函数
-     * @return 用户属性值
-     */
-    public static <T extends BaseUserInfoDTO, R> R getProperty(Function<T, R> propertyGetter) {
-        T user = getUser();
-        return Optional.ofNullable(user).map(propertyGetter).orElse(null);
+        return getUser().getUserId();
     }
 
     /**

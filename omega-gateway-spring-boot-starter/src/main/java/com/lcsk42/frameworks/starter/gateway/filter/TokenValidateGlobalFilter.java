@@ -42,7 +42,7 @@ public class TokenValidateGlobalFilter implements GlobalFilter {
         String authorization = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
         return Optional.ofNullable(authorization)
-                .map(token -> JwtUtil.validateToken(token, configuration.getTokenSecret()))
+                .flatMap(token -> JwtUtil.parseToken(token, configuration.getTokenSecret()))
                 .map(userInfoDTO -> chain.filter(exchange))
                 .orElseGet(() -> {
                     ServerHttpResponse response = exchange.getResponse();
