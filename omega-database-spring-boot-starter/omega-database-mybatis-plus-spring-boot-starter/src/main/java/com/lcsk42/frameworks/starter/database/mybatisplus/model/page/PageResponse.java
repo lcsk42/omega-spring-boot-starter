@@ -48,7 +48,7 @@ public class PageResponse<V> extends BasePageResponse<V> {
         return new PageResponse<>(
                 page.getCurrent(),
                 page.getSize(),
-                page.getSize(),
+                page.getTotal(),
                 page.getRecords().stream()
                         .map(convert)
                         .toList());
