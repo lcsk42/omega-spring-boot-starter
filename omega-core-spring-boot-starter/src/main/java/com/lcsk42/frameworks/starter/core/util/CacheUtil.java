@@ -1,4 +1,4 @@
-package com.lcsk42.frameworks.starter.cache.core.util;
+package com.lcsk42.frameworks.starter.core.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

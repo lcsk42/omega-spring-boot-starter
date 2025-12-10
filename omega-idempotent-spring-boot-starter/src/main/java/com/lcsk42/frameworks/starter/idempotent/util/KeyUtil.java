@@ -1,8 +1,8 @@
 package com.lcsk42.frameworks.starter.idempotent.util;
 
-import com.lcsk42.frameworks.starter.cache.core.util.CacheUtil;
 import com.lcsk42.frameworks.starter.common.util.ExpressionUtils;
 import com.lcsk42.frameworks.starter.core.ApplicationContextHolder;
+import com.lcsk42.frameworks.starter.core.util.CacheUtil;
 import com.lcsk42.frameworks.starter.idempotent.annotation.Idempotent;
 import com.lcsk42.frameworks.starter.idempotent.exception.IdempotentException;
 import com.lcsk42.frameworks.starter.idempotent.generator.IdempotentNameGenerator;
