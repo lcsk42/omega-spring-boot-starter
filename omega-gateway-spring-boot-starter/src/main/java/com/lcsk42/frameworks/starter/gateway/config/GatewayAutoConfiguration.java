@@ -8,14 +8,15 @@ import com.lcsk42.frameworks.starter.gateway.handler.GatewayExceptionHandler;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.web.reactive.error.ErrorWebFluxAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Slf4j
-@Configuration
+@AutoConfigureBefore(ErrorWebFluxAutoConfiguration.class)
 @EnableConfigurationProperties(GatewayConfiguration.class)
 @RequiredArgsConstructor
 @PropertySource(value = "classpath:default-gateway.yml", factory = YamlPropertySourceFactory.class)
