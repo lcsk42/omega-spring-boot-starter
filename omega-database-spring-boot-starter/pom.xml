@@ -18,5 +18,6 @@
     <modules>
         <module>omega-database-core-spring-boot-starter</module>
         <module>omega-database-mybatis-plus-spring-boot-starter</module>
+        <module>omega-database-mybatis-flex-spring-boot-starter</module>
     </modules>
 </project>

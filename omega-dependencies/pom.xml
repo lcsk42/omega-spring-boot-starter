@@ -31,6 +31,7 @@
         <!-- 数据库和 ORM 框架 -->
         <mybatis-spring-boot-starter.version>3.0.4</mybatis-spring-boot-starter.version>
         <mybatis-plus.version>3.5.12</mybatis-plus.version>
+        <mybatis-flex.version>1.11.4</mybatis-flex.version>
         <shardingsphere.version>5.4.1</shardingsphere.version>
         <p6spy.version>3.9.1</p6spy.version>
 
@@ -163,6 +164,17 @@
                 <version>${mybatis-plus.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.mybatis-flex</groupId>
+                <artifactId>mybatis-flex-spring-boot3-starter</artifactId>
+                <version>${mybatis-flex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mybatis-flex</groupId>
+                <artifactId>mybatis-flex-processor</artifactId>
+                <version>${mybatis-flex.version}</version>
             </dependency>
 
             <!-- ShardingSphere：一款开源的分布式数据库中间件生态，提供数据分片、读写分离、分布式事务和数据库治理能力，支持透明化水平扩展与多租户场景 -->

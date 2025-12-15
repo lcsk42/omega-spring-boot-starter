@@ -7,40 +7,34 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>omega-database-core-spring-boot-starter</artifactId>
+    <artifactId>omega-database-mybatis-flex-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
     <description>
-        Omega 数据库模块 - 核心
+        Omega 数据库模块 - Mybatis Flex 实现
     </description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
 
         <dependency>
             <groupId>com.lcsk42</groupId>
-            <artifactId>omega-core-spring-boot-starter</artifactId>
+            <artifactId>omega-database-core-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.lcsk42</groupId>
-            <artifactId>omega-convention-spring-boot-starter</artifactId>
+            <groupId>com.mybatis-flex</groupId>
+            <artifactId>mybatis-flex-spring-boot3-starter</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>p6spy</groupId>
-            <artifactId>p6spy</artifactId>
+            <groupId>com.mybatis-flex</groupId>
+            <artifactId>mybatis-flex-processor</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
