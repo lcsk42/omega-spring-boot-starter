@@ -1,9 +1,11 @@
 package com.lcsk42.frameworks.starter.ratelimiter.generator;
 
 import com.lcsk42.frameworks.starter.core.constant.StringConstant;
+import com.lcsk42.frameworks.starter.ratelimiter.enums.PrimitiveTypeCode;
 import org.apache.commons.lang3.ClassUtils;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -71,7 +73,7 @@ public class DefaultRateLimiterNameGenerator implements RateLimiterNameGenerator
         if (type.isPrimitive()) {
             sb.append(getPrimitiveTypeCode(type));
         } else {
-            sb.append('L')
+            sb.append(PrimitiveTypeCode.CLASS.getCode())
                     .append(ClassUtils.getName(type))
                     .append(StringConstant.SEMICOLON);
         }
@@ -89,32 +91,10 @@ public class DefaultRateLimiterNameGenerator implements RateLimiterNameGenerator
             throw new IllegalArgumentException("Class parameter cannot be null");
         }
 
-        if (primitiveType == Integer.TYPE) {
-            return 'I';
-        }
-        if (primitiveType == Void.TYPE) {
-            return 'V';
-        }
-        if (primitiveType == Boolean.TYPE) {
-            return 'Z';
-        }
-        if (primitiveType == Byte.TYPE) {
-            return 'B';
-        }
-        if (primitiveType == Character.TYPE) {
-            return 'C';
-        }
-        if (primitiveType == Short.TYPE) {
-            return 'S';
-        }
-        if (primitiveType == Double.TYPE) {
-            return 'D';
-        }
-        if (primitiveType == Float.TYPE) {
-            return 'F';
-        }
-        if (primitiveType == Long.TYPE) {
-            return 'J';
+        Character character = PrimitiveTypeCode.getCodeByType(primitiveType);
+
+        if (Objects.nonNull(character)) {
+            return character;
         }
 
         throw new IllegalArgumentException(
