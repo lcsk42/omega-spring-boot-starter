@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -218,6 +219,27 @@ public final class ServletUtil {
     }
 
     /**
+     * 检查 HTTP 请求是否为 application/x-www-form-urlencoded 格式（标准表单提交）
+     *
+     * @param request HTTP servlet 请求对象
+     * @return 如果是 Form 请求则返回 true, 否则返回 false
+     */
+    public static boolean isForm(HttpServletRequest request) {
+        return StringUtils.contains(request.getContentType(),
+                MediaType.APPLICATION_FORM_URLENCODED_VALUE);
+    }
+
+    /**
+     * 检查 HTTP 响应是否为 Server-Sent Events (SSE) 流格式
+     *
+     * @param response HTTP servlet 响应对象
+     * @return 如果是 Stream 响应则返回 true, 否则返回 false
+     */
+    public static boolean isStream(HttpServletResponse response) {
+        return StringUtils.contains(response.getContentType(), MediaType.TEXT_EVENT_STREAM_VALUE);
+    }
+
+    /**
      * 从请求中获取特定 cookie
      *
      * @param httpServletRequest HTTP servlet 请求对象
@@ -398,5 +420,4 @@ public final class ServletUtil {
             IOUtils.closeQuietly(inputStream);
         }
     }
-
 }
