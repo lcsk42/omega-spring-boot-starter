@@ -121,7 +121,7 @@ public class JacksonAutoConfiguration {
                 bigNumberModule.addSerializer(BigInteger.class, ToStringSerializer.instance);
             }
             default -> log
-                .warn("[Omega] - Jackson big number serialization mode: NO_OPERATION - values exceeding JavaScript range may lose precision.");
+                    .warn("[Omega] - Jackson big number serialization mode: NO_OPERATION - values exceeding JavaScript range may lose precision.");
         }
         return bigNumberModule;
     }

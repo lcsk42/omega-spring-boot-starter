@@ -128,7 +128,7 @@ public class ApiDocAutoConfiguration implements WebMvcConfigurer {
     public GlobalOpenApiCustomizer globalOpenApiCustomizer(ApiDocProperties properties) {
         return openApi -> {
             if (openApi.getPaths() != null) {
-                openApi.getPaths().forEach((s, pathItem) -> {
+                openApi.getPaths().forEach((path, pathItem) -> {
                     // 为所有接口添加鉴权
                     Components components = properties.getComponents();
                     if (components != null
@@ -137,8 +137,7 @@ public class ApiDocAutoConfiguration implements WebMvcConfigurer {
                                 components.getSecuritySchemes();
                         pathItem.readOperations().forEach(operation -> {
                             SecurityRequirement securityRequirement = new SecurityRequirement();
-                            securitySchemeMap.values().stream().map(SecurityScheme::getName)
-                                    .forEach(securityRequirement::addList);
+                            securitySchemeMap.keySet().forEach(securityRequirement::addList);
                             operation.addSecurityItem(securityRequirement);
                         });
                     }

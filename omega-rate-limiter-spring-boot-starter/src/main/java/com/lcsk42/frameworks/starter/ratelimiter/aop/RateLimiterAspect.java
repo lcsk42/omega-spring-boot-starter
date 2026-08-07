@@ -128,7 +128,7 @@ public class RateLimiterAspect {
     /**
      * 获取缓存 Key
      *
-     * @param joinPoint   切点
+     * @param joinPoint 切点
      * @param rateLimiter 限流注解
      * @return 缓存 Key
      */

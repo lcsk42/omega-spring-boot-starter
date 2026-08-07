@@ -2,6 +2,7 @@ package com.lcsk42.frameworks.starter.cache.core;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.time.Duration;
 import java.util.Collection;
@@ -37,11 +38,34 @@ public interface Cache {
      * 通过键从缓存中获取对象。
      *
      * @param key 缓存键（不可为空字符串）
+     * @return 缓存的对象，若未找到则返回 {@code null}
+     */
+    default String getOrDefault(@NotBlank String key, @NotNull String defaultValue) {
+        return getOrDefault(key, String.class, defaultValue);
+    }
+
+    /**
+     * 通过键从缓存中获取对象。
+     *
+     * @param key 缓存键（不可为空字符串）
      * @param clazz 预期的对象类型
      * @param <T> 值的类型
      * @return 缓存的对象，若未找到则返回 {@code null}
      */
     <T> T get(@NotBlank String key, @NotBlank Class<T> clazz);
+
+    /**
+     * 通过键从缓存中获取对象。
+     *
+     * @param key 缓存键（不可为空字符串）
+     * @param clazz 预期的对象类型
+     * @param defaultValue 默认值
+     * @param <T> 值的类型
+     * @return 缓存的对象，若未找到则返回默认值
+     */
+    default <T> T getOrDefault(@NotBlank String key, @NotBlank Class<T> clazz, T defaultValue) {
+        return ObjectUtils.defaultIfNull(get(key, clazz), defaultValue);
+    }
 
     /**
      * 设置缓存
@@ -481,7 +505,6 @@ public interface Cache {
      * @return 集合元素数量
      */
     long sSize(@NotBlank String key);
-
 
 
     /**

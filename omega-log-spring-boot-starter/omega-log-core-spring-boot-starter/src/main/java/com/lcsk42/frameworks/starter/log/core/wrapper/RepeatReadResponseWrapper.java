@@ -5,6 +5,7 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.WriteListener;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletResponseWrapper;
+import lombok.Getter;
 import org.springframework.http.MediaType;
 
 import java.io.ByteArrayOutputStream;
@@ -20,9 +21,11 @@ public class RepeatReadResponseWrapper extends HttpServletResponseWrapper {
 
     private final ByteArrayOutputStream cachedOutputStream = new ByteArrayOutputStream();
     private final PrintWriter writer = new PrintWriter(cachedOutputStream, true);
+
     /**
      * 是否为流式响应
      */
+    @Getter
     private boolean isStreamingResponse = false;
 
     public RepeatReadResponseWrapper(HttpServletResponse response) {
@@ -121,14 +124,5 @@ public class RepeatReadResponseWrapper extends HttpServletResponseWrapper {
         if (!isStreamingResponse && cachedOutputStream.size() > 0) {
             getResponse().getOutputStream().write(cachedOutputStream.toByteArray());
         }
-    }
-
-    /**
-     * 是否为流式响应
-     *
-     * @return 是否为流式响应
-     */
-    public boolean isStreamingResponse() {
-        return isStreamingResponse;
     }
 }

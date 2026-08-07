@@ -182,16 +182,16 @@ public final class QueryWrapperHelper {
     /**
      * 解析查询条件
      *
-     * @param queryType  查询类型
+     * @param queryType 查询类型
      * @param columnName 列名
      * @param fieldValue 字段值
-     * @param <R>        查询数据类型
+     * @param <R> 查询数据类型
      */
     @SuppressWarnings("unchecked")
     private static <R> void parse(QueryType queryType,
-                                  String columnName,
-                                  Object fieldValue,
-                                  List<Consumer<QueryWrapper<R>>> consumers) {
+            String columnName,
+            Object fieldValue,
+            List<Consumer<QueryWrapper<R>>> consumers) {
         switch (queryType) {
             case EQ -> consumers.add(q -> q.eq(columnName, fieldValue));
             case NE -> consumers.add(q -> q.ne(columnName, fieldValue));
@@ -202,8 +202,8 @@ public final class QueryWrapperHelper {
             case BETWEEN -> {
                 // 数组转集合
                 List<Object> between = new ArrayList<>(isArray(fieldValue)
-                    ? List.of((Object[])fieldValue)
-                    : (List<Object>)fieldValue);
+                        ? List.of((Object[]) fieldValue)
+                        : (List<Object>) fieldValue);
                 Validate.isTrue(between.size() == 2, "[{}] 必须是一个范围", columnName);
                 consumers.add(q -> q.between(columnName, between.getFirst(), between.get(1)));
             }
@@ -213,14 +213,14 @@ public final class QueryWrapperHelper {
             case IN -> {
                 Validate.isTrue(!ObjectUtils.isEmpty(fieldValue), "[{}] 不能为空", columnName);
                 consumers.add(q -> q.in(columnName, isArray(fieldValue)
-                    ? List.of((Object[])fieldValue)
-                    : (Collection<Object>)fieldValue));
+                        ? List.of((Object[]) fieldValue)
+                        : (Collection<Object>) fieldValue));
             }
             case NOT_IN -> {
                 Validate.isTrue(!ObjectUtils.isEmpty(fieldValue), "[{}] 不能为空", columnName);
                 consumers.add(q -> q.notIn(columnName, isArray(fieldValue)
-                    ? List.of((Object[])fieldValue)
-                    : (Collection<Object>)fieldValue));
+                        ? List.of((Object[]) fieldValue)
+                        : (Collection<Object>) fieldValue));
             }
             case IS_NULL -> consumers.add(q -> q.isNull(columnName));
             case IS_NOT_NULL -> consumers.add(q -> q.isNotNull(columnName));

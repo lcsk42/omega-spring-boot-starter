@@ -7,6 +7,7 @@ import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
+import lombok.Getter;
 import org.springframework.http.MediaType;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.util.StreamUtils;
@@ -35,6 +36,7 @@ public class RepeatReadRequestWrapper extends HttpServletRequestWrapper {
     /**
      * 缓存内容
      */
+    @Getter
     private final FastByteArrayOutputStream cachedContent;
 
     /*** 用于缓存输入流 */
@@ -147,10 +149,6 @@ public class RepeatReadRequestWrapper extends HttpServletRequestWrapper {
 
     public String getContentAsString() {
         return this.cachedContent.toString(Charset.forName(getCharacterEncoding()));
-    }
-
-    public FastByteArrayOutputStream getCachedContent() {
-        return cachedContent;
     }
 
     /**

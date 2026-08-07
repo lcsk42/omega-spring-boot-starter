@@ -83,7 +83,14 @@ public final class ApiDocUtil {
      * @return String 格式化类型
      */
     public static String resolveFormat(
-            String enumValueType) {return switch(enumValueType){case"integer"->"int32";case"long"->"int64";case"number"->"double";default->enumValueType;};}
+            String enumValueType) {
+        return switch (enumValueType) {
+            case "integer" -> "int32";
+            case "long" -> "int64";
+            case "number" -> "double";
+            default -> enumValueType;
+        };
+    }
 
     /**
      * 具有 RestController 注释，既检查是否继承了BaseController

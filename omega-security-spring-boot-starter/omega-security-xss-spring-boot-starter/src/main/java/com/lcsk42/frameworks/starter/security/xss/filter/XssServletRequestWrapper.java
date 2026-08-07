@@ -16,6 +16,8 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -43,7 +45,9 @@ public class XssServletRequestWrapper extends HttpServletRequestWrapper {
                 HttpMethod.POST.name(),
                 HttpMethod.PATCH.name(),
                 HttpMethod.PUT.name())) {
-            body = IOUtils.toString(request.getReader());
+            String charset = StringUtils.defaultIfBlank(request.getCharacterEncoding(),
+                    StandardCharsets.UTF_8.name());
+            body = IOUtils.toString(request.getInputStream(), Charset.forName(charset));
             if (StringUtils.isBlank(body)) {
                 return;
             }
