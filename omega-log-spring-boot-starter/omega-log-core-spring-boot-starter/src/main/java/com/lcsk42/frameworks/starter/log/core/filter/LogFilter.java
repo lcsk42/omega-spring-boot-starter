@@ -34,7 +34,7 @@ public class LogFilter extends OncePerRequestFilter {
             return;
         }
 
-        boolean isExcludeUri = logProperties.isMatch(request.getRequestURI());
+        boolean isExcludeUri = logProperties.isMatchExcludeUri(request.getRequestURI());
 
         // 处理可重复读取的请求
         HttpServletRequest requestWrapper =

@@ -44,7 +44,7 @@ public class LogProperties {
      * @param uri 请求 URI
      * @return 是否匹配
      */
-    public boolean isMatch(String uri) {
+    public boolean isMatchExcludeUri(String uri) {
         return this.getExcludePatterns().stream()
                 .anyMatch(pattern -> LogUtil.isMatch(uri, pattern));
     }
