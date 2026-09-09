@@ -26,7 +26,7 @@ public final class GlobalThreadPool {
             threadPoolExecutor.shutdownNow();
         }
 
-        threadPoolExecutor = ThreadPoolBuilder.builder().threadFactory("global-", false).build();
+        threadPoolExecutor = ThreadPoolBuilder.builder().threadFactory("global", false).build();
     }
 
     /**

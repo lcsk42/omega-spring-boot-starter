@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -57,6 +58,25 @@ public final class JacksonUtil {
      * 将 JSON 字符串反序列化为指定类的对象
      *
      * @param json 要反序列化的 JSON 字符串
+     * @param type 目标类型
+     * @return 反序列化后的对象，如果输入为空则返回 null
+     * @throws JSONException 当反序列化失败时抛出
+     */
+    public static <T> T toBean(String json, Type type) {
+        if (StringUtils.isBlank(json) || Objects.isNull(type)) {
+            return null;
+        }
+        try {
+            return OBJECT_MAPPER.readValue(json, OBJECT_MAPPER.constructType(type));
+        } catch (JsonProcessingException e) {
+            throw new JSONException(e.toString());
+        }
+    }
+
+    /**
+     * 将 JSON 字符串反序列化为指定类的对象
+     *
+     * @param json  要反序列化的 JSON 字符串
      * @param clazz 目标类
      * @return 反序列化后的对象，如果输入为空则返回 null
      * @throws JSONException 当反序列化失败时抛出
@@ -75,7 +95,7 @@ public final class JacksonUtil {
     /**
      * 使用 TypeReference 将 JSON 字符串反序列化为复杂类型对象
      *
-     * @param json 要反序列化的 JSON 字符串
+     * @param json          要反序列化的 JSON 字符串
      * @param typeReference 目标类型的类型引用
      * @return 反序列化后的对象，如果输入为空则返回 null
      * @throws JSONException 当反序列化失败时抛出
@@ -155,7 +175,7 @@ public final class JacksonUtil {
     /**
      * 在 JSON 中查找给定字段名的所有文本值
      *
-     * @param json 要搜索的 JSON 字符串
+     * @param json      要搜索的 JSON 字符串
      * @param fieldName 要查找的字段名
      * @return 文本值列表，如果未找到则返回空列表
      * @throws JSONException 当 JSON 处理失败时抛出
@@ -174,7 +194,7 @@ public final class JacksonUtil {
     /**
      * 在 JSON 中查找给定字段名的第一个文本值
      *
-     * @param json 要搜索的 JSON 字符串
+     * @param json      要搜索的 JSON 字符串
      * @param fieldName 要查找的字段名
      * @return 第一个文本值，如果未找到则返回 null
      */
@@ -204,7 +224,21 @@ public final class JacksonUtil {
      * 使用 Jackson 转换功能将对象转换为另一种类型
      *
      * @param object 要转换的对象
-     * @param clazz 目标类
+     * @param type   目标类型
+     * @return 转换后的对象，如果输入为 null 则返回 null
+     */
+    public static <T> T convert(Object object, Type type) {
+        if (Objects.isNull(object) || Objects.isNull(type)) {
+            return null;
+        }
+        return OBJECT_MAPPER.convertValue(object, OBJECT_MAPPER.constructType(type));
+    }
+
+    /**
+     * 使用 Jackson 转换功能将对象转换为另一种类型
+     *
+     * @param object 要转换的对象
+     * @param clazz  目标类
      * @return 转换后的对象，如果输入为 null 则返回 null
      */
     public static <T> T convert(Object object, Class<T> clazz) {
@@ -217,7 +251,7 @@ public final class JacksonUtil {
     /**
      * 使用 TypeReference 将对象转换为另一种类型
      *
-     * @param object 要转换的对象
+     * @param object        要转换的对象
      * @param typeReference 目标类型的类型引用
      * @return 转换后的对象，如果输入为 null 则返回 null
      */
