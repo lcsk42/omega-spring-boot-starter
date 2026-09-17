@@ -234,6 +234,20 @@
                 <artifactId>omega-test-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
+
+            <!-- 加解密核心模块 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-crypto-core-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 加解密 - API 模块 -->
+            <dependency>
+                <groupId>com.lcsk42</groupId>
+                <artifactId>omega-crypto-api-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

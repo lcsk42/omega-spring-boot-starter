@@ -3,20 +3,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.lcsk42</groupId>
-        <artifactId>omega-spring-boot-starter</artifactId>
+        <artifactId>omega-crypto-spring-boot-starter</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>omega-crypto-spring-boot-starter</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>omega-crypto-api-spring-boot-starter</artifactId>
+    <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
     <description>
-        Omega 加解密
+        Omega 加解密 - API 加密
     </description>
 
-    <modules>
-        <module>omega-crypto-core-spring-boot-starter</module>
-        <module>omega-crypto-api-spring-boot-starter</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>com.lcsk42</groupId>
+            <artifactId>omega-crypto-core-spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
 </project>
