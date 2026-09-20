@@ -1,4 +1,4 @@
-package com.lcsk42.frameworks.starter.database.core.util;
+package com.lcsk42.frameworks.starter.core.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

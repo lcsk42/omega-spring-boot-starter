@@ -1,7 +1,7 @@
-package com.lcsk42.frameworks.starter.database.core.model.query;
+package com.lcsk42.frameworks.starter.convention.model.query;
 
 import com.lcsk42.frameworks.starter.core.constant.StringConstant;
-import com.lcsk42.frameworks.starter.database.core.util.SqlInjectionUtils;
+import com.lcsk42.frameworks.starter.core.util.SqlInjectionUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -80,7 +80,8 @@ public class SortQuery {
      * @return 排序条件
      */
     private Sort.Order getOrder(String field, String direction) {
-        Validate.validState(!SqlInjectionUtils.check(field), "排序字段包含无效字符");
+        Validate.validState(!SqlInjectionUtils.check(field),
+                "排序字段包含无效字符");
         return new Sort.Order(Sort.Direction.valueOf(direction.toUpperCase()), field);
     }
 

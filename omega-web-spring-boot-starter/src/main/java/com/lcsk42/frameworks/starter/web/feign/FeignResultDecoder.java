@@ -3,7 +3,7 @@ package com.lcsk42.frameworks.starter.web.feign;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lcsk42.frameworks.starter.convention.errorcode.BaseErrorCode;
 import com.lcsk42.frameworks.starter.convention.exception.ServiceException;
-import com.lcsk42.frameworks.starter.convention.model.Result;
+import com.lcsk42.frameworks.starter.convention.model.response.Result;
 import feign.Response;
 import feign.codec.Decoder;
 import lombok.RequiredArgsConstructor;

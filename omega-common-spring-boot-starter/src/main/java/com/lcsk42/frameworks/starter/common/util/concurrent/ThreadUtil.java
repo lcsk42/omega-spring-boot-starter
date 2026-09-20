@@ -38,7 +38,7 @@ public final class ThreadUtil {
      * 通过 Lombok 的 {@link SneakyThrows} 静默处理 {@link InterruptedException}，
      * 调用方无需显式捕获中断异常。
      *
-     * @param timeout  暂停时长，必须为非负数
+     * @param timeout 暂停时长，必须为非负数
      * @param timeUnit 时间单位，不能为 null
      */
     @SneakyThrows(value = InterruptedException.class)
@@ -75,7 +75,7 @@ public final class ThreadUtil {
      * 调用方可通过返回的 {@link Future} 获取任务执行结果或取消任务。
      *
      * @param task 待执行的 Callable 任务，不能为 null
-     * @param <T>  任务返回结果的类型
+     * @param <T> 任务返回结果的类型
      * @return 表示任务结果的 Future 对象，可通过其获取执行结果
      */
     public static <T> Future<T> submit(Callable<T> task) {
@@ -87,9 +87,9 @@ public final class ThreadUtil {
      * <p>
      * 调用方可通过返回的 {@link Future} 获取任务执行结果或取消任务。
      *
-     * @param task     待执行的 Callable 任务，不能为 null
+     * @param task 待执行的 Callable 任务，不能为 null
      * @param executor 执行任务使用的自定义线程池，不能为 null
-     * @param <T>      任务返回结果的类型
+     * @param <T> 任务返回结果的类型
      * @return 表示任务结果的 Future 对象，可通过其获取执行结果
      */
     public static <T> Future<T> submit(Callable<T> task, ExecutorService executor) {

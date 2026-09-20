@@ -18,6 +18,11 @@ public class GatewayConfiguration {
     public static final String PREFIX = "framework.gateway";
 
     /**
+     * 是否需要校验 Token
+     */
+    private Boolean validateToken = true;
+
+    /**
      * Token 的密钥
      */
     private String tokenSecret;

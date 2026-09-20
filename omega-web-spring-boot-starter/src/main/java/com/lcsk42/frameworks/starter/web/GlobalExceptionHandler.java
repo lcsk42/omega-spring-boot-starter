@@ -2,7 +2,7 @@ package com.lcsk42.frameworks.starter.web;
 
 import com.lcsk42.frameworks.starter.convention.errorcode.BaseErrorCode;
 import com.lcsk42.frameworks.starter.convention.exception.AbstractException;
-import com.lcsk42.frameworks.starter.convention.model.Result;
+import com.lcsk42.frameworks.starter.convention.model.response.Result;
 import com.lcsk42.frameworks.starter.core.constant.HttpHeaderConstant;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;

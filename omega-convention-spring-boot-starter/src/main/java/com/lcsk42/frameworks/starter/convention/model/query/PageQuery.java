@@ -1,4 +1,4 @@
-package com.lcsk42.frameworks.starter.database.core.model.query;
+package com.lcsk42.frameworks.starter.convention.model.query;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

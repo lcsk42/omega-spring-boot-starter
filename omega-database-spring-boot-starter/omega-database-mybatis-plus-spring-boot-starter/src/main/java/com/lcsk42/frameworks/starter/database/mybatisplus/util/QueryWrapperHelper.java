@@ -6,7 +6,7 @@ import com.lcsk42.frameworks.starter.database.core.annotation.Query;
 import com.lcsk42.frameworks.starter.database.core.annotation.QueryIgnore;
 import com.lcsk42.frameworks.starter.database.core.enums.LogicalRelation;
 import com.lcsk42.frameworks.starter.database.core.enums.QueryType;
-import com.lcsk42.frameworks.starter.database.core.util.SqlInjectionUtils;
+import com.lcsk42.frameworks.starter.core.util.SqlInjectionUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

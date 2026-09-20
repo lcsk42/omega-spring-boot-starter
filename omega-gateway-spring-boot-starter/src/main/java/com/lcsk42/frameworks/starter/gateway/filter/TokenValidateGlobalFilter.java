@@ -33,6 +33,11 @@ public class TokenValidateGlobalFilter implements GlobalFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+
+        if (!configuration.getValidateToken()) {
+            return chain.filter(exchange);
+        }
+
         ServerHttpRequest request = exchange.getRequest();
 
         if (isRequestAllowed(request, configuration.getAllowList())) {

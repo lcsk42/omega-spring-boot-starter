@@ -1,4 +1,4 @@
-package com.lcsk42.frameworks.starter.database.core.model.response;
+package com.lcsk42.frameworks.starter.convention.model.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Schema(description = "键值对响应参数")
-public class LabelValueResponse<T> {
+public class LabelValueResult<T> {
     /**
      * 标签
      */

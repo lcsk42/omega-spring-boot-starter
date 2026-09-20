@@ -1,4 +1,4 @@
-package com.lcsk42.frameworks.starter.convention.model;
+package com.lcsk42.frameworks.starter.convention.model.response;
 
 import com.lcsk42.frameworks.starter.convention.errorcode.BaseErrorCode;
 import com.lcsk42.frameworks.starter.convention.exception.AbstractException;

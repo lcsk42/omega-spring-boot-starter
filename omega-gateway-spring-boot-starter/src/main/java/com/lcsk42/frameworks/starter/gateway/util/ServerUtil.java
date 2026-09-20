@@ -1,6 +1,6 @@
 package com.lcsk42.frameworks.starter.gateway.util;
 
-import com.lcsk42.frameworks.starter.convention.model.Result;
+import com.lcsk42.frameworks.starter.convention.model.response.Result;
 import com.lcsk42.frameworks.starter.core.constant.HttpHeaderConstant;
 import com.lcsk42.frameworks.starter.json.jackson.util.JacksonUtil;
 import lombok.AccessLevel;
