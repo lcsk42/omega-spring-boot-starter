@@ -2,6 +2,7 @@ package com.lcsk42.frameworks.starter.excel.fastexcel.util;
 
 import cn.idev.excel.FastExcelFactory;
 import cn.idev.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
+import com.lcsk42.frameworks.starter.common.util.time.DatePattern;
 import com.lcsk42.frameworks.starter.common.util.time.LocalDateTimeUtil;
 import com.lcsk42.frameworks.starter.convention.exception.ServiceException;
 import com.lcsk42.frameworks.starter.excel.fastexcel.convert.ExcelBaseEnumConverter;
@@ -51,7 +52,7 @@ public final class ExcelUtil {
         try {
 
             String exportFileName = "%s_%s.xlsx".formatted(fileName,
-                    LocalDateTimeUtil.now().format(LocalDateTimeUtil.PURE_DATE_TIME));
+                    LocalDateTimeUtil.nowString(DatePattern.PURE_DATE_TIME));
 
             response.setHeader(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment()
                     .filename(exportFileName, StandardCharsets.UTF_8).build().toString());

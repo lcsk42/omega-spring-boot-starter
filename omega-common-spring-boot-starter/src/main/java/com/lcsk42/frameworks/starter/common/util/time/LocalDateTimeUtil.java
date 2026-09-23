@@ -25,6 +25,24 @@ public final class LocalDateTimeUtil {
     }
 
     /**
+     * 获取系统默认时区的当前日期时间字符串，格式 yyyy-MM-dd HH:mm:ss
+     *
+     * @return 当前时间字符串
+     */
+    public static String nowString() {
+        return DatePattern.NORM_DATE_TIME.getDateTimeFormatter().format(now());
+    }
+
+    /**
+     * 获取系统默认时区的当前日期时间字符串，格式由 IDatePattern 决定
+     *
+     * @return 当前时间字符串
+     */
+    public static String nowString(IDatePattern iDatePattern) {
+        return iDatePattern.getDateTimeFormatter().format(now());
+    }
+
+    /**
      * 将纪元毫秒数转换为系统默认时区的 LocalDateTime。
      *
      * @param epochMilli 从 1970-01-01T00:00:00Z 开始的毫秒数
@@ -91,50 +109,5 @@ public final class LocalDateTimeUtil {
     public static DateTimeFormatter createFormatter(String pattern) {
         return DateTimeFormatter.ofPattern(pattern, Locale.getDefault())
                 .withZone(ZoneId.systemDefault());
-    }
-
-    /**
-     * 纯(无分割符)日期格式：yyyyMMdd
-     */
-    public static final DateTimeFormatter PURE_DATE;
-
-    /**
-     * 纯(无分割符)日期格式：HHmmss
-     */
-    public static final DateTimeFormatter PURE_TIME;
-
-    /**
-     * 纯(无分割符)日期格式：yyyyMMddHHmmss
-     */
-    public static final DateTimeFormatter PURE_DATE_TIME;
-
-    /**
-     * 标准日期时间格式，精确到毫秒：yyyy-MM-dd HH:mm:ss
-     */
-    public static final DateTimeFormatter NORM_DATE_TIME;
-
-    /**
-     * 标准日期时间格式，精确到毫秒：yyyy-MM-dd HH:mm:ss.SSS
-     */
-    public static final DateTimeFormatter NORM_DATE_TIME_MS;
-
-    /**
-     * 标准日期格式：yyyy年MM月dd日
-     */
-    public static final DateTimeFormatter CHINESE_DATE;
-
-    /**
-     * 标准日期格式：yyyy年MM月dd日 HH时mm分ss秒
-     */
-    public static final DateTimeFormatter CHINESE_DATE_TIME;
-
-    static {
-        PURE_DATE = createFormatter("yyyyMMdd");
-        PURE_TIME = createFormatter("HHmmss");
-        PURE_DATE_TIME = createFormatter("yyyyMMddHHmmss");
-        NORM_DATE_TIME = createFormatter("yyyy-MM-dd HH:mm:ss");
-        NORM_DATE_TIME_MS = createFormatter("yyyy-MM-dd HH:mm:ss.SSS");
-        CHINESE_DATE = createFormatter("yyyy年MM月dd日");
-        CHINESE_DATE_TIME = createFormatter("yyyy年MM月dd日HH时mm分ss秒");
     }
 }

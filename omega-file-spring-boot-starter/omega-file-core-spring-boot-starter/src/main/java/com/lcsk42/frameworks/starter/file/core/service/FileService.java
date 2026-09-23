@@ -1,5 +1,6 @@
 package com.lcsk42.frameworks.starter.file.core.service;
 
+import com.lcsk42.frameworks.starter.common.util.time.DatePattern;
 import com.lcsk42.frameworks.starter.common.util.time.LocalDateTimeUtil;
 import com.lcsk42.frameworks.starter.core.constant.StringConstant;
 import com.lcsk42.frameworks.starter.file.core.config.FileUploadProperties;
@@ -10,7 +11,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -48,7 +48,7 @@ public interface FileService {
      * @return 基于日期格式化的目录路径字符串
      */
     default String generateDateBasedDirectory() {
-        return LocalDateTimeUtil.PURE_DATE.format(LocalDateTime.now());
+        return LocalDateTimeUtil.nowString(DatePattern.PURE_DATE);
     }
 
     /**
