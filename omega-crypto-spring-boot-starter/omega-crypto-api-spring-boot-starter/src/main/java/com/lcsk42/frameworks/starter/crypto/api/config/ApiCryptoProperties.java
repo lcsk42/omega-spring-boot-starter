@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @NoArgsConstructor
 @Configuration
-@ConfigurationProperties(ApiEncryptProperties.PREFIX)
-public class ApiEncryptProperties {
-    public static final String PREFIX = "framework.crypto.api-encrypt";
+@ConfigurationProperties(ApiCryptoProperties.PREFIX)
+public class ApiCryptoProperties {
+    public static final String PREFIX = "framework.crypto.api-crypto";
 
     /**
      * 是否启用
@@ -22,7 +22,7 @@ public class ApiEncryptProperties {
     /**
      * 请求头中 AES 密钥 键名
      */
-    private String secretKeyHeader = "X-Api-Encrypt";
+    private String secretKeyHeader = "X-Api-Crypto";
 
     /**
      * 响应加密公钥
