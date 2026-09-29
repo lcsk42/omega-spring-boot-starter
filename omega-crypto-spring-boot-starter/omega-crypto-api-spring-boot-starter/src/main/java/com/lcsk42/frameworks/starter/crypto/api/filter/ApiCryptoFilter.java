@@ -48,7 +48,9 @@ public class ApiCryptoFilter implements Filter {
             String secretKeyValue = request.getHeader(secretKeyHeader);
             if (StringUtils.isNotBlank(secretKeyValue)) {
                 // 请求解密
-                requestWrapper = new RequestBodyDecryptWrapper(request, properties.getPrivateKey(),
+                requestWrapper = new RequestBodyDecryptWrapper(
+                        request,
+                        properties.getPrivateKey(),
                         secretKeyHeader);
             }
         }
@@ -58,15 +60,18 @@ public class ApiCryptoFilter implements Filter {
             responseWrapper = responseBodyEncryptWrapper;
         }
         // 继续执行
-        chain.doFilter(ObjectUtils.defaultIfNull(requestWrapper, request), ObjectUtils
-                .defaultIfNull(responseWrapper, response));
+        chain.doFilter(
+                ObjectUtils.defaultIfNull(requestWrapper, request),
+                ObjectUtils.defaultIfNull(responseWrapper, response));
         // 响应加密，执行完成后，响应密文
         if (isResponseEncrypt) {
             servletResponse.reset();
             // 获取密文
             String encryptContent =
-                    responseBodyEncryptWrapper.getEncryptContent(response, properties
-                            .getPublicKey(), secretKeyHeader);
+                    responseBodyEncryptWrapper.getEncryptContent(
+                            response,
+                            properties.getPublicKey(),
+                            secretKeyHeader);
             // 写出密文
             servletResponse.getWriter().write(encryptContent);
         }
