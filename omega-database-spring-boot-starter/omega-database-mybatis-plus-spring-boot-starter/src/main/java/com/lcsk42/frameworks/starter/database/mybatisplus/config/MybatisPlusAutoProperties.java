@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import com.lcsk42.frameworks.starter.core.ApplicationContextHolder;
 import com.lcsk42.frameworks.starter.core.YamlPropertySourceFactory;
 import com.lcsk42.frameworks.starter.database.mybatisplus.handler.CompositeBaseEnumTypeHandler;
+import com.lcsk42.frameworks.starter.database.mybatisplus.handler.CustomMetaObjectHandler;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,12 @@ public class MybatisPlusAutoProperties {
     public MybatisPlusPropertiesCustomizer mybatisPlusPropertiesCustomizer() {
         return properties -> properties.getConfiguration()
                 .setDefaultEnumTypeHandler(CompositeBaseEnumTypeHandler.class);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public CustomMetaObjectHandler customMetaObjectHandler() {
+        return new CustomMetaObjectHandler();
     }
 
     /**
