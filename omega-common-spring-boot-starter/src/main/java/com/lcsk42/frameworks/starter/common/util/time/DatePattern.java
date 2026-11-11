@@ -19,6 +19,10 @@ public enum DatePattern implements IDatePattern {
      */
     NORM_DATE("yyyy-MM-dd"),
     /**
+     * 标准时间格式：HH:mm
+     */
+    NORM_MINUTE("HH:mm"),
+    /**
      * 标准时间格式：HH:mm:ss
      */
     NORM_TIME("HH:mm:ss"),
@@ -37,6 +41,20 @@ public enum DatePattern implements IDatePattern {
 
 
     /**
+     * ISO8601 日期时间格式，精确到毫秒：yyyy-MM-dd HH:mm:ss,SSS
+     */
+    ISO8601("yyyy-MM-dd HH:mm:ss,SSS"),
+    /**
+     * RFC 2822 日期时间格式，EEE, dd MMM yyyy HH:mm:ss z
+     */
+    RFC_1123("EEE, dd MMM yyyy HH:mm:ss z"),
+    /**
+     * JDK 中日期时间格式：EEE MMM dd HH:mm:ss zzz yyyy
+     */
+    JDK("EEE MMM dd HH:mm:ss zzz yyyy"),
+
+
+    /**
      * 紧凑日期格式：yyyyMM
      */
     PURE_MONTH("yyyyMM"),
@@ -44,6 +62,10 @@ public enum DatePattern implements IDatePattern {
      * 紧凑日期格式：yyyyMMdd
      */
     PURE_DATE("yyyyMMdd"),
+    /**
+     * 紧凑日期格式：HHmm
+     */
+    PURE_MINUTE("HHmm"),
     /**
      * 紧凑日期格式：HHmmss
      */
@@ -56,6 +78,7 @@ public enum DatePattern implements IDatePattern {
      * 紧凑日期格式：yyyyMMddHHmmssSSS
      */
     PURE_DATE_TIME_MS("yyyyMMddHHmmssSSS"),
+
 
     /**
      * 年格式：yyyy
@@ -72,19 +95,19 @@ public enum DatePattern implements IDatePattern {
     /**
      * 时格式：HH
      */
-    hour("HH"),
+    HOUR("HH"),
     /**
      * 分格式：mm
      */
-    minute("mm"),
+    MINUTE("mm"),
     /**
      * 秒格式：ss
      */
-    second("ss"),
+    SECOND("ss"),
     /**
      * 毫秒格式：SSS
      */
-    millisecond("SSS"),
+    MILLISECOND("SSS"),
 
 
     /**
