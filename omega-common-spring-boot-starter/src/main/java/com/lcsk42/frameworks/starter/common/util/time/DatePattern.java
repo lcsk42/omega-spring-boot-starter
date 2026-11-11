@@ -71,6 +71,10 @@ public enum DatePattern implements IDatePattern {
      */
     PURE_TIME("HHmmss"),
     /**
+     * 紧凑日期格式：HHmmss
+     */
+    PURE_TIME_MS("HHmmssSSS"),
+    /**
      * 紧凑日期格式：yyyyMMddHHmmss
      */
     PURE_DATE_TIME("yyyyMMddHHmmss"),
